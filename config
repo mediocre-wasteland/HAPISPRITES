@@ -1,0 +1,4 @@
+[remote "origin"]
+    fetch = +refs/heads/*:refs/remotes/origin/*
+    -url = https://github.com/mediocre-wasteland/HAPISPRITES.git
+    +url = git@github.com:mediocre-wasteland/HAPISPRITES.git
