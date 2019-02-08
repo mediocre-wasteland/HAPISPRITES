@@ -136,7 +136,7 @@ void HAPI_Sprites_Main()
 		We can create one in place using C++11 curly brace initialisation
 		*/
 
-		sprite->GetTransformComp().SetPosition({ 100, 200 });
+		sprite->GetTransformComp().SetPosition({ 500, 200 });
 		sprite->GetTransformComp().SetScaling({ 2.0f, 2.0f });
 		sprite->GetTransformComp().SetRotation(0.3f);
 
