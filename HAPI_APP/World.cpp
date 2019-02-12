@@ -97,11 +97,13 @@ void World::Update()
 {
 	SCREEN_SURFACE->Clear();
 
-	GetInput();
+	const HAPISPACE::KeyboardData &keyboardInput = HAPI_Sprites.GetKeyboardData();
+	mainPlayer.update(keyboardInput);
+	//GetInput();
 	CheckCollision();
 
-	sprite->GetTransformComp().SetPosition({ 500, 200 });
-	sprite->GetTransformComp().SetScaling({ 2.0f, 2.0f });
+	sprite->GetTransformComp().SetPosition({ mainPlayer.getPosX(), mainPlayer.getPosY() });
+	sprite->GetTransformComp().SetScaling({ 1.0f, 1.0f });
 	sprite->GetTransformComp().SetRotation(0.3f);
 
 
@@ -113,26 +115,6 @@ void World::Render()
 	sprite->Render(SCREEN_SURFACE);
 	sprite2->Render(SCREEN_SURFACE);
 
-}
-
-void World::GetInput()
-{
-	const HAPISPACE::KeyboardData &keyboardInput = HAPI_Sprites.GetKeyboardData();
-
-	if (keyboardInput.scanCode['D'] || keyboardInput.scanCode[HK_RIGHT])
-	{
-		//Move Right
-	}
-	
-	if (keyboardInput.scanCode['A'] || keyboardInput.scanCode[HK_LEFT])
-	{
-		//Move Left
-	}
-
-	if (keyboardInput.scanCode['W'] || keyboardInput.scanCode[HK_SPACE])
-	{
-		//Jump
-	}
 }
 
 bool World::CheckCollision()
