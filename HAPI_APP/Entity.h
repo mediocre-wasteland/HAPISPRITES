@@ -1,6 +1,22 @@
 #pragma once
 #include <HAPISprites_Lib.h>
 #include "HAPI_SPRITES/Shapes/Vector.h"
+enum class eSide
+{
+	ePlayer,
+	eEnemy,
+	eObstacle,
+	eNeutral,
+	eCradle
+
+};
+enum class eDirection
+{
+	eLeft,
+	eRight,
+	eUp,
+	eDown
+};
 class Entity
 {
 public:
@@ -18,7 +34,7 @@ protected:
 	int mCurrentHealth;
 	int mMaxHealth;
 	bool mAlive;
-	eSide mSide{ eSide::eNeutral };
+	eSide mSide { eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };
 
 private:
@@ -26,20 +42,5 @@ private:
 	HAPISPACE::VectorF mOldPosition{ 0.f ,0.f };
 	
 };
-enum class eSide
-{
-	ePlayer,
-	eEnemy,
-	eObstacle,
-	eNeutral,
-	eCradle
 
-};
-enum class eDirection
-{
-	eLeft, 
-	eRight,
-	eUp,
-	eDown
-};
 
