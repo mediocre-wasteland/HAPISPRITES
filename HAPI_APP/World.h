@@ -17,14 +17,8 @@ public:
 
 private:
 
-	struct screenSpecs
-	{
-		HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 800);
-		HAPISPACE::BYTE* screenPointer{ nullptr };
-	};
 
-	screenSpecs gameScreenSpecs;
-	//const HAPISPACE::KeyboardData &keyboardInput = HAPI_Sprites.GetKeyboardData();
+	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 800);
 
 	std::unordered_map <std::string, int*> entityMap;
 
