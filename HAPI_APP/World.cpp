@@ -1,6 +1,5 @@
 #include "World.h"
 
-
 World::World()
 {
 }
@@ -17,27 +16,36 @@ World::~World()
 //Public
 bool World::Initialise()
 {
-	if (!HAPI_Sprites.Initialise(gameScreenSpecs.screenDimensions.x, gameScreenSpecs.screenDimensions.y, "Mediocre Wasteland Game Jam"))
+	if (!HAPI_Sprites.Initialise(screenDimensions.x, screenDimensions.y, "Mediocre Wasteland Game Jam"))
 	{
+		HAPI_Sprites.UserMessage("Failed to Initialise", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
 
 	if (!LoadSprites())
 	{
+		HAPI_Sprites.UserMessage("Failed to Load Sprites", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
 
 	if (!LoadEntities()) 
 	{
+		HAPI_Sprites.UserMessage("Failed to Load Entities", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
 
 	if (!LoadWorld())
 	{
+		HAPI_Sprites.UserMessage("Failed to Load World", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
 
 	HAPI_Sprites.SetShowFPS(true);
+
+	if (!Play())
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -46,7 +54,7 @@ bool World::Play()
 {
 	sprite->GetSurface()->MakeAlphaChannelFromColourKey(Colour255::BLACK);
 
-	sprite->SetAutoAnimate(100);
+	sprite->SetAutoAnimate(5);
 
 	sprite2->SetAutoAnimate(20, true, "Right");
 
@@ -68,7 +76,7 @@ bool World::LoadSprites()
 
 	if (!sprite2)
 	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
 	}
 
@@ -109,20 +117,22 @@ void World::Render()
 
 void World::GetInput()
 {
-	//if (keyboardInput.scanCode['D'] || keyboardInput.scanCode[HK_RIGHT])
-	//{
-	//	//Move Right
-	//}
-	//
-	//if (keyboardInput.scanCode['A'] || keyboardInput.scanCode[HK_LEFT])
-	//{
-	//	//Move Left
-	//}
+	const HAPISPACE::KeyboardData &keyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	//if (keyboardInput.scanCode['W'] || keyboardInput.scanCode[HK_SPACE])
-	//{
-	//	//Jump
-	//}
+	if (keyboardInput.scanCode['D'] || keyboardInput.scanCode[HK_RIGHT])
+	{
+		//Move Right
+	}
+	
+	if (keyboardInput.scanCode['A'] || keyboardInput.scanCode[HK_LEFT])
+	{
+		//Move Left
+	}
+
+	if (keyboardInput.scanCode['W'] || keyboardInput.scanCode[HK_SPACE])
+	{
+		//Jump
+	}
 }
 
 bool World::CheckCollision()
