@@ -15,14 +15,20 @@
 // To import UI names: using namespace HAPI_UI_SPACE
 // 
 // For full details on using the library please see the online documentation and demos: (CTRL-Click
-// to Open)
+// to Open):
 // https://scma-intranet.tees.ac.uk/users/u0018197/Happier/
+// Also the full class and function reference:
+// https://scma-intranet.tees.ac.uk/users/u0018197/Happier/doc/html/index.html
 // 
 // Last modified by Keith Ditchburn: February 2019
 // 
 // SELF NOTE: PRIOR TO FINALISING COPY INTERNAL DATA FOLDER OVER + GENERATE DOXYGEN
 // 
-// Version 0.82 - 11/02/19
+// Version 0.82 - 12/02/19
+// - SpriteEditor: BUG: changing the animation set was not saving
+// - Massively reduced the debug library size 
+// 
+// Version 0.81 - 11/02/19
 // - New: Added a Sprite Viewer to allow testing of sprites. Sprite Editor now has a play button to
 // call it but can also be called manually via the UI e.g. UI.SpriteViewer
 // - UIEditor: Fixed a bug with the position / size dialog  where some buttons were not pressable
