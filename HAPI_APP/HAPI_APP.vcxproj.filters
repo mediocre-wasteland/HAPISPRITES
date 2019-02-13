@@ -20,7 +20,6 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -41,7 +40,6 @@
     <ClInclude Include="World.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

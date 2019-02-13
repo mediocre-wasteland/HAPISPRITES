@@ -21,14 +21,21 @@ class Entity
 {
 public:
 	Entity();
+	virtual ~Entity();
+
 	HAPISPACE::VectorF GetPosition() const{ return mPosition; }
 	void SetPosition(HAPISPACE::VectorF newPosition){ mOldPosition = mPosition;  mPosition = newPosition; }
-	void Render();
-	bool isAlive() { return mAlive; }
-	virtual eSide getSide() const = 0;
+
 	virtual void Update() = 0;
-	virtual ~Entity();
-	virtual eDirection getDirection() const = 0;
+	void Render();
+
+	bool IsAlive() { return mAlive; }
+	virtual eSide GetSide() const = 0;
+	virtual eDirection GetDirection() const = 0;
+
+	float GetPosX() { return mPosition.x; }
+	float GetPosY() { return mPosition.y; }
+
 protected:
 	float mSpeed;
 	int mCurrentHealth;
@@ -36,9 +43,10 @@ protected:
 	bool mAlive;
 	eSide mSide { eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };
+	//TODO needs to hold its own sprite to call Sprite->Render
+	HAPISPACE::VectorF mPosition{ 0.f,0.f };
 
 private:
-	HAPISPACE::VectorF mPosition{ 0.f,0.f }; 
 	HAPISPACE::VectorF mOldPosition{ 0.f ,0.f };
 	
 };

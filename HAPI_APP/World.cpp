@@ -85,6 +85,8 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
+	entityMap["Player"] = new PlayerEntity();
+
 	return true;
 }
 
@@ -97,12 +99,11 @@ void World::Update()
 {
 	SCREEN_SURFACE->Clear();
 
-	const HAPISPACE::KeyboardData &keyboardInput = HAPI_Sprites.GetKeyboardData();
-	mainPlayer.update(keyboardInput);
+	entityMap.at("Player")->Update();
 	//GetInput();
 	CheckCollision();
 
-	sprite->GetTransformComp().SetPosition({ mainPlayer.getPosX(), mainPlayer.getPosY() });
+	sprite->GetTransformComp().SetPosition({ entityMap.at("Player")->GetPosX(), entityMap.at("Player")->GetPosY() });
 	sprite->GetTransformComp().SetScaling({ 1.0f, 1.0f });
 	sprite->GetTransformComp().SetRotation(0.3f);
 
