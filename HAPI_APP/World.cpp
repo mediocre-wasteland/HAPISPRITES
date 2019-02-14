@@ -22,17 +22,19 @@ bool World::Initialise()
 		return false;
 	}
 
+	if (!LoadEntities())
+	{
+		HAPI_Sprites.UserMessage("Failed to Load Entities", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+
 	if (!LoadSprites())
 	{
 		HAPI_Sprites.UserMessage("Failed to Load Sprites", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
 
-	if (!LoadEntities()) 
-	{
-		HAPI_Sprites.UserMessage("Failed to Load Entities", "ERROR", HAPI_ButtonType::eButtonTypeOk);
-		return false;
-	}
+	
 
 	if (!LoadWorld())
 	{
@@ -52,11 +54,11 @@ bool World::Initialise()
 
 bool World::Play()
 {
-	sprite->GetSurface()->MakeAlphaChannelFromColourKey(Colour255::BLACK);
+	//sprite->GetSurface()->MakeAlphaChannelFromColourKey(Colour255::BLACK);
 
-	sprite->SetAutoAnimate(5);
+	//sprite->SetAutoAnimate(5);
 
-	sprite2->SetAutoAnimate(20, true, "Right");
+	//sprite2->SetAutoAnimate(20, true, "Right");
 
 	while (HAPI_Sprites.Update())
 	{
@@ -70,11 +72,8 @@ bool World::Play()
 //Private
 bool World::LoadSprites()
 {
-	sprite = HAPI_Sprites.MakeSprite("Data\\helicopter.png", 4);
 
-	sprite2 = HAPI_Sprites.LoadSprite("Data\\Troll2.xml");
-
-	if (!sprite2)
+	if (!entityMap.at("Player")->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
@@ -85,7 +84,7 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
-	entityMap["Player"] = new PlayerEntity();
+	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Troll2.xml");
 
 	return true;
 }
@@ -103,9 +102,9 @@ void World::Update()
 	//GetInput();
 	CheckCollision();
 
-	sprite->GetTransformComp().SetPosition({ entityMap.at("Player")->GetPosition().x, entityMap.at("Player")->GetPosition().y });
-	sprite->GetTransformComp().SetScaling({ 1.0f, 1.0f });
-	sprite->GetTransformComp().SetRotation(0.3f);
+	entityMap.at("Player")->SetPosition({ entityMap.at("Player")->GetPosition().x, entityMap.at("Player")->GetPosition().y });
+	entityMap.at("Player")->SetScaling( 1.0f, 1.0f );
+	entityMap.at("Player")->SetRotation(0.3f);
 
 
 	Render();
@@ -113,8 +112,7 @@ void World::Update()
 
 void World::Render()
 {
-	sprite->Render(SCREEN_SURFACE);
-	sprite2->Render(SCREEN_SURFACE);
+	entityMap.at("Player")->Render();
 
 }
 

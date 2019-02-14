@@ -2,7 +2,7 @@
 
 
 
-EnemyEntity::EnemyEntity()
+EnemyEntity::EnemyEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 }

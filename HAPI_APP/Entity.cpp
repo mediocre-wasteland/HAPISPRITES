@@ -2,8 +2,9 @@
 
 
 
-Entity::Entity(const std::string &filename)
+Entity::Entity(std::string &filename) : mSpriteName(filename)
 {
+
 
 }
 
@@ -30,11 +31,11 @@ void Entity::Render()
 
 bool Entity::LoadSprite()
 {
+
 	sprite = HAPI_Sprites.LoadSprite(mSpriteName);
 
 	if (!sprite)
 	{
-		HAPI_Sprites.UserMessage("Could not load " + mSpriteName, "ERROR");
 		return false;
 	}
 

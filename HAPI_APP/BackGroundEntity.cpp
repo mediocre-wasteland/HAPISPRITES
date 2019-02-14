@@ -2,7 +2,7 @@
 
 
 
-BackGroundEntity::BackGroundEntity()
+BackGroundEntity::BackGroundEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 }

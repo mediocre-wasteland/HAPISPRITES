@@ -2,7 +2,7 @@
 
 
 
-ObstacleEntity::ObstacleEntity()
+ObstacleEntity::ObstacleEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 }
