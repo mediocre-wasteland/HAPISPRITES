@@ -1,12 +1,6 @@
 #include "PlayerEntity.h"
 
-
-
-<<<<<<< HEAD
 PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
-=======
-PlayerEntity::PlayerEntity(const std::string &filename) : Entity(mSpriteName)
->>>>>>> origin/master
 {
 }
 

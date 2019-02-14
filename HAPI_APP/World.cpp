@@ -84,12 +84,8 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
-<<<<<<< HEAD
-	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Troll2.xml");
-=======
-	entityMap["Player"] = new PlayerEntity("Data\\Troll2.xml");
->>>>>>> origin/master
 
+	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Troll2.xml");
 	return true;
 }
 
