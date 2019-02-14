@@ -4,10 +4,10 @@ class ObstacleEntity :
 	public Entity
 {
 public:
-	ObstacleEntity();
+	ObstacleEntity(const std::string &filename);
 	~ObstacleEntity();
 	void Update()override final;
-	eSide getSide() const override final{return mSide; }
+	eSide GetSide() const override final{return mSide; }
 	
 };
 

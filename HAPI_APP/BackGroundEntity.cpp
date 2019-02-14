@@ -2,7 +2,7 @@
 
 
 
-BackGroundEntity::BackGroundEntity()
+BackGroundEntity::BackGroundEntity(const std::string &filename) : Entity(mSpriteName)
 {
 	mAlive = true;
 }

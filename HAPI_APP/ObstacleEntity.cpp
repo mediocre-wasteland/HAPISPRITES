@@ -2,7 +2,7 @@
 
 
 
-ObstacleEntity::ObstacleEntity()
+ObstacleEntity::ObstacleEntity(const std::string &filename) : Entity(mSpriteName)
 {
 	mAlive = true;
 }

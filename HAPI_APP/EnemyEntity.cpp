@@ -2,7 +2,7 @@
 
 
 
-EnemyEntity::EnemyEntity()
+EnemyEntity::EnemyEntity(const std::string &filename) : Entity(mSpriteName)
 {
 	mAlive = true;
 }

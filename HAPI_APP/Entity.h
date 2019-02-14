@@ -30,11 +30,11 @@ public:
 	void SetRotation(float rotationF);
 	void Render();
 	bool LoadSprite();
-	bool isAlive() { return mAlive; }
-	virtual eSide getSide() const = 0;
+	bool IsAlive() { return mAlive; }
+	virtual eSide GetSide() const = 0;
 	virtual void Update() = 0;
 	virtual ~Entity();
-	virtual eDirection getDirection() const = 0;
+	virtual eDirection GetDirection() const = 0;
 protected:
 	std::shared_ptr<Sprite> sprite{ nullptr };
 	std::string mSpriteName;

@@ -23,9 +23,6 @@ private:
 
 	std::unordered_map <std::string, Entity*> entityMap;
 
-	std::shared_ptr<Sprite> sprite{ nullptr };
-	std::shared_ptr<Sprite> sprite2 { nullptr };
-
 	bool LoadSprites();
 	bool LoadEntities();
 	bool LoadWorld();

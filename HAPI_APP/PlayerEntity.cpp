@@ -2,10 +2,9 @@
 
 
 
-PlayerEntity::PlayerEntity()
+PlayerEntity::PlayerEntity(const std::string &filename) : Entity(mSpriteName)
 {
 }
-
 
 PlayerEntity::~PlayerEntity()
 {
@@ -16,9 +15,9 @@ void PlayerEntity::Update()
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (mPosition.y >= 300) // TEMPORARY code makes the "ground" where y = 300
+	if (GetPosition().y >= 300) // TEMPORARY code makes the "ground" where y = 300
 	{
-		mPosition.y = 300;
+		SetPosition({GetPosition().x, 300});
 		mIsOnGround = true;
 	}
 	else
@@ -39,17 +38,17 @@ void PlayerEntity::Update()
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
 	{
 		// RIGHT MOVING ANIMATION HERE
-		mPosition.x += mHSpeed;
+		SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
 	}
 	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])) // this checks if the user is inputing to go left but not right
 	{
 		// LEFT MOVING ANIMATION HERE
-		mPosition.x -= mHSpeed;
+		SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
 	}
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
 	{
 		// MID JUMP ANIMATION HERE
-		mPosition.y -= mJumpSpeed;
+		SetPosition({ GetPosition().x , GetPosition().y - mHSpeed });
 		mTimeJumped++;
 	}
 	else
@@ -60,7 +59,7 @@ void PlayerEntity::Update()
 	if (!mIsOnGround && !mIsJumping) // if the player is not ascending and not on the ground then gravity will be applyed and send them downwards
 	{
 		// FALLING ANIMATION HERE
-		mPosition.y += mGravity;
+		SetPosition({ GetPosition().x , GetPosition().y + mHSpeed });
 	}
 
 	std::cout << "Update" << std::endl;

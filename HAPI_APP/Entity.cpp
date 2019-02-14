@@ -34,7 +34,6 @@ bool Entity::LoadSprite()
 
 	if (!sprite)
 	{
-		HAPI_Sprites.UserMessage("Could not load " + mSpriteName, "ERROR");
 		return false;
 	}
 
