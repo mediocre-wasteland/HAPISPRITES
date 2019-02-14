@@ -18,7 +18,10 @@ void PlayerEntity::Update()
 	{
 		SetPosition({GetPosition().x, 300});
 		mIsOnGround = true;
+		mHasSecondJump = true;
+		mTimeFallen = 0;
 	}
+	
 	else
 	{
 		mIsOnGround = false;
@@ -28,6 +31,12 @@ void PlayerEntity::Update()
 	{
 		// JUMP START ANIMATION HERE
 		mIsJumping = true;
+	}
+	if (mHasSecondJump && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP]) && mTimeFallen > mFallingCooldown)
+	{
+		// SECOND JUMP START ANIMATION HERE
+		mIsJumping = true;
+		mHasSecondJump = false;
 	}
 	if (!(mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if the user stops pressing the jump button and ends the jump early
 	{
@@ -59,6 +68,7 @@ void PlayerEntity::Update()
 	{
 		// FALLING ANIMATION HERE
 		SetPosition({ GetPosition().x , GetPosition().y + mHSpeed });
+		mTimeFallen++;
 	}
 	sprite->GetTransformComp().SetPosition(position);
 	std::cout << "Update" << std::endl;
