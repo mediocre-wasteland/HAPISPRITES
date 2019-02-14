@@ -4,7 +4,11 @@ class PlayerEntity :
 	public Entity
 {
 public:
+<<<<<<< HEAD
 	PlayerEntity(std::string &filename);
+=======
+	PlayerEntity(const std::string &filename);
+>>>>>>> origin/master
 	~PlayerEntity();
 
 	virtual void Update() override;

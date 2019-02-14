@@ -2,7 +2,11 @@
 
 
 
+<<<<<<< HEAD
 BackGroundEntity::BackGroundEntity(std::string &filename) : Entity(filename)
+=======
+BackGroundEntity::BackGroundEntity(const std::string &filename) : Entity(mSpriteName)
+>>>>>>> origin/master
 {
 	mAlive = true;
 }
