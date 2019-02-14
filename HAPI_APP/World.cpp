@@ -103,7 +103,7 @@ void World::Update()
 	//GetInput();
 	CheckCollision();
 
-	sprite->GetTransformComp().SetPosition({ entityMap.at("Player")->GetPosX(), entityMap.at("Player")->GetPosY() });
+	sprite->GetTransformComp().SetPosition({ entityMap.at("Player")->GetPosition().x, entityMap.at("Player")->GetPosition().y });
 	sprite->GetTransformComp().SetScaling({ 1.0f, 1.0f });
 	sprite->GetTransformComp().SetRotation(0.3f);
 

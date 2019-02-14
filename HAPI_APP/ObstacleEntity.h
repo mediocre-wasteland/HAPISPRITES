@@ -6,5 +6,8 @@ class ObstacleEntity :
 public:
 	ObstacleEntity();
 	~ObstacleEntity();
+	void Update()override final;
+	eSide getSide() const override final{return mSide; }
+	
 };
 

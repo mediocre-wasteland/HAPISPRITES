@@ -6,5 +6,7 @@ class BackGroundEntity :
 public:
 	BackGroundEntity();
 	~BackGroundEntity();
+	void Update()override final;
+	eSide getSide() const override final { return mSide; }
 };
 
