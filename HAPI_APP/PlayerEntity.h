@@ -8,7 +8,6 @@ public:
 	~PlayerEntity();
 
 	virtual void Update() override;
-	eDirection CheckInput();
 
 	virtual eSide GetSide() const override { return mSide; } 
 	virtual eDirection GetDirection() const override { return  mDirection; }
