@@ -20,6 +20,7 @@ private:
 	int m_movementSpeed = 1;
 	HAPISPACE::VectorF m_enemyPosition{ 500,250 };
 	eDirection m_direction;
+
 	void AIMovement();
 	void ChangeDirection(eDirection newDirection);
 	bool bPatrolLevel();
