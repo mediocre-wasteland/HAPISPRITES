@@ -11,16 +11,14 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// A spritesheet has a surface and a number of frame descriptions. RULE: every frame must have a
+	/// A spritesheet has a surface and a number of frame descriptions. RULES: every frame must have a
 	/// name and every frame name must be unique within the spritesheet.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class SpriteSheet
 	{
 	private:
-		/// <summary>	The frames. </summary>
 		std::vector<Frame> m_frames;
-		/// <summary>	The surface. </summary>
 		std::shared_ptr<Surface> m_surface;
 
 		/// <summary>	Key is an x,y position within the surface, value is the normal. </summary>
@@ -40,13 +38,7 @@ namespace HAPISPACE {
 		/// <summary>	Form for viewing the sprite editor toolbox. </summary>
 		friend class SpriteEditorToolboxWindow;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Potentially slow. Returns null if none. </summary>
-		///
-		/// <param name="pnt">	The point. </param>
-		///
-		/// <returns>	Null if it fails, else the frame at point. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Frame* GetFrameAtPoint(VectorI pnt) ;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,12 +101,19 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Load. </summary>
 		///
-		/// <param name="xmlFilename">	Filename of the XML file. </param>
+		/// <param name="byteStream">	XML byte stream </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void ParseXML(const std::string &xmlFilename);
+		void ParseXML(const std::vector<BYTE>& byteStream);
 
 		/// <summary>	Editor needs frames to always be sorted. </summary>
 		void SortFrames();
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Saves the XML. </summary>
+		///
+		/// <returns>	Null if it fails, else a pointer to a CHapiXMLNode. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		CHapiXMLNode* SaveXML() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets the neighbours. </summary>
@@ -162,13 +161,23 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows creation of a new surface and Sprite from an XML file that describes the layout.
+		/// Allows creation of a new surface and spritesheet from an XML file that describes the layout.
 		/// </summary>
 		///
 		/// <param name="xmlFilename">	  	Filename of the XML file. </param>
 		/// <param name="textureRootPath">	(Optional) Full pathname of the texture root file. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		SpriteSheet(const std::string& xmlFilename, const std::string& textureRootPath = std::string());
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Allows creation of a new surface and spritesheet from an XML byte stream that describes the layout.
+		/// </summary>
+		///
+		/// <param name="xmlByteSteam">	The XML byte steam. </param>
+		/// <param name="texturePath"> 	(Optional) Full pathname of the texture file. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		SpriteSheet::SpriteSheet(const std::vector<BYTE> &xmlByteSteam, const std::string& texturePath = std::string());
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Copy constructor, allocates memory and copies raw data - deep copy. </summary>
@@ -208,8 +217,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// min alpha defaults to 255 meaning collisions occur only when alpha is 255 This function
-		/// allows you to lower that amount NOTE: any surface normal calculations will need recalculating
+		/// min alpha defaults to 255 meaning collisions occur only when alpha is 255. This function
+		/// allows you to lower that amount. NOTE: any surface normal calculations will need recalculating
 		/// (not done for you)
 		/// </summary>
 		///
@@ -237,14 +246,14 @@ namespace HAPISPACE {
 		VectorF GetNormal(VectorI surfacePosition) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets access to the surface the spritesheet uses. </summary>
+		/// <summary>	Gets read access to the surface the spritesheet uses. </summary>
 		///
 		/// <returns>	The surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const std::shared_ptr<Surface>& GetSurface() const { return m_surface; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the surface. </summary>
+		/// <summary>	Gets read / write access to the surface the spritesheet uses. </summary>
 		///
 		/// <returns>	The surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,7 +271,7 @@ namespace HAPISPACE {
 		int GetNumFrames(const std::string &setName = std::string()) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Does frame with this name exist? </summary>
+		/// <summary>	Does a frame with this name exist? </summary>
 		///
 		/// <param name="frameName">	Name of the frame. </param>
 		///
@@ -271,7 +280,7 @@ namespace HAPISPACE {
 		bool GetFrameExists(const std::string& frameName) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Does frame set with this name exist? </summary>
+		/// <summary>	Does a frame set with this name exist? </summary>
 		///
 		/// <param name="frameSetName">	Name of the frame set. </param>
 		///
@@ -334,7 +343,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Completely replace the frame information Note: if sort set to true frames are sorted from top
+		/// Completely replace the frame information. Note: if sort set to true frames are sorted from top
 		/// left to bottom right in row order.
 		/// </summary>
 		///
@@ -345,7 +354,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Deletes the first frame with this name (and collider data). Warning: this is slow.
+		/// Deletes the first frame with this name (and collider data). Warning: this can be slow.
 		/// </summary>
 		///
 		/// <param name="frameName">	Name of the frame. </param>
@@ -359,7 +368,7 @@ namespace HAPISPACE {
 		/// <summary>
 		/// Automatically finds frames in the image by finding solid blocks of colour (with alpha >
 		/// minAlpha)
-		/// How well it works will depend if there are gaps between frames in the image Warning: replaces
+		/// How well it works will depend if there are gaps between frames in the image. Warning: replaces
 		/// all existing frame data if removeExistingFrames true.
 		/// </summary>
 		///
@@ -369,9 +378,17 @@ namespace HAPISPACE {
 		void AutoFindFrames(bool removeExistingFrames = false, BYTE minAlpha = 1 );
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Divides surface up into equally sized frames. Replaces all existing frame data. </summary>
+		///
+		/// <param name="numX">	Number of frames in x. </param>
+		/// <param name="numY">	Number of frames in y. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void GridFrames(int numX, int numY);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Searches out from pos to find extents of a frame Returns name of new frame or empty string if
-		/// none TODO: add to reference.
+		/// Searches out from pos to find extents of a frame. Returns name of new frame or empty string if
+		/// none
 		/// </summary>
 		///
 		/// <param name="searchPoint">	The search point. </param>
@@ -397,13 +414,13 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Check if sprite is valid / loaded correctly. </summary>
 		///
-		/// <returns>	True if data, false if not. </returns>
+		/// <returns>	True if valid, false if not </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool HasData() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Saves an XML file describing the layout of the surface Optionally saves the surface as well
+		/// Saves an XML file describing the layout of the surface. Optionally saves the surface as well
 		/// (in the same directory)
 		/// </summary>
 		///
@@ -413,6 +430,13 @@ namespace HAPISPACE {
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool SaveAsXML(const std::string& filename, bool saveSurface = false) const;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Saves to byte stream. </summary>
+		///
+		/// <returns>	A std::vector&lt;BYTE&gt; Empty on error.</returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::vector<BYTE> SaveToByteStream() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -501,8 +525,10 @@ namespace HAPISPACE {
 		/// <summary>
 		/// Reduce collider sizes to tightest fit Note: uses current value of m_minAlphaForCollision.
 		/// </summary>
+		///
+		/// <param name="limitToFrame">	(Optional) The limit to frame. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void AutoFitColliders();
+		void AutoFitColliders(const std::string& limitToFrame=std::string());
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>

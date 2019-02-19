@@ -79,6 +79,7 @@ namespace HAPI_UI_SPACE
 		VectorI m_windowPos{ 0,0 };
 		/// <summary>	The pre minimised position. </summary>
 		VectorI m_preMinimisedPosition;
+		RectangleI m_preMinimisedSize;
 		/// <summary>	The minimised into window. </summary>
 		std::string m_minimisedIntoWindow;
 		/// <summary>	Width of the window. </summary>
@@ -1383,5 +1384,15 @@ namespace HAPI_UI_SPACE
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool SaveObjectNames(bool openInNotepad = false) const;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Simulate button press. </summary>
+		///
+		/// <param name="buttonName"> 	Name of the button. </param>
+		/// <param name="alsoRelease">	(Optional) True to also release. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		bool SimulateButtonPress(const std::string& buttonName, bool alsoRelease = true);
 	};
 }

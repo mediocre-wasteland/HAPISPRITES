@@ -15,70 +15,28 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// A surface. This class cannot be inherited.
-	/// 	Holds the raw surface data and has functions used by Sprite along with some basic 2D drawing
-	/// 	functions.
-	/// Used to represent the screen via the special SCREEN_SURFACE macro as well as for textures
-	/// Note : never changes width and height or numBytes.
+	/// Holds the raw surface data and has functions used by Sprite along with some basic 2D drawing
+	/// functions. Used to represent the screen via the special SCREEN_SURFACE macro as well as for
+	/// textures Note : never changes width and height or numBytes.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Surface final
 	{
 	private:
-		/// <summary>	The width in texels. </summary>
 		const int m_width;
-
-		/// <summary>	The height. </summary>
 		const int m_height;
-
-		/// <summary>	Used to indicate to sprite when a HW update is required. </summary>
+		int m_areaOfFillSetCounts{ 0 };
 		bool m_dirty{ true };
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Problem is getting the top of the stack is very slow ,in debug at least, so:
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool m_writeAlphaTop{ false };
-
-		/// <summary>	Blending mode used for all draw operations apart from blit. </summary>
 		EBlendMode m_drawBlendModeTop{ EBlendMode::eAlphaBlend };
-
-		/// <summary>	Type of surface. </summary>
 		ESurfaceType m_surfaceType{ ESurfaceType::eNormal };
-
-		/// <summary>	Raw texel pointer to 32 bit RGBA - Guaranteed to be aligned to 128 bit. </summary>
 		Colour255 *m_texels{ nullptr };
-
-		/// <summary>	Provided or auto generated, used when saving. </summary>
 		std::string m_filename;
-
-		/// <summary>	Only allocated if surface type is a render target. </summary>
 		std::shared_ptr<HWRenderTarget> m_hwRenderTarget{ nullptr };
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// If true, blend functions will write source alpha into dest Done as a stack to handle nested
-		/// calls.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::stack<bool> m_writeAlphaStack;
-
-		/// <summary>	Blend modes for draw operations (not blit) </summary>
-		std::stack<EBlendMode> m_drawBlendModeStack;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// A scratch pad surface of same size as this Note: not created until first used.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<Surface> m_scratchPad;
-
-		/// <summary>	Area to not draw to. </summary>
 		std::unique_ptr<Stencil> m_stencil;
-
-		/// <summary>	Area to restrict drawing to. </summary>
-		RectangleI m_clipArea;
+		std::stack<bool> m_writeAlphaStack;
+		std::stack<EBlendMode> m_drawBlendModeStack;		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -89,10 +47,8 @@ namespace HAPISPACE {
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleF m_areaOfFill;
-
-		/// <summary>	Used to handle nested clears. </summary>
-		int m_areaOfFillSetCounts{ 0 };
-
+		RectangleI m_clipArea;
+		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// A number of internal classes that need access to implementation-only functions.
@@ -108,62 +64,19 @@ namespace HAPISPACE {
 		/// <summary>	A stencil. </summary>
 		friend class Stencil;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	fill calls. </summary>
-		///
-		/// <param name="newArea">	The new area. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetAreaOfFill(const RectangleF &newArea);
-		/// <summary>	Clears the area of fill. </summary>
 		void ClearAreaOfFill();
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Query if this object is area of fill set. </summary>
-		///
-		/// <returns>	True if area of fill set, false if not. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool IsAreaOfFillSet() const { return m_areaOfFill.IsValid(); }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets area of fill. </summary>
-		///
-		/// <returns>	The area of fill. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleF& GetAreaOfFill() const { return m_areaOfFill; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Direct access to raw data - prefer over m_texels. </summary>
-		///
-		/// <returns>	Null if it fails, else the raw data. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Colour255* GetRawData() const { return m_texels; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	How many bytes used. </summary>
-		///
-		/// <returns>	The number bytes. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		size_t GetNumBytes() const { return (size_t)m_width * m_height * 4; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Used to indicate to sprite when a HW update is required. </summary>
-		///
-		/// <returns>	True if dirty, false if not. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool IsDirty() const { return m_dirty; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets a dirty. </summary>
-		///
-		/// <param name="set">	True to set. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetDirty(bool set) { m_dirty = set; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Query if this object is hardware surface. </summary>
-		///
-		/// <returns>	True if hardware surface, false if not. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool IsHardwareSurface() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,33 +89,9 @@ namespace HAPISPACE {
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool RoughlyEquals(Colour255 colour1, Colour255 colour2, int errorPercentage);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets as render target. </summary>
-		///
-		/// <param name="type">	The type. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetAsRenderTarget(ESurfaceType type);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets write alpha. </summary>
-		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetWriteAlpha() const { return m_writeAlphaTop; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets blend mode. </summary>
-		///
-		/// <returns>	The blend mode. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EBlendMode GetBlendMode() const { return m_drawBlendModeTop; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Queries if the stencil is enabled. </summary>
-		///
-		/// <returns>	True if the stencil is enabled, false if not. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool IsStencilEnabled() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -437,12 +326,11 @@ namespace HAPISPACE {
 		/// <summary>
 		/// A clip area defines the area outside of which no drawing takes place. Providing a null
 		/// rectangle sets the clip area to the size of the surface (the default).
-		/// Returns the old clip area which should normally be used rather than null rect.
 		/// </summary>
 		///
 		/// <param name="newClipArea">	The new clip area. </param>
 		///
-		/// <returns>	A RectangleI. </returns>
+		/// <returns>	Returns the old clip area which should normally be used rather than null rect. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI SetClipArea(const RectangleI& newClipArea);
 
@@ -479,7 +367,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Makes on/off alpha by setting alpha to transparent wherever colour=colourKey otherwise opaque
-		/// If errorPercentage is 0 (the default) then only an exact match for colourKey will be used If
+		/// If errorPercentage is 0 (the default) then only an exact match for colourKey will be used. If
 		/// this is higher then rough matches are also included. Note a value of 100 means all colours.
 		/// </summary>
 		///
@@ -504,7 +392,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Copies one channel to another Channel numbers are 0=red, 1=green, 2=blue, 3=alpha.
+		/// Copies one channel to another Channel, numbers are 0=red, 1=green, 2=blue, 3=alpha.
 		/// </summary>
 		///
 		/// <param name="from">	Source for the. </param>
@@ -515,7 +403,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Blit onto this surface from other surface using transform (can be rotated and / or scaled)
-		/// If area invalid then whole 'other' surface used Note: ignores surface wide blending mode and
+		/// If area invalid then whole 'other' surface used. Note: ignores surface wide blending mode and
 		/// uses passed in one instead.
 		/// </summary>
 		///
@@ -533,7 +421,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Set a pixel to a colour, ignores if not on surface, blending based on colour alpha channel,
-		/// checks write alpha Potentially slow if you do a lot of them.
+		/// checks write alpha. Potentially slow if you do a lot of them.
 		/// </summary>
 		///
 		/// <param name="pos">   	The position. </param>
@@ -563,8 +451,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Biliner filtering on non integer coordinate texel Determine a colour for a texel, taking into
-		/// account neighbours Specifically takes float vector for partial texel position Currently just
+		/// Biliner filtering on non integer coordinate texel. Determine a colour for a texel, taking into
+		/// account neighbours. Specifically takes float vector for partial texel position. Currently just
 		/// used for non-real-time scaling operations.
 		/// </summary>
 		///
@@ -576,7 +464,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws an arc from start on the edge of an arc with a defined centre and angle The more
+		/// Draws an arc from start on the edge of an arc with a defined centre and angle. The more
 		/// numLines the better the quality but worse the performance.
 		/// </summary>
 		///
@@ -610,7 +498,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draw multiple lines widthOut of true means the line is the bottom part of the line with the
+		/// Draw multiple lines. widthOut of true means the line is the bottom part of the line with the
 		/// line made wider 'above' it (uses winding)
 		/// false (normal) means the line width is expanded out from the centre.
 		/// </summary>
@@ -635,8 +523,8 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Fills any shape, as long as it is convex. Poly points must be sorted clockwise. A border can
-		/// also be drawn (if borderWidth>0) and a fill provided Note: colour fill is very quick, other
-		/// fills will be slow.
+		/// also be drawn (if borderWidth>0) and a fill provided. Note: colour fill is very quick, other
+		/// fills will be slower.
 		/// </summary>
 		///
 		/// <param name="poly">		  	The polygon. </param>
@@ -658,7 +546,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws an Oriented Rectangle outline, assumes points are in clockwise order New name since
+		/// Draws an Oriented Rectangle outline, assumes points are in clockwise order. New name since
 		/// this is a lot slower than above (in SW, OK in HW)
 		/// </summary>
 		///
@@ -669,7 +557,7 @@ namespace HAPISPACE {
 		void DrawOrientedRect(const RectangleOrientedF& rect, const FillShader& fill, float borderWidth = 1.0f);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Draws an Oriented Rectangle filled, assumes points are in clockwise order. </summary>
+		/// <summary>	Draws a Filled Oriented Rectangle, assumes points are in clockwise order. </summary>
 		///
 		/// <param name="rect">		  	The rectangle. </param>
 		/// <param name="fill">		  	The fill. </param>
@@ -724,8 +612,8 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Draws a super ellipse outline (something between a rectangle and a circle)
-		/// Good for rounded edges on UI buttons etc. but it is quite slow for realtime usage Curvature
-		/// of 1 produces a pure circle while 0 produces a pure rectangle Optionally you can limit the
+		/// Good for rounded edges on UI buttons etc. but it is quite slow for realtime usage. Curvature
+		/// of 1 produces a pure circle while 0 produces a pure rectangle. Optionally you can limit the
 		/// part of the shape drawn using the angles.
 		/// </summary>
 		///
@@ -757,7 +645,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws text to this surface using the current font (changed via HAPI_Sprites.ChangeFont..)
+		/// Draws text to this surface using the current font (changed via HAPI_Sprites.ChangeFont)
 		/// Note: unlike HAPI_Sprites.RenderText this uses a SW renderer to draw the text onto the
 		/// surface if it is not a HW surface.
 		/// </summary>
@@ -775,8 +663,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Applies a gaussian blur to this surface with provided radius Slow i.e. not foe use as a real
-		/// time operation To limit effect use cliparea.
+		/// Applies a gaussian blur to this surface with provided radius. Slow i.e. not for use as a real
+		/// time operation. To limit effect use cliparea.
 		/// </summary>
 		///
 		/// <param name="sigma">	The sigma. </param>
@@ -821,7 +709,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Creates a new surface which is a scaled version of this. Note: does dynamic memory
-		/// allocation. The filter to use can also be provided, one of the enum EFilter Alignment is
+		/// allocation. The filter to use can also be provided, one of the enum EFilter. Alignment is
 		/// useful if you want to keep the width and height divisible by a number e.g. for frames.
 		/// </summary>
 		///
@@ -867,7 +755,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Saves the surface using the currently set filename Supported formats are bmp, png, tga and
+		/// Saves the surface using the currently set filename. Supported formats are bmp, png, tga and
 		/// jpg - format is derived from filename extension.
 		/// </summary>
 		///

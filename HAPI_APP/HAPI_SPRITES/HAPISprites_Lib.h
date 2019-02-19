@@ -22,8 +22,33 @@
 // 
 // Last modified by Keith Ditchburn: February 2019
 // 
-// SELF NOTE: PRIOR TO FINALISING COPY INTERNAL DATA FOLDER OVER + GENERATE DOXYGEN
+// SELF NOTE: PRIOR TO FINALISING GENERATE DOXYGEN
 // 
+// Version 0.83 - ON GOING
+//  - NEW: Delete key in sprite editor now deletes currently selected item
+//  - NEW: added a 'next collider' button to toolbox for easy scrolling through available colliders
+//	- NEW: added an auto fit collider option via RMB for just that frame
+//	- NEW: added undo support to sprite editor
+//	- NEW: CTRL-Z now undoes last action in all editors (if possible)
+//	- NEW: Sprite Editor: File/Save option. Save now saves without asking for a filename.
+//	- NEW: Sprite Editor: File/Save SpriteSheet As option. Save As now renames surface to something more sensible!
+//	- NEW: Sprite Editor: New menu option 'Grid Frames' to apply a regular grid of frames
+//  - NEW: Solved the issue with the editor data not being in the re-distributable, it is now in the HAPI_SPRITES folder
+//		- This does mean the re-distributable will not have the editors enabled but that is probably correct anyway
+//  - BUGFIX: Fixed a button issue in Skin Editor
+//  - BUGFIX: Fixed a complicated file naming issue in the sprite editor when saving a spriteSheet (the logic was confused)
+//  - BUGFIX: Crash after closing animation viewer
+//	- BUGFIX: bounding circle would sometimes shrink when selected for edit
+//	- BUGFIX: Creating very large sprite sheets could lead to a memory issue
+//	- TWEAK: text entry now left justifies when not being edited
+//	- TWEAK: sprite viewer now sizes to first frame of animation
+//	- TWEAK: minimised windows now all have the same width so stack better
+//	- CODE: SimulateButtonPress added to window
+//	- CODE: SpriteSheet::SaveToByteStream + constructor taking a byte stream
+//	- CODE: SpriteSheet::GridFrames to apply a regular grid of frames
+//	- CODE: Stability improvements to editors
+//	- DOC: Improved some documentation
+//  
 // Version 0.82 - 12/02/19
 // - SpriteEditor: BUG: changing the animation set was not saving
 // - Massively reduced the debug library size 
@@ -82,9 +107,9 @@ namespace HAPISPACE {
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Initializes this object.
+		/// Initializes HAP Sprites. Must be called before any other HAPI Sprites calls.
 		/// 
-		/// Initialize to required size, optionally can provide a window title and can combine some flags
+		/// Sets the required window size, optionally can provide a window title and can combine some flags
 		/// see InitialisationFlags.
 		/// </summary>
 		///
@@ -101,7 +126,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Create a surface from a texture, returns a shared pointer. </summary>
 		///
-		/// <param name="filename">	Filename of the file. </param>
+		/// <param name="filename">	Filename of the texture. </param>
 		///
 		/// <returns>	The surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,11 +134,9 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Create a surface from scratch, returns a shared pointer If filename is empty one is generated,
+		/// Create a surface from scratch, returns a shared pointer. If filename is empty one is generated,
 		/// colour defaults to Zero (all channels 0)
 		/// </summary>
-		///
-		/// <remarks>	Keith, 11/02/2019. </remarks>
 		///
 		/// <param name="width">   	The width. </param>
 		/// <param name="height">  	The height. </param>
@@ -125,16 +148,16 @@ namespace HAPISPACE {
 		virtual std::shared_ptr<Surface> MakeSurface(int width, int height, std::string filename = std::string(), Colour255 colour = Colour255::ZERO) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Creates a full copy of a surface, returns new shared pointer. </summary>
+		/// <summary>	Creates a full (deep) copy of a surface, returns new shared pointer. </summary>
 		///
-		/// <param name="other">	Another instance to copy. </param>
+		/// <param name="other"> Another instance to copy. </param>
 		///
-		/// <returns>	A new surface </returns>
+		/// <returns> A new surface </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual std::shared_ptr<Surface> CopySurface(const std::shared_ptr<Surface> &other) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns the screen surface. </summary>
+		/// <summary>	Returns the screen surface. Prefer to use the shortcut SCREEN_SURFACE </summary>
 		///
 		/// <returns>	The screen surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +190,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Load a spritesheet and create a sprite for it This one has the advantage of loading full
+		/// Load a spritesheet and create a sprite for it. This one has the advantage of loading full
 		/// frame set data and normals etc.
 		/// </summary>
 		///
@@ -185,7 +208,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="textureFilename">	Filename of the texture file. </param>
 		/// <param name="numFrames">	  	(Optional) Number of frames. </param>
-		/// <param name="horizontal">	  	(Optional) True for horizontal. </param>
+		/// <param name="horizontal">	  	(Optional) True for horizontal lay out. </param>
 		/// <param name="frameSetName">   	(Optional) Name of the frame set. </param>
 		///
 		/// <returns>	A std::unique_ptr&lt;Sprite&gt; </returns>
@@ -228,7 +251,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="textureFilename">	Filename of the texture file. </param>
 		/// <param name="numFrames">	  	(Optional) Number of frames. </param>
-		/// <param name="horizontal">	  	(Optional) True for horizontal. </param>
+		/// <param name="horizontal">	  	(Optional) True for horizontal layout. </param>
 		///
 		/// <returns>	A std::shared_ptr&lt;SpriteSheet&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,7 +260,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Creates a full copy of a spritesheet, returns new shared pointer. </summary>
 		///
-		/// <param name="other">	Another instance to copy. </param>
+		/// <param name="other">	Other instance to copy. </param>
 		///
 		/// <returns>	A std::shared_ptr&lt;SpriteSheet&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,7 +280,7 @@ namespace HAPISPACE {
 		/// HAPI Sprites must be regularly updated via this call. Returns false when app is closing.
 		/// </summary>
 		///
-		/// <returns>	True if it succeeds, false if the HAPI Sprites is closing. </returns>
+		/// <returns>	True if it succeeds, false if HAPI Sprites is closing. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool Update() = 0;
 
@@ -275,7 +298,7 @@ namespace HAPISPACE {
 		virtual bool SetShowFPS(bool set, int x = 0, int y = 0) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Retrieve the current FPS. </summary>
+		/// <summary>	Retrieve the current FPS rounded to an int. </summary>
 		///
 		/// <returns>	The FPS. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -331,6 +354,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
+		/// Plays a sound.
 		/// Note: there is a hardware limit on how many sounds can be playing at once (1024 on PC but 32
 		/// on mobiles)
 		/// </summary>
@@ -342,20 +366,20 @@ namespace HAPISPACE {
 		virtual bool PlaySound(const std::string &filename) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	As above but also allows volume, pan etc. to be changed from the defaults. </summary>
+		/// <summary>	Plays a sound and also allows volume, pan etc. to be changed from the defaults. </summary>
 		///
 		/// <param name="filename">	Filename of the file. </param>
-		/// <param name="options"> 	Options for controlling the operation. </param>
+		/// <param name="options"> 	Options for controlling the playback. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool PlaySound(const std::string &filename, const SoundOptions &options) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	As above but also returns instanceId (for use when querying sound status) </summary>
+		/// <summary>	Plays a sound and also returns instanceId (for use when querying sound status) </summary>
 		///
 		/// <param name="filename">  	Filename of the file. </param>
-		/// <param name="options">   	Options for controlling the operation. </param>
+		/// <param name="options">   	Options for controlling the playback. </param>
 		/// <param name="instanceId">	[in,out] Identifier for the instance. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
@@ -433,14 +457,14 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Stops streaming media started via PlayStreamedMedia. </summary>
 		///
-		/// <param name="instanceId">	Identifier for the instance. </param>
+		/// <param name="instanceId">	Identifier of the instance. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool StopStreamedMedia(int instanceId) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Pause or unpause streaned media started with PlayStreamedMedia. </summary>
+		/// <summary>	Pause or unpause streamed media started with PlayStreamedMedia. </summary>
 		///
 		/// <param name="instanceId">	Identifier for the instance. </param>
 		/// <param name="pause">	 	(Optional) True to pause. </param>
@@ -450,7 +474,7 @@ namespace HAPISPACE {
 		virtual bool PauseStreamedMedia(int instanceId, bool pause = true) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns info about the media e.g. like current position. </summary>
+		/// <summary>	Returns info about the media playback e.g. like current position. </summary>
 		///
 		/// <param name="instanceId">	Identifier for the instance. </param>
 		///
@@ -461,6 +485,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Allows the font to be changed. This version uses fonts registered with the OS.
+		/// Subsequent text operations will use this font. (Note: the UI has its own system)
 		/// </summary>
 		///
 		/// <param name="fontName">	Name of the font. </param>
@@ -516,7 +541,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// As above but allows you to specify another colour to act as an outline to the text and how
-		/// thick it should be Note: you can also do SCREEN_SURFACE.DrawText Can also supply a clip area.
+		/// thick it should be Note: you can also do SCREEN_SURFACE.DrawText. Can also supply a clip area.
 		/// </summary>
 		///
 		/// <param name="x">			   	The x coordinate. </param>
@@ -537,8 +562,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// This one allows you to specify a memory buffer to write to Assumes 32 bit and that surface
-		/// points to surfaceWidth * surfaceHeight * 4 bytes Can also supply a clip area.
+		/// This one allows you to specify a memory buffer to write to. Assumes 32 bit and that surface
+		/// points to surfaceWidth * surfaceHeight * 4 bytes. Can also supply a clip area.
 		/// </summary>
 		///
 		/// <param name="x">			   	The x coordinate. </param>
@@ -567,7 +592,7 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="text">			   	The text. </param>
-		/// <param name="pointSize">	   	Size of the point. </param>
+		/// <param name="pointSize">	    Text point size. </param>
 		/// <param name="styleFlags">	   	(Optional) The style flags. </param>
 		/// <param name="outlineThickness">	(Optional) The outline thickness. </param>
 		///
@@ -580,7 +605,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="filename">	Filename of the file. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it does, false if it does not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool DoesFileExist(const std::string &filename) const = 0;
 
@@ -607,14 +632,14 @@ namespace HAPISPACE {
 		/// via SHIFT-F1 when running.
 		/// </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which"> Which app. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void LaunchInternalApp(EInternalApp which) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets the rumble motor speeds for the specified controller. </summary>
 		///
-		/// <param name="controller">	The controller. </param>
+		/// <param name="controller">	The controller index. </param>
 		/// <param name="leftMotor"> 	The left motor. </param>
 		/// <param name="rightMotor">	The right motor. </param>
 		///
@@ -647,7 +672,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="text">		 	The text. </param>
 		/// <param name="title">	 	(Optional) The title. </param>
-		/// <param name="buttonType">	(Optional) Type of the button. </param>
+		/// <param name="buttonType">	(Optional) Type of buttons to use. </param>
 		///
 		/// <returns>	An EUserResponse. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -672,12 +697,12 @@ namespace HAPISPACE {
 		/// can be changed if required via the optional parameter.
 		/// </summary>
 		///
-		/// <param name="filters">		   	The filters. </param>
+		/// <param name="filters">		   	The file extension filters. </param>
 		/// <param name="saveAsDialog">	   	True to save as dialog. </param>
 		/// <param name="filename">		   	[in,out] Filename of the file. </param>
 		/// <param name="response">		   	[in,out] The response. </param>
 		/// <param name="startDirectory">  	(Optional) Pathname of the start directory. </param>
-		/// <param name="selectFolderOnly">	(Optional) True to select, false to deselect the folder only. </param>
+		/// <param name="selectFolderOnly">	(Optional) True to select a folder only. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -722,7 +747,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Retrieve the working directory. Useful as a root for then finding data files. This is normally
-		/// where the visual studio project file is, if running under viz otherwise it is where the
+		/// where the visual studio project file is, if running under viz, otherwise it is where the
 		/// executable directory is.
 		/// </summary>
 		///
@@ -758,7 +783,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Returns the UI system. Note: if not already created will create on the fly.
+		/// Returns the UI system. Note: UI must be created first either via start up flag or by calling EnableUI
 		/// </summary>
 		///
 		/// <returns>	The user interface system. </returns>

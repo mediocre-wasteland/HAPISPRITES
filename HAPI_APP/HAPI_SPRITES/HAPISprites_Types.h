@@ -299,7 +299,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Labels can be placed on markers, the point value is which point to label They is the index of
+		/// Labels can be placed on markers, the point value is which point to label The key is the index of
 		/// the marker and must be &lt; GetNumMarkers()
 		/// Does not need to be one per marker could have just start and end etc.
 		/// </summary>
@@ -371,24 +371,9 @@ namespace HAPISPACE {
 	class FillShader
 	{
 	private:
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	A surface. </summary>
-		///
-		/// <seealso cref="T:FillShader"/>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	A surface. </summary>
-		///
-		/// <seealso cref="T:FillShader"/>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		friend class Surface;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets the pimpl.For optisation purposes (caching) so mutable is acceptable. </summary>
-		///
-		/// <value>	The m pimpl. </value>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		mutable std::shared_ptr<FillShaderPIMPL> m_pimpl;
 	public:
 		/// <summary>	Default constructor. </summary>
@@ -397,8 +382,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Must be able to retrieve a colour from any position within bounds Position is guaranteed to
-		/// be within bounds Returned colour is blended already with destination.
+		/// Must be able to retrieve a colour from any position within bounds. Position is guaranteed to
+		/// be within bounds. Returned colour is blended already with destination.
 		/// </summary>
 		///
 		/// <param name="position">  	The position. </param>
@@ -426,7 +411,7 @@ namespace HAPISPACE {
 		void PopModulate();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Modulates by the last modulation colour If none then just returns col. </summary>
+		/// <summary>	Modulates by the last modulation colour. If none then just returns col. </summary>
 		///
 		/// <param name="col">	The col. </param>
 		///
@@ -436,7 +421,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Fills a surface and returns it Note: this may be slow first time but caches the result so
+		/// Fills a surface and returns it. Note: this may be slow first time but caches the result so
 		/// subsequent calls will be quick.
 		/// </summary>
 		///
@@ -448,7 +433,7 @@ namespace HAPISPACE {
 		std::shared_ptr<Surface> GetFilledSurface(int width, int height) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	does not save modulation colour. </summary>
+		/// <summary>	Does not save modulation colour. </summary>
 		///
 		/// <param name="parent">	[in,out] If non-null, the parent. </param>
 		///

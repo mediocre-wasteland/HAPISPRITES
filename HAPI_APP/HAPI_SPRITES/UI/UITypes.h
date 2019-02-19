@@ -57,6 +57,7 @@ namespace HAPI_UI_SPACE
 		eCopy,			// CTRL + C
 		ePaste,			// CTRL + V
 		eSelectAll,		// CTRL + A
+		eSave,			// CTRL + S
 		eHighlightStart, // SHIFT + HOME
 		eHighlightEnd, // SHIFT + END
 
