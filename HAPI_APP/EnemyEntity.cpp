@@ -11,6 +11,5 @@ EnemyEntity::~EnemyEntity()
 
 void EnemyEntity::Update()
 {
-	HAPISPACE::VectorF position({ GetPosition() });
-	SetPosition(position);
+	sprite->GetTransformComp().SetPosition(GetPosition());
 }

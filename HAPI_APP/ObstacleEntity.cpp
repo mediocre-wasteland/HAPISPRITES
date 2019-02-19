@@ -12,6 +12,5 @@ ObstacleEntity::~ObstacleEntity()
 
 void ObstacleEntity::Update()
 {
-	HAPISPACE::VectorF position({ GetPosition() });
-	SetPosition(position);
+	sprite->GetTransformComp().SetPosition(GetPosition());
 }

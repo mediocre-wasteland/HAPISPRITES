@@ -14,6 +14,5 @@ BackGroundEntity::~BackGroundEntity()
 
 void BackGroundEntity::Update()
 {
-	HAPISPACE::VectorF position({ GetPosition() });
-	SetPosition(position);
+	sprite->GetTransformComp().SetPosition(GetPosition());
 }

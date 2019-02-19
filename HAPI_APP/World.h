@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "Entity.h"
 #include "PlayerEntity.h"
+#include "Map.h"
 
 using namespace HAPISPACE;
 
@@ -19,9 +20,11 @@ public:
 
 private:
 
-	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 800);
+	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 832);
 
 	std::unordered_map <std::string, Entity*> entityMap;
+
+	Map gameMap;
 
 	bool LoadSprites();
 	bool LoadEntities();

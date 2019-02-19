@@ -34,8 +34,6 @@ bool World::Initialise()
 		return false;
 	}
 
-	
-
 	if (!LoadWorld())
 	{
 		HAPI_Sprites.UserMessage("Failed to Load World", "ERROR", HAPI_ButtonType::eButtonTypeOk);
@@ -91,6 +89,8 @@ bool World::LoadEntities()
 
 bool World::LoadWorld()
 {
+	gameMap.CreateLevel(1);
+
 	return true;
 }
 
@@ -112,8 +112,8 @@ void World::Update()
 
 void World::Render()
 {
+	gameMap.Render();
 	entityMap.at("Player")->Render();
-
 }
 
 bool World::CheckCollision()

@@ -20,6 +20,7 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -40,6 +41,7 @@
     <ClInclude Include="World.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

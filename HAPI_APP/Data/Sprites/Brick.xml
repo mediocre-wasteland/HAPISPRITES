@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TextureAtlas imagePath="Brick_surface.png">
+	<SubTexture name="Brick 64.png_0" x="0" y="0" width="64" height="64">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="64" top="0" bottom="64" />
+			<Circle name="BoundingCircle" type="0" radius="45.254833" y="32.000000" x="32.000000" />
+		</Collider>
+	</SubTexture>
+</TextureAtlas>
