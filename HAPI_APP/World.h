@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "Entity.h"
 #include "PlayerEntity.h"
+#include "EnemyEntity.h"
 #include "Map.h"
 
 using namespace HAPISPACE;

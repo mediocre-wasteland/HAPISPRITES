@@ -70,8 +70,13 @@ bool World::Play()
 //Private
 bool World::LoadSprites()
 {
-
 	if (!entityMap.at("Player")->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+		return false;
+	}
+
+	if (!entityMap.at("Enemy")->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
@@ -82,8 +87,8 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
-
 	entityMap["Player"] = new PlayerEntity((std::string)"Data\\stickGuy.xml");
+	entityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
 	return true;
 }
 
@@ -99,10 +104,12 @@ void World::Update()
 	SCREEN_SURFACE->Clear();
 
 	entityMap.at("Player")->Update();
+	entityMap.at("Enemy")->Update();
 	//GetInput();
 	CheckCollision();
 
 	entityMap.at("Player")->SetPosition({ entityMap.at("Player")->GetPosition().x, entityMap.at("Player")->GetPosition().y });
+	entityMap.at("Enemy")->SetPosition({ entityMap.at("Enemy")->GetPosition().x, entityMap.at("Enemy")->GetPosition().y });
 	entityMap.at("Player")->SetScaling( 1.0f, 1.0f );
 	entityMap.at("Player")->SetRotation(0.3f);
 
@@ -114,6 +121,7 @@ void World::Render()
 {
 	gameMap.Render();
 	entityMap.at("Player")->Render();
+	entityMap.at("Enemy")->Render();
 }
 
 bool World::CheckCollision()
