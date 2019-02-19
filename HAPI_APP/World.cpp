@@ -83,7 +83,7 @@ bool World::LoadSprites()
 bool World::LoadEntities()
 {
 
-	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Troll2.xml");
+	entityMap["Player"] = new PlayerEntity((std::string)"Data\\stickGuy.xml");
 	return true;
 }
 
