@@ -14,9 +14,9 @@ void PlayerEntity::Update()
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (GetPosition().y >= 300) // TEMPORARY code makes the "ground" where y = 300
+	if (GetPosition().y >= 400) // TEMPORARY code makes the "ground" where y = 300
 	{
-		SetPosition({GetPosition().x, 300});
+		SetPosition({GetPosition().x, 400});
 		mIsOnGround = true;
 		mHasSecondJump = true;
 		mTimeFallen = 0;
@@ -38,11 +38,6 @@ void PlayerEntity::Update()
 		mIsJumping = true;
 		mHasSecondJump = false;
 	}
-	if (!(mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if the user stops pressing the jump button and ends the jump early
-	{
-		// CONSIDER ADDING A FEW FRAMES OF SLOWED ASCENT FOR UPWARD MOMENTUM
-		mIsJumping = false;
-	}
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
 	{
 		// RIGHT MOVING ANIMATION HERE
@@ -56,7 +51,7 @@ void PlayerEntity::Update()
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
 	{
 		// MID JUMP ANIMATION HERE
-		SetPosition({ GetPosition().x , GetPosition().y - mHSpeed });
+		SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength-mTimeJumped)/(0.5f*mMaxJumpLength))*mHSpeed });
 		mTimeJumped++;
 	}
 	else
