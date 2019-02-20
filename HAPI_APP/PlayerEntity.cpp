@@ -14,9 +14,9 @@ void PlayerEntity::Update()
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (GetPosition().y >= 400) // TEMPORARY code makes the "ground" where y = 300
+	if (GetPosition().y >= 576) // TEMPORARY code makes the "ground" where y = 300
 	{
-		SetPosition({GetPosition().x, 400});
+		SetPosition({GetPosition().x, 576});
 		mIsOnGround = true;
 		mHasSecondJump = true;
 		mTimeFallen = 0;
@@ -66,6 +66,5 @@ void PlayerEntity::Update()
 		mTimeFallen++;
 	}
 	sprite->GetTransformComp().SetPosition(position);
-	std::cout << "Update" << std::endl;
 }
 

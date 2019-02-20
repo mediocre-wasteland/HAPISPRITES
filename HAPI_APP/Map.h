@@ -16,13 +16,15 @@ public:
 
 	bool Initialise();
 
-	void CreateLevel(int levelNum);
-
+	void CreateLevel();
 	void Render();
+
+	void NextLevel() { currentLevel++;  CreateLevel(); }
+	void MoveMap(eDirection moveDirection);
 
 
 private:
-
+	int currentLevel = 1;
 	std::unordered_map <std::string, Entity*> entityMap;
 };
 

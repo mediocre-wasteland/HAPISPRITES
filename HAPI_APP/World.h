@@ -22,10 +22,10 @@ public:
 private:
 
 	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 832);
-
 	std::unordered_map <std::string, Entity*> entityMap;
-
 	Map gameMap;
+	bool levelComplete = false;
+
 
 	bool LoadSprites();
 	bool LoadEntities();

@@ -52,11 +52,7 @@ bool World::Initialise()
 
 bool World::Play()
 {
-	//sprite->GetSurface()->MakeAlphaChannelFromColourKey(Colour255::BLACK);
-
-	//sprite->SetAutoAnimate(5);
-
-	//sprite2->SetAutoAnimate(20, true, "Right");
+	//sprite2->SetAutoAnimate(20, true, "Right"); // Animate Character Walk Right at 20 FPS and loop
 
 	while (HAPI_Sprites.Update())
 	{
@@ -94,7 +90,8 @@ bool World::LoadEntities()
 
 bool World::LoadWorld()
 {
-	gameMap.CreateLevel(1);
+	gameMap.Initialise();
+	gameMap.CreateLevel();
 
 	return true;
 }
@@ -105,14 +102,20 @@ void World::Update()
 
 	entityMap.at("Player")->Update();
 	entityMap.at("Enemy")->Update();
-	//GetInput();
 	CheckCollision();
 
-	entityMap.at("Player")->SetPosition({ entityMap.at("Player")->GetPosition().x, entityMap.at("Player")->GetPosition().y });
-	entityMap.at("Enemy")->SetPosition({ entityMap.at("Enemy")->GetPosition().x, entityMap.at("Enemy")->GetPosition().y });
-	entityMap.at("Player")->SetScaling( 1.0f, 1.0f );
-	entityMap.at("Player")->SetRotation(0.3f);
+	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
+	if (mKeyboardInput.scanCode['L'])
+	{
+		levelComplete = true;
+	}
+
+	if (levelComplete)
+	{
+		gameMap.NextLevel();
+		levelComplete = false;
+	}
 
 	Render();
 }
@@ -120,8 +123,11 @@ void World::Update()
 void World::Render()
 {
 	gameMap.Render();
-	entityMap.at("Player")->Render();
-	entityMap.at("Enemy")->Render();
+
+	for (auto &p : entityMap)
+	{
+		p.second->Render();
+	}
 }
 
 bool World::CheckCollision()

@@ -1,8 +1,6 @@
 #include "BackGroundEntity.h"
 
 BackGroundEntity::BackGroundEntity(std::string &filename) : Entity(filename)
-
-
 {
 	mAlive = true;
 }

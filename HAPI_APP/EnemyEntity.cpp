@@ -14,9 +14,7 @@ EnemyEntity::~EnemyEntity()
 void EnemyEntity::Update()
 {
 	AIMovement();
-	std::cout << "Px: " << m_enemyPosition.x << std::endl;
-	std::cout << "Py: " << m_enemyPosition.y << std::endl;
-	SetPosition(m_enemyPosition);
+	SetPosition(mEnemyPosition);
 	sprite->GetTransformComp().SetPosition(GetPosition());
 }
 
@@ -25,26 +23,26 @@ void EnemyEntity::AIMovement()
 {
 	if (bPatrolLevel())
 	{
-		switch (m_direction)
+		switch (mDirection)
 		{
 		case eDirection::eUp:
 		{
-			m_enemyPosition.y -= m_movementSpeed;
+			mEnemyPosition.y -= mMovementSpeed;
 		}
 		break;
 		case eDirection::eLeft:
 		{
-			m_enemyPosition.x -= m_movementSpeed;
+			mEnemyPosition.x -= mMovementSpeed;
 		}
 		break;
 		case eDirection::eDown:
 		{
-			m_enemyPosition.y += m_movementSpeed;
+			mEnemyPosition.y += mMovementSpeed;
 		}
 		break;
 		case eDirection::eRight:
 		{
-			m_enemyPosition.x += m_movementSpeed;
+			mEnemyPosition.x += mMovementSpeed;
 		}
 		break;
 		default:
@@ -63,20 +61,20 @@ void EnemyEntity::AIMovement()
 		ChangeDirection((eDirection)(rand() % 4));
 	}
 
-	if (m_enemyPosition.x <= 0)
+	if (mEnemyPosition.x <= 0)
 	{
 		ChangeDirection(eDirection::eRight);
 	}
-	if (m_enemyPosition.x >= screenWidth)
+	if (mEnemyPosition.x >= screenWidth)
 	{
 		ChangeDirection(eDirection::eLeft);
 	}
-	if (m_enemyPosition.y <= 0)
+	if (mEnemyPosition.y <= 0)
 	{
 		ChangeDirection(eDirection::eDown);
-		std::cout << "Ive Gone Off The Top Of The Screen" << std::endl;
+		// TODO DEBUG std::cout << "Ive Gone Off The Top Of The Screen" << std::endl;
 	}
-	if (m_enemyPosition.y >= screenHeight)
+	if (mEnemyPosition.y >= screenHeight)
 	{
 		ChangeDirection(eDirection::eUp);
 	}
@@ -87,7 +85,7 @@ void EnemyEntity::AIMovement()
 
 void EnemyEntity::ChangeDirection(eDirection newDirection)
 {
-	m_direction = newDirection;
+	mDirection = newDirection;
 }
 
 bool EnemyEntity::bPatrolLevel()
