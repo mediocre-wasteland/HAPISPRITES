@@ -1,5 +1,6 @@
 #pragma once
 #include <HAPISprites_Lib.h>
+#include <iostream>
 #include "HAPI_SPRITES/Shapes/Vector.h"
 
 using namespace HAPISPACE;
@@ -25,11 +26,14 @@ class Entity
 public:
 	Entity(std::string &filename);
 	HAPISPACE::VectorF GetPosition() const{ return mPosition; }
+	std::shared_ptr<Sprite> GetSprite() { return sprite; }
 	void SetPosition(HAPISPACE::VectorF newPosition){ mOldPosition = mPosition;  mPosition = newPosition; }
 	void SetScaling(float floatx, float floaty);
 	void SetRotation(float rotationF);
 	void Render();
 	bool LoadSprite();
+	bool CanCollide(Entity& other);
+	void CheckCollision(Entity& Other);
 	bool IsAlive() { return mAlive; }
 	virtual eSide GetSide() const = 0;
 	virtual void Update() = 0;
@@ -41,6 +45,7 @@ protected:
 	float mSpeed;
 	int mCurrentHealth;
 	int mMaxHealth;
+	bool isColliding{ false };
 	bool mAlive;
 	eSide mSide{ eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };

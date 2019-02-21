@@ -2,6 +2,7 @@
 EnemyEntity::EnemyEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
+	mSide = eSide::eEnemy;
 }
 
 

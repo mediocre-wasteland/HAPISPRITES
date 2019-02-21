@@ -42,3 +42,40 @@ bool Entity::LoadSprite()
 	return true;
 }
 
+bool Entity::CanCollide(Entity & other)
+{
+	eSide xEntity = GetSide();
+	eSide yEntity = other.GetSide();
+	if (xEntity == yEntity || yEntity == xEntity)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+	
+}
+
+void Entity::CheckCollision(Entity & Other)
+{
+	if (!IsAlive() || !Other.IsAlive())
+	{
+		return;
+	}
+	if (!CanCollide(Other))
+	{
+		return;
+	}
+
+	if (sprite->CheckCollision(*Other.GetSprite()))
+	{
+		isColliding = true;
+		std::cout << "COLLIDING" << std::endl;
+	}
+	else
+	{
+		isColliding = false;
+		std::cout << "NOT COLLIDING" << std::endl;
+	}
+}

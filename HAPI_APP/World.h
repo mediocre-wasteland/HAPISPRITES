@@ -34,6 +34,6 @@ private:
 	void Update();
 	void Render();
 
-	bool CheckCollision();
+	void CheckCollision();
 };
 

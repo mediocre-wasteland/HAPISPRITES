@@ -130,7 +130,13 @@ void World::Render()
 	}
 }
 
-bool World::CheckCollision()
+void World::CheckCollision()
 {
-	return false;
+	for (auto &p : entityMap)
+	{
+		for (auto &s : entityMap)
+		{
+			p.second->CheckCollision(*s.second);
+		}
+	}
 }

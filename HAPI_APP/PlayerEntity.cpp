@@ -2,6 +2,7 @@
 
 PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
 {
+	mSide = eSide::ePlayer;
 }
 
 PlayerEntity::~PlayerEntity()
