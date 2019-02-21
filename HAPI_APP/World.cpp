@@ -101,7 +101,9 @@ void World::Update()
 	SCREEN_SURFACE->Clear();
 
 	entityMap.at("Player")->Update();
+	entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 	entityMap.at("Enemy")->Update();
+	
 	CheckCollision();
 
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();

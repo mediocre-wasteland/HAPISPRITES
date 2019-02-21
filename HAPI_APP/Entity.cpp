@@ -16,12 +16,12 @@ Entity::~Entity()
 
 void Entity::SetScaling(float floatx, float floaty)
 {
-	sprite->GetTransformComp().SetScaling({ 1.0f, 1.0f });
+	sprite->GetTransformComp().SetScaling({ floatx, floaty });
 }
 
 void Entity::SetRotation(float rotationF)
 {
-	sprite->GetTransformComp().SetRotation(0.3f);
+	sprite->GetTransformComp().SetRotation(rotationF);
 }
 
 void Entity::Render()
@@ -63,12 +63,12 @@ void Entity::CheckCollision(Entity & Other)
 	{
 		return;
 	}
-	if (!CanCollide(Other))
+	if (!CanCollide(Other)) // checks to see if the sides of the entities are the same
 	{
 		return;
 	}
 
-	if (sprite->CheckCollision(*Other.GetSprite()))
+	if (sprite->CheckCollision(*Other.GetSprite()))//gets the sprite date of the current and other entity and checks collison using built in hapisprite collisons
 	{
 		isColliding = true;
 		std::cout << "COLLIDING" << std::endl;
