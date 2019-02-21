@@ -39,16 +39,84 @@ void PlayerEntity::Update()
 		mIsJumping = true;
 		mHasSecondJump = false;
 	}
-	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
+	if ((mKeyboardInput.scanCode[HK_CONTROL] || mKeyboardInput.scanCode[HK_LSHIFT]) && mIsOnGround) // checks if either of the dodge keys are pressed and if the player is on the ground and if so they can sneak
 	{
-		// RIGHT MOVING ANIMATION HERE
-		SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+		mSneaking = true;
 	}
-	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])) // this checks if the user is inputing to go left but not right
+	else
 	{
-		// LEFT MOVING ANIMATION HERE
-		SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
+		mSneaking = false;
 	}
+	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
+	{
+		if (!mSneaking)
+		{
+			// RIGHT MOVING ANIMATION HERE
+			SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+		}
+		else
+		{
+			// SNEAK RIGHT ANIMATION HERE
+			SetPosition({ GetPosition().x + mHSpeed/3, GetPosition().y });
+		}
+	}
+	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !mIsDodging) // this checks if the user is inputing to go left but not right
+	{
+		if (!mSneaking)
+		{
+			// LEFT MOVING ANIMATION HERE
+			SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
+		}
+		else
+		{
+			// SNEAK LEFT ANIMATION HERE
+			SetPosition({ GetPosition().x - mHSpeed/3, GetPosition().y });
+		}
+		
+	}
+
+	// Dodging code
+	if (mKeyboardInput.scanCode['Q'] && mTimeSinceDodge >= mDodgecooldown) // These two if statements check if the dodge left or dodge right buttons are pressed and if so starts a dodge accordingly
+	{
+		mIsDodging = true;
+		mDodgeLastFacingLeft = true;
+		mVunerable = false;
+		mTimeDodged = 0;
+		mTimeSinceDodge = 0;
+	}
+	if (mKeyboardInput.scanCode['E'] && mTimeSinceDodge >= mDodgecooldown)
+	{
+		mIsDodging = true;
+		mDodgeLastFacingLeft = false;
+		mVunerable = false;
+		mTimeDodged = 0;
+		mTimeSinceDodge = 0;
+	}
+	if (mIsDodging && mTimeDodged < mMaxDodgeLength) // this checks if the player is dodging and if the amount of updates they can dodge for has passed
+	{
+		if (mDodgeLastFacingLeft)
+		{
+			// DODGE LEFT ANIMATION HERE
+			SetPosition({ GetPosition().x - 1.5f * mHSpeed, GetPosition().y }); // they move at 1.5 time speed while dodging
+		}
+		else
+		{
+			// DODGE LEFT ANIMATION HERE
+			SetPosition({ GetPosition().x + 1.5f * mHSpeed, GetPosition().y });
+		}
+		mTimeDodged++;
+	}
+	else // when they aren't dodging the isDodging bool is updated and they are no longer invunerable
+	{
+		mIsDodging = false;
+		mVunerable = true;
+	}
+	if (mTimeSinceDodge < mDodgecooldown) // this ticks up until the player can dodge again
+	{
+		mTimeSinceDodge++;
+	}
+	// Dodging code
+
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
 	{
 		// MID JUMP ANIMATION HERE
@@ -63,7 +131,7 @@ void PlayerEntity::Update()
 	if (!mIsOnGround && !mIsJumping) // if the player is not ascending and not on the ground then gravity will be applyed and send them downwards
 	{
 		// FALLING ANIMATION HERE
-		SetPosition({ GetPosition().x , GetPosition().y + mHSpeed });
+		SetPosition({ GetPosition().x , GetPosition().y + mGravity });
 		mTimeFallen++;
 	}
 	sprite->GetTransformComp().SetPosition(position);
