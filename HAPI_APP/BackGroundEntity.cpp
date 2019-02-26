@@ -3,6 +3,7 @@
 BackGroundEntity::BackGroundEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
+	mSide = eSide::eNeutral;
 }
 
 

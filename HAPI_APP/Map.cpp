@@ -9,7 +9,12 @@ Map::Map()
 
 Map::~Map()
 {
-	for (auto &p : entityMap)
+	for (auto &p : backgroundMap)
+	{
+		delete p.second;
+	}
+
+	for (auto &p : obstacleMap)
 	{
 		delete p.second;
 	}
@@ -38,7 +43,8 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
-	entityMap.clear();
+	obstacleMap.clear();
+	backgroundMap.clear();
 
 	char line;
 	std::string fileName = "Data\\Levels\\Level" + std::to_string(currentLevel) + ".txt";
@@ -60,11 +66,11 @@ void Map::CreateLevel()
 				{
 					std::string key = "BG" + std::to_string(i) + std::to_string(j);
 
-					entityMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\Sky.xml");
+					backgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\Sky.xml");
 
-					entityMap[key]->SetPosition({ x,y });
+					backgroundMap[key]->SetPosition({ x,y });
 
-					if (!entityMap[key]->LoadSprite())
+					if (!backgroundMap[key]->LoadSprite())
 					{
 						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 					}
@@ -75,11 +81,11 @@ void Map::CreateLevel()
 				{
 					std::string key = "OB" + std::to_string(i) + std::to_string(j);
 
-					entityMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Brick.xml");
+					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Brick.xml");
 
-					entityMap[key]->SetPosition({ x,y });
+					obstacleMap[key]->SetPosition({ x,y });
 
-					if (!entityMap[key]->LoadSprite())
+					if (!obstacleMap[key]->LoadSprite())
 					{
 						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 					}
@@ -97,7 +103,13 @@ void Map::CreateLevel()
 
 void Map::Render()
 {
-	for (auto &p : entityMap)
+	for (auto &p : obstacleMap)
+	{
+		p.second->Update();
+		p.second->Render();
+	}
+
+	for (auto &p : backgroundMap)
 	{
 		p.second->Update();
 		p.second->Render();
@@ -106,7 +118,7 @@ void Map::Render()
 
 void Map::MoveMap(eDirection moveDirection)
 {
-	switch (moveDirection)
+	/*switch (moveDirection)
 	{
 	case eDirection::eLeft:
 		for (auto &p : entityMap)
@@ -134,5 +146,5 @@ void Map::MoveMap(eDirection moveDirection)
 		break;
 	default:
 		break;
-	}
+	}*/
 }

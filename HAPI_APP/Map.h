@@ -22,9 +22,12 @@ public:
 	void NextLevel() { currentLevel++;  CreateLevel(); }
 	void MoveMap(eDirection moveDirection);
 
+	std::unordered_map <std::string, Entity*> GetObstacles() { return obstacleMap; }
+
 
 private:
 	int currentLevel = 1;
-	std::unordered_map <std::string, Entity*> entityMap;
+	std::unordered_map <std::string, Entity*> backgroundMap;
+	std::unordered_map <std::string, Entity*> obstacleMap;
 };
 

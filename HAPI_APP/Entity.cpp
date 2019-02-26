@@ -50,10 +50,19 @@ bool Entity::CanCollide(Entity & other)
 	{
 		return false;
 	}
-	else
+	if (xEntity == eSide::eNeutral || yEntity == eSide::eNeutral)
+	{
+		return false;
+	}
+	if (xEntity == eSide::eEnemy|| yEntity == eSide::eEnemy)
+	{
+		return false;
+	}
+	else 
 	{
 		return true;
 	}
+	
 	
 }
 
@@ -68,14 +77,17 @@ void Entity::CheckCollision(Entity & Other)
 		return;
 	}
 
-	if (sprite->CheckCollision(*Other.GetSprite()))//gets the sprite date of the current and other entity and checks collison using built in hapisprite collisons
-	{
-		isColliding = true;
-		std::cout << "COLLIDING" << std::endl;
-	}
-	else
+	if (!sprite->CheckCollision(*Other.GetSprite()))//gets the sprite date of the current and other entity and checks collison using built in hapisprite collisons
 	{
 		isColliding = false;
-		std::cout << "NOT COLLIDING" << std::endl;
+		//std::cout << "NOT COLLIDING" << std::endl;
+		
+		
+	}
+	if (sprite->CheckCollision(*Other.GetSprite()))
+	{
+		
+		std::cout << "COLLIDING" << std::endl;
+		isColliding = true;
 	}
 }

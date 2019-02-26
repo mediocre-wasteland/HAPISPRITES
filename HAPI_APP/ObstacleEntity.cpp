@@ -3,6 +3,7 @@ ObstacleEntity::ObstacleEntity(std::string &filename) : Entity(filename)
 
 {
 	mAlive = true;
+	mSide = eSide::eObstacle;
 }
 
 

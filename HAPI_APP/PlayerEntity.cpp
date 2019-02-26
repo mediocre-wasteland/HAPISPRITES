@@ -2,7 +2,9 @@
 
 PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
 {
+	mAlive = true;
 	mSide = eSide::ePlayer;
+	SetPosition({ 0.f, 300.f });
 }
 
 PlayerEntity::~PlayerEntity()
@@ -49,6 +51,7 @@ void PlayerEntity::Update()
 	}
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
 	{
+		
 		if (!mSneaking)
 		{
 			// RIGHT MOVING ANIMATION HERE

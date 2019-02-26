@@ -141,4 +141,12 @@ void World::CheckCollision()
 			p.second->CheckCollision(*s.second);
 		}
 	}
+
+	for (auto &p : entityMap)
+	{
+		for (auto &s : gameMap.GetObstacles())
+		{
+			p.second->CheckCollision(*s.second);
+		}
+	}
 }
