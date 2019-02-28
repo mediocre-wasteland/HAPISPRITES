@@ -11,6 +11,28 @@ PlayerEntity::~PlayerEntity()
 {
 }
 
+void PlayerEntity::addMoney(int amount) 
+{ 
+	mMoneyAmount += amount; 
+	if (mMoneyAmount < 0)
+	{
+		mBankrupt = true;
+	}
+}
+
+void PlayerEntity::addLGAmmo(int amount)
+{
+	mLGAmmo += amount;
+	if (mLGAmmo > mLGMaxAmmo)
+	{
+		mLGAmmo = mLGMaxAmmo;
+	}
+	if (mLGAmmo < 0)
+	{
+		mLGAmmo = 0;
+	}
+}
+
 void PlayerEntity::Update()
 {
 	HAPISPACE::VectorF position({ GetPosition() });

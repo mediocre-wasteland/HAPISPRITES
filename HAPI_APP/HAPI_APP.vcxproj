@@ -171,9 +171,12 @@
     <ClCompile Include="BackGroundEntity.cpp" />
     <ClCompile Include="EnemyEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="LGAmmoPickup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MoneyPickup.cpp" />
     <ClCompile Include="ObstacleEntity.cpp" />
+    <ClCompile Include="PickUp.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -181,8 +184,11 @@
     <ClInclude Include="BackGroundEntity.h" />
     <ClInclude Include="EnemyEntity.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="LGAmmoPickup.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MoneyPickup.h" />
     <ClInclude Include="ObstacleEntity.h" />
+    <ClInclude Include="PickUp.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

@@ -21,6 +21,13 @@
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="PickUp.cpp">
+      <Filter>PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="MoneyPickup.cpp">
+      <Filter>PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="LGAmmoPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -42,6 +49,13 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Map.h" />
+    <ClInclude Include="PickUp.h">
+      <Filter>PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="MoneyPickup.h">
+      <Filter>PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="LGAmmoPickup.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">
@@ -49,6 +63,9 @@
     </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{8528497a-8fdd-4492-bd9a-9069cfbdef33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PickUp">
+      <UniqueIdentifier>{f49c7117-1b79-4648-8c2c-1e26874fb466}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -8,6 +8,8 @@ public:
 	~PlayerEntity();
 
 	virtual void Update() override;
+	void addMoney(int amount); // Increases or decreases money amount
+	void addLGAmmo(int amount); // Increases Love Gun(tm) ammo but not beyond the maximum amount
 
 	virtual eSide GetSide() const override final{ return mSide; } 
 	virtual eDirection GetDirection() const override final{ return  mDirection; }
@@ -31,6 +33,10 @@ private:
 	bool mDodgeLastFacingLeft; // stores the direction the dodge should go
 	int mDodgecooldown{ 200 }; // how many updates after dodging the player can dodge again
 	int mTimeSinceDodge{ mDodgecooldown }; // how many updates since last dodge
+	int mMoneyAmount; // the amount of money the player has. a sort of "health system" as a player loses some as they get "hit"
+	bool mBankrupt{ false }; // whether or not the player has lost all money and thus the game
+	int mLGAmmo; // the amount of love gun ammo the player currently has
+	int mLGMaxAmmo; // the maximum ammount of love gun ammo the player can hold
 
 };
 
