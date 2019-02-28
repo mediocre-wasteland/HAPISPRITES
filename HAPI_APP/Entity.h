@@ -42,11 +42,11 @@ public:
 protected:
 	std::shared_ptr<Sprite> sprite{ nullptr };
 	std::string mSpriteName;
-	float mSpeed;
-	int mCurrentHealth;
-	int mMaxHealth;
+	float mSpeed{ 0 };
+	int mCurrentHealth{ 0 };
+	int mMaxHealth{ 0 };
 	bool isColliding{ false };
-	bool mAlive;
+	bool mAlive{false};
 	eSide mSide{ eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };
 

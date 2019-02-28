@@ -37,7 +37,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Determine if the cache 'hit' or missed. </summary>
 		///
-		/// <param name="trans">	The transaction. </param>
+		/// <param name="trans">	The transform. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +172,7 @@ namespace HAPISPACE {
 		/// <summary>	Translates. </summary>
 		///
 		/// <param name="name"> 	The name. </param>
-		/// <param name="trans">	The transaction. </param>
+		/// <param name="trans">	The transform. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

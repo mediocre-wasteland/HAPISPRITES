@@ -547,7 +547,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Change state. </summary>
 		///
-		/// <param name="newState">	State of the new. </param>
+		/// <param name="newState">	New state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeState(EWindowState newState) { m_state = newState; }
 
@@ -877,7 +877,7 @@ namespace HAPI_UI_SPACE
 		///
 		/// <param name="nameAndText">			The name and text. </param>
 		/// <param name="relativeToObject"> 	The relative to object. </param>
-		/// <param name="positioning">			The positioning. </param>
+		/// <param name="positioning">			Positioning to relative. </param>
 		/// <param name="maxInRow">				The maximum in row. </param>
 		/// <param name="alignment">			(Optional) The alignment. </param>
 		/// <param name="userIdStart">			[in,out] (Optional) If non-null, the user identifier
@@ -1271,7 +1271,7 @@ namespace HAPI_UI_SPACE
 		/// from mappings.
 		/// </summary>
 		///
-		/// <param name="mouseData"> 	Information describing the mouse. </param>
+		/// <param name="mouseData"> 	Information describing the mouse state. </param>
 		/// <param name="action">	 	The action. </param>
 		/// <param name="lastAction">	The last action. </param>
 		///
@@ -1288,7 +1288,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="controllerId">   	Identifier for the controller. </param>
 		/// <param name="controllerEvent">	The controller event. </param>
 		/// <param name="buttonIndex">	  	Zero-based index of the button. </param>
-		/// <param name="controllerData"> 	Information describing the controller. </param>
+		/// <param name="controllerData"> 	Information describing the controller state. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

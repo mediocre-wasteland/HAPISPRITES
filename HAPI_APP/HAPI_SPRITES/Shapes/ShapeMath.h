@@ -460,7 +460,7 @@ namespace HAPISPACE {
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="v">		A Vector&lt;T&gt; to process. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A Vector&lt;T&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -491,7 +491,7 @@ namespace HAPISPACE {
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="v">		A Vector&lt;T&gt; to process. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A Vector&lt;T&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -523,7 +523,7 @@ namespace HAPISPACE {
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="pnts"> 	The pnts. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A std::vector&lt;Vector&lt;T&gt;&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -542,7 +542,7 @@ namespace HAPISPACE {
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="pnts"> 	The pnts. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A std::vector&lt;Vector&lt;T&gt;&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -613,7 +613,7 @@ namespace HAPISPACE {
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="v">		A RectangleOriented&lt;T&gt; to process. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A RectangleOriented&lt;T&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -636,19 +636,54 @@ namespace HAPISPACE {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Transform rectangle. </summary>
+	/// <summary>
+	/// Transform rectangle.
+	///  Transforms aligned rectangle. Scaling is done via centre of rectangle while rotation is
+	///  around the origin in the transform
+	/// Returns an oriented rectangle (as rotation takes away axis-aligned nature)
+	/// </summary>
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="v">		A Rectangle&lt;T&gt; to process. </param>
-	/// <param name="trans">	The transaction. </param>
+	/// <param name="trans">	The transform. </param>
 	///
 	/// <returns>	A RectangleOriented&lt;T&gt; </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
-	// Transforms aligned rectangle. Scaling is done via centre of rectangle while rotation is around the origin in the transform
-	// Returns an oriented rectangle (as rotation takes away axis-aligned nature)
-	RectangleOriented<T> TransformRectangle(const Rectangle<T> v, const Transform& trans)
+	RectangleOrientedF TransformRectangle(const Rectangle<T> v, const Transform& trans)
 	{
-		return TransformRectangleOriented(RectangleOriented<T>(v),trans);
+		return TransformRectangleOriented(RectangleOrientedF(v),trans);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Transform circle. </summary>
+	///
+	/// <param name="c">		A Circle to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A Circle. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline Circle TransformCircle(const Circle c, const Transform& trans)
+	{
+		Circle ret{ c };
+
+		ret.Translate(-trans.origin);
+
+		// S		
+		ret.radius *= std::max(trans.scale.x, trans.scale.y);
+
+		// Also scale centre point
+		ret.centre *= trans.scale;
+		
+		// R
+		// Do need to rotate centre as if entity rotates and circle not on centre of rotation it would be wrong
+		ret.centre.Rotate(trans.rotation);
+
+		// T
+		ret.Translate(trans.position);
+
+		ret.Translate(trans.origin);
+
+		return ret;
 	}
 }

@@ -27,10 +27,10 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
 	/// A sprite class that handles all blitting and frames. A sprite handles all rendering and
-	/// collisions and maintains data on its transform and current frame of animation It uses a
-	/// surface and a spritesheet with a set of frames describing the surface layout
+	/// collisions and maintains data on its transform and current frame of animation. It uses a
+	/// surface and a spritesheet with a set of frames describing the surface layout.
 	/// 
-	/// A note on spaces
+	/// A note on spaces:
 	/// 
 	/// - Texture space is the frame rectangle within the surface
 	/// - Sprite space(local space) is top left 0, 0, width, height from frame rectangle and unscaled
@@ -60,6 +60,7 @@ namespace HAPISPACE {
 
 		/// <summary>	If a frame set is specified the frame number is a sequence number. </summary>
 		int m_frameNumber{ 0 };
+
 		/// <summary>	Name of the frame set. </summary>
 		std::string m_frameSetName;
 

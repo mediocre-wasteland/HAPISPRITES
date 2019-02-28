@@ -58,11 +58,11 @@ namespace HAPISPACE {
 
 	/// <summary>	Aliases to types from the underlying HAPI library. </summary>
 	using EMessageButtonType = HAPI_ButtonType;
-	/// <summary>	Information describing the mouse. </summary>
+	/// <summary>	Information describing the mouse state. </summary>
 	using MouseData = HAPI_TMouseData;
 	/// <summary>	Information describing the keyboard. </summary>
 	using KeyboardData = HAPI_TKeyboardData;
-	/// <summary>	Information describing the controller. </summary>
+	/// <summary>	Information describing the controller state. </summary>
 	using ControllerData = HAPI_TControllerData;
 	/// <summary>	Options for controlling the sound. </summary>
 	using SoundOptions = HAPI_TSoundOptions;
@@ -153,9 +153,7 @@ namespace HAPISPACE {
 	class IHapiSpritesInputListener
 	{
 	public:
-		/// <summary>	Default constructor. </summary>
 		IHapiSpritesInputListener();
-		/// <summary>	Destructor. </summary>
 		virtual ~IHapiSpritesInputListener();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,14 +170,14 @@ namespace HAPISPACE {
 		/// <summary>	Called when HAPI detects a mouse event other than mouse move. </summary>
 		///
 		/// <param name="mouseEvent">	The mouse event. </param>
-		/// <param name="mouseData"> 	Information describing the mouse. </param>
+		/// <param name="mouseData"> 	Information describing the mouse state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void OnMouseEvent(EMouseEvent mouseEvent, const MouseData& mouseData) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Non virtual as may not want to implement - gets a lot of calls. </summary>
 		///
-		/// <param name="mouseData">	Information describing the mouse. </param>
+		/// <param name="mouseData">	Information describing the mouse state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void OnMouseMove(const MouseData& mouseData) {};
 
@@ -189,7 +187,7 @@ namespace HAPISPACE {
 		/// <param name="controllerId">   	Identifier for the controller. </param>
 		/// <param name="controllerEvent">	The controller event. </param>
 		/// <param name="buttonIndex">	  	Zero-based index of the button. </param>
-		/// <param name="controllerData"> 	Information describing the controller. </param>
+		/// <param name="controllerData"> 	Information describing the controller state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void OnControllerEvent(unsigned int controllerId, EControllerEvent controllerEvent, unsigned int buttonIndex,
 			const ControllerData& controllerData) {}
@@ -239,11 +237,11 @@ namespace HAPISPACE {
 		std::string rootDirectory;
 		/// <summary>	Full pathname of the relative file. </summary>
 		std::string relativePath;
-		/// <summary>	Filename of the file. </summary>
+		/// <summary>	Just the filename. </summary>
 		std::string filename;
 		/// <summary>	The stem. </summary>
 		std::string stem;
-		/// <summary>	The extension. </summary>
+		/// <summary>	The filename extension. </summary>
 		std::string extension;
 	};	
 	
@@ -293,7 +291,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Can be derived from the above. </summary>
 		///
-		/// <returns>	The number markers. </returns>
+		/// <returns>	The number of markers. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int GetNumMarkers() const { return numPoints / numPointsPerMarker; }
 
@@ -327,7 +325,7 @@ namespace HAPISPACE {
 		float endAngle{ DEGREES_TO_RADIANS(360) };
 		/// <summary>	Width in pixels of the pointer, needs to be even number. </summary>
 		int pointerWidth{ 4 };		
-		/// <summary>	The pnts labs marks. </summary>
+		/// <summary>	The points and labels marks data. </summary>
 		PointsLabelsAndMarkers pntsLabsMarks;
 	};
 
@@ -362,9 +360,7 @@ namespace HAPISPACE {
 		eLambda
 	};
 
-	/// <summary>	A surface. </summary>
 	class Surface;
-	/// <summary>	A fill shader pimpl. </summary>
 	class FillShaderPIMPL;
 
 	/// <summary>	For all draw functions you provide a fill shader. </summary>
@@ -376,8 +372,6 @@ namespace HAPISPACE {
 		/// <summary>	Gets the pimpl.For optisation purposes (caching) so mutable is acceptable. </summary>
 		mutable std::shared_ptr<FillShaderPIMPL> m_pimpl;
 	public:
-		/// <summary>	Default constructor. </summary>
-		/// <summary>	Default constructor. </summary>
 		FillShader() noexcept = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,11 +397,11 @@ namespace HAPISPACE {
 		/// Note: only the last pushed colour is used.
 		/// </summary>
 		///
-		/// <param name="mod">	The modifier. </param>
+		/// <param name="mod">	The modulating colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PushModulate(Colour255 mod);
 
-		/// <summary>	Pops the modulate. </summary>
+		/// <summary>	Pops the modulating colour. </summary>
 		void PopModulate();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -489,7 +483,6 @@ namespace HAPISPACE {
 	{
 	private:
 		/// <summary>	The colour. </summary>
-		/// <summary>	The colour. </summary>
 		Colour255 m_colour{ Colour255::HORRID_PINK };
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -502,7 +495,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="xml">		 	[in,out] The XML. </param>
+		/// <param name="xml">		 	[in,out] The XML data. </param>
 		/// <param name="shaderNode">	[in,out] If non-null, the shader node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourFill(CHapiXML &xml, CHapiXMLNode *shaderNode);
@@ -530,7 +523,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Change colour. </summary>
 		///
-		/// <param name="newCol">	The new col. </param>
+		/// <param name="newCol">	The new colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeColour(Colour255 newCol) { m_colour = newCol; }
 
@@ -559,7 +552,6 @@ namespace HAPISPACE {
 	class LambdaFill : public DerivationHelper<LambdaFill>
 	{
 	private:
-		/// <summary>	The lambda. </summary>
 		/// <summary>	The lambda. </summary>
 		std::function<Colour255(const VectorF &pos, const RectangleI &bounds, Colour255 destColour)> &m_lambda;
 	public:
@@ -615,7 +607,6 @@ namespace HAPISPACE {
 	{
 	private:
 		/// <summary>	A surface. </summary>
-		/// <summary>	A surface. </summary>
 		friend class Surface;
 		/// <summary>	A skin editor pattern. </summary>
 		friend class UISkinEditorPattern;
@@ -638,9 +629,7 @@ namespace HAPISPACE {
 		/// <summary>	The height. </summary>
 		int m_height{ 0 };
 	public:
-		// Creates a 4 by 4 striped pattern by default
-		/// <summary>	Default constructor. </summary>
-		/// <summary>	Default constructor. </summary>
+		/// <summary>	Default constructor. Creates a 4 by 4 striped pattern by default. </summary>
 		PatternFill();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -650,7 +639,7 @@ namespace HAPISPACE {
 		/// <param name="width">  	The width. </param>
 		/// <param name="height"> 	The height. </param>
 		/// <param name="palette">	The palette. </param>
-		/// <param name="repeats">	(Optional) The repeats. </param>
+		/// <param name="repeats">	(Optional) The number of repeats. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		PatternFill(std::vector<int> grid, int width, int height, std::vector<Colour255> palette, VectorI repeats = VectorI(1, 1)) :
 			m_grid(grid), m_width(width), m_height(height), m_palette(palette), m_repeats(repeats) {}
@@ -658,7 +647,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="xml">		  	[in,out] The XML. </param>
+		/// <param name="xml">		  	[in,out] The XML data. </param>
 		/// <param name="patternNode">	[in,out] If non-null, the pattern node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		PatternFill(CHapiXML &xml, CHapiXMLNode *patternNode);
@@ -701,13 +690,10 @@ namespace HAPISPACE {
 	class GradientFill : public DerivationHelper<GradientFill>
 	{
 	private:
-		/// <summary>	A surface. </summary>
-		/// <summary>	A surface. </summary>
 		friend class Surface;
-		/// <summary>	A skin editor palette. </summary>
 		friend class UISkinEditorPalette;
-		/// <summary>	A skin editor gradient. </summary>
 		friend class UISkinEditorGradient;
+
 		/// <summary>	Ratios across rect. </summary>
 		VectorF m_p1;
 		/// <summary>	Ratios across rect. </summary>
@@ -723,7 +709,6 @@ namespace HAPISPACE {
 		/// <summary>	The alpha. </summary>
 		float m_alpha = 1.0f;	
 	public:
-		/// <summary>	Default constructor. </summary>
 		/// <summary>	Default constructor. </summary>
 		GradientFill();
 
@@ -791,7 +776,6 @@ namespace HAPISPACE {
 		eAsIs		// Drawn at a 1:1 size, once
 	};
 
-	/// <summary>	An image cache. </summary>
 	class ImageCache;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -802,7 +786,6 @@ namespace HAPISPACE {
 	class ImageFill : public DerivationHelper<ImageFill>
 	{
 	private:		
-		/// <summary>	The surface. </summary>
 		/// <summary>	The surface. </summary>
 		std::shared_ptr<Surface> m_surface;
 		/// <summary>	The mode. </summary>

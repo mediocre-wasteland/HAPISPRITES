@@ -118,33 +118,49 @@ void Map::Render()
 
 void Map::MoveMap(eDirection moveDirection)
 {
-	/*switch (moveDirection)
+	switch (moveDirection)
 	{
 	case eDirection::eLeft:
-		for (auto &p : entityMap)
+		for (auto &p : obstacleMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x - 64, p.second->GetPosition().y });
+		}
+		for (auto &p : backgroundMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x - 64, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eRight:
-		for (auto &p : entityMap)
+		for (auto &p : obstacleMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x + 64, p.second->GetPosition().y });
+		}
+		for (auto &p : backgroundMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x + 64, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eUp:
-		for (auto &p : entityMap)
+		for (auto &p : obstacleMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 64 });
+		}
+		for (auto &p : backgroundMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 64 });
 		}
 		break;
 	case eDirection::eDown:
-		for (auto &p : entityMap)
+		for (auto &p : obstacleMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 64 });
+		}
+		for (auto &p : backgroundMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 64 });
 		}
 		break;
 	default:
 		break;
-	}*/
+	}
 }

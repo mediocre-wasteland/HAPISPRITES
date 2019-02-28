@@ -102,7 +102,7 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="other">	The other. </param>
-		/// <param name="trans">	The transaction. </param>
+		/// <param name="trans">	The transform. </param>
 		/// <param name="area"> 	The area. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void BlitFast(const std::shared_ptr<Surface> &other, const Transform &trans, const RectangleI& area);
@@ -111,7 +111,7 @@ namespace HAPISPACE {
 		/// <summary>	Blit rotated no scale. </summary>
 		///
 		/// <param name="other">	The other. </param>
-		/// <param name="trans">	The transaction. </param>
+		/// <param name="trans">	The transform. </param>
 		/// <param name="area"> 	The area. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void BlitRotatedNoScale(const std::shared_ptr<Surface> &other, const Transform &trans, const RectangleI& area);
@@ -120,7 +120,7 @@ namespace HAPISPACE {
 		/// <summary>	Blit rotated and scaled. </summary>
 		///
 		/// <param name="other">	The other. </param>
-		/// <param name="trans">	The transaction. </param>
+		/// <param name="trans">	The transform. </param>
 		/// <param name="area"> 	The area. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void BlitRotatedAndScaled(const std::shared_ptr<Surface> &other, const Transform &trans, const RectangleI& area);
@@ -408,7 +408,7 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="other">	  	The other. </param>
-		/// <param name="trans">	  	(Optional) The transaction. </param>
+		/// <param name="trans">	  	(Optional) The transform. </param>
 		/// <param name="area">		  	(Optional) The area. </param>
 		/// <param name="blendMode">  	(Optional) The blend mode. </param>
 		/// <param name="mod">		  	(Optional) The modifier. </param>

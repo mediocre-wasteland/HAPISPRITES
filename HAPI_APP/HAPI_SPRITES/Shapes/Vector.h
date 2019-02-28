@@ -302,6 +302,19 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Rotate around a point. </summary>
+		///
+		/// <param name="radians">	The radians. </param>
+		/// <param name="origin"> 	The origin. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void Rotate(float radians, const Vector<T>& origin)
+		{
+			x -= origin.x; y -= origin.y;
+			Rotate(radians);
+			x += origin.x; y += origin.y;
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Creates a random vector with x and y values between min and max. </summary>
 		///
 		/// <param name="minX">	The minimum x coordinate. </param>
@@ -553,5 +566,29 @@ namespace HAPISPACE {
 	{
 		VectorF res = normal * -2 * v.Dot(normal) + v;
 		return res;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Convert from 2D to isometric. </summary>
+	///
+	/// <param name="v">	2D point to process. </param>
+	///
+	/// <returns>	Converted Point. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline VectorF TwoDToIsometric(const VectorF &v)
+	{
+		return VectorF{ v.x - v.y, (v.x + v.y) / 2.0f };
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Convert from isometric to 2D. </summary>
+	///
+	/// <param name="v">	Isometric point to process. </param>
+	///
+	/// <returns>	Converted Point. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline VectorF IsometricToTwoD(const VectorF &v)
+	{
+		return VectorF{ (2 * v.y + v.x) / 2.0f ,(2 * v.y - v.x) / 2.0f };
 	}
 }

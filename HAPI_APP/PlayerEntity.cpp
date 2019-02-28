@@ -4,7 +4,7 @@ PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 	mSide = eSide::ePlayer;
-	SetPosition({ 0.f, 300.f });
+	SetPosition({ 0.f, 560.f });
 }
 
 PlayerEntity::~PlayerEntity()
@@ -17,15 +17,13 @@ void PlayerEntity::Update()
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (GetPosition().y >= 576) // TEMPORARY code makes the "ground" where y = 300
+	if (isColliding == true) // TEMPORARY code makes the "ground" where y = 300
 	{
-		SetPosition({GetPosition().x, 576});
 		mIsOnGround = true;
 		mHasSecondJump = true;
 		mTimeFallen = 0;
 	}
-	
-	else
+	if (isColliding==false)
 	{
 		mIsOnGround = false;
 	}
@@ -51,7 +49,6 @@ void PlayerEntity::Update()
 	}
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
 	{
-		
 		if (!mSneaking)
 		{
 			// RIGHT MOVING ANIMATION HERE
@@ -137,6 +134,7 @@ void PlayerEntity::Update()
 		SetPosition({ GetPosition().x , GetPosition().y + mGravity });
 		mTimeFallen++;
 	}
+	isColliding = false;
 	sprite->GetTransformComp().SetPosition(position);
 }
 

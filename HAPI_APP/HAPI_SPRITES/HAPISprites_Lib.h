@@ -24,7 +24,19 @@
 // 
 // SELF NOTE: PRIOR TO FINALISING GENERATE DOXYGEN
 // 
-// Version 0.83 - ON GOING
+// Version 0.84 - 25/02/19
+// - BUGFIX: There was an error in pixel perfect collisions when not using rotation or scaling
+// - NEW: Added origin(pivot point) to frame, now used when rendering as origin
+// - NEW : Added support for loading pivot point from XML
+// - NEW : UI Editor : Added pivot values to Toolbox and a show toggle radio button
+// - NEW : UI Editor : Added Position Pivots menu option
+// - NEW : UI: MultiChoiceDialog addition
+// - NEW : Added functions to the vector to convert to and from isometric view
+// - BUGFIX : UI Editor alignment radio buttons were resetting to min - to - min
+// - BUGFIX : A number of small fixes to the UI
+// - DOC: Further improved some auto documentation
+//
+// Version 0.83 - 17/02/19
 //  - NEW: Delete key in sprite editor now deletes currently selected item
 //  - NEW: added a 'next collider' button to toolbox for easy scrolling through available colliders
 //	- NEW: added an auto fit collider option via RMB for just that frame
@@ -49,30 +61,6 @@
 //	- CODE: Stability improvements to editors
 //	- DOC: Improved some documentation
 //  
-// Version 0.82 - 12/02/19
-// - SpriteEditor: BUG: changing the animation set was not saving
-// - Massively reduced the debug library size 
-// 
-// Version 0.81 - 11/02/19
-// - New: Added a Sprite Viewer to allow testing of sprites. Sprite Editor now has a play button to
-// call it but can also be called manually via the UI e.g. UI.SpriteViewer
-// - UIEditor: Fixed a bug with the position / size dialog  where some buttons were not pressable
-// - UIEditor: Fixed a bug when copying a marker collider, it was getting a unique name generated
-// which was not what was wanted
-// - UIEditor: Removed debug text and inserted user warnings when actions cannot be carried out
-// - UIEditor: Added Save As option to menu
-// - Made some debug output debug mode only, removed others
-// - Small optimisations and code clean up
-// - Removed old map editor code for efficiency. May reinstate if I decide to make one but Tiled is
-// free and does the job.
-// - Some useability improvements to editors
-// - BUG: Fixed an error in SizeToFitContents that included the title bar twice
-// - BUG: Fixed an issue where clearing a HW render surface did not use clip area
-// - Improved UI message box to be modal but still render background correctly
-// - Improved error messages
-// - Reduced library file sizes a bit (~8%)  
-// - Switched to using Doxygen comments for automatic documentation generation
-// 
 // Older version history is in the ReadMe.txt file
 
 // C++ standard library types required by HAPI Sprites

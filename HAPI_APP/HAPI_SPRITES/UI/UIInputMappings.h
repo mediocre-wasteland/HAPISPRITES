@@ -117,7 +117,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Mouse event happened. </summary>
 		///
 		/// <param name="mouseEvent">	The mouse event. </param>
-		/// <param name="mouseData"> 	Information describing the mouse. </param>
+		/// <param name="mouseData"> 	Information describing the mouse state. </param>
 		///
 		/// <returns>	An EInputMappingAction. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Mouse move happened. </summary>
 		///
-		/// <param name="mouseData">	Information describing the mouse. </param>
+		/// <param name="mouseData">	Information describing the mouse state. </param>
 		///
 		/// <returns>	An EInputMappingAction. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,22 +16,16 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace HAPI_UI_SPACE
 {	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A common dialog message box. </summary>
-	///
-	/// <seealso cref="T:IHapiSpritesInputListener"/>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class UICommonDialog_MessageBox;
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A common dialog sprite viewer. </summary>
-	///
-	/// <seealso cref="T:IHapiSpritesInputListener"/>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class UICommonDialog_SpriteViewer;
+	class UICommonDialog_MultiChoice;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Basic UI. </summary>
+	/// <summary>
+	/// Basic UI.  Simple UI  library providing Windows Buttons(radio and normal)
+	/// Static and click-able text Text entry Menus Dial Sliders and scroll bars Shape Supports
+	/// saving to XML along with resolution scaling summary:	Wraps all of the HAPI Sprites UI system.
+	/// </summary>
 	///
 	/// <seealso cref="T:IHapiSpritesInputListener"/>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +65,8 @@ namespace HAPI_UI_SPACE
 		std::shared_ptr<UICommonDialog_MessageBox> m_commonDialog_messageBox;		
 		/// <summary>	The common dialog sprite viewer. </summary>
 		std::shared_ptr<UICommonDialog_SpriteViewer> m_commonDialog_spriteViewer;
+		/// <summary>	The common dialog multi choice dialog. </summary>
+		std::shared_ptr<UICommonDialog_MultiChoice> m_commonDialog_multiChoice;
 
 		/// <summary>	Input mappings to UI actions. </summary>
 		std::unique_ptr<UIInputMappings> m_inputMappings;
@@ -128,7 +124,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Executes the mouse event action. </summary>
 		///
-		/// <param name="mouseData">	Information describing the mouse. </param>
+		/// <param name="mouseData">	Information describing the mouse state. </param>
 		/// <param name="action">   	The action. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void OnMouseEvent(const MouseData& mouseData, EInputMappingAction action);		
@@ -148,9 +144,16 @@ namespace HAPI_UI_SPACE
 		std::shared_ptr<UICommonDialog_SpriteViewer> GetCommonDialog_SpriteViewer();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Gets common dialog multi choice. </summary>
+		///
+		/// <returns>	The common dialog multi choice. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::shared_ptr<UICommonDialog_MultiChoice> GetCommonDialog_MultiChoice();
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Focus window handle mouse action. </summary>
 		///
-		/// <param name="mouseData">	Information describing the mouse. </param>
+		/// <param name="mouseData">	Information describing the mouse state. </param>
 		/// <param name="action">   	The action. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void FocusWindowHandleMouseAction(const MouseData& mouseData, EInputMappingAction action);
@@ -308,6 +311,16 @@ namespace HAPI_UI_SPACE
 		/// <param name="startFrame">	(Optional) The start frame. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SpriteViewer(std::shared_ptr<Sprite> sprite, const std::string& startSet = std::string(), int startFrame = 0);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Multi choice dialog with a set of buttons </summary>
+		///
+		/// <param name="choices">	The button choices. </param>
+		/// <param name="title">  	The title. </param>
+		///
+		/// <returns>	A std::string with the selected choice. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		std::string MultiChoiceDialog(const std::vector<std::string>& choices, const std::string& title);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Safe renaming of skin Note: you cannot rename the default skin. </summary>
@@ -671,14 +684,14 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Called when HAPI detects a mouse event other than mouse move. </summary>
 		///
 		/// <param name="mouseEvent">	The mouse event. </param>
-		/// <param name="mouseData"> 	Information describing the mouse. </param>
+		/// <param name="mouseData"> 	Information describing the mouse state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void OnMouseEvent(EMouseEvent mouseEvent, const MouseData& mouseData) override final;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Called when HAPI detects a mouse move. </summary>
 		///
-		/// <param name="mouseData">	Information describing the mouse. </param>
+		/// <param name="mouseData">	Information describing the mouse state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void OnMouseMove(const MouseData& mouseData)  override final;
 
@@ -688,7 +701,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="controllerId">   	Identifier for the controller. </param>
 		/// <param name="controllerEvent">	The controller event. </param>
 		/// <param name="buttonIndex">	  	Zero-based index of the button. </param>
-		/// <param name="controllerData"> 	Information describing the controller. </param>
+		/// <param name="controllerData"> 	Information describing the controller state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void OnControllerEvent(unsigned int controllerId, EControllerEvent controllerEvent, unsigned int buttonIndex,
 			const ControllerData& controllerData)  override final {}
@@ -771,7 +784,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Tell listener window change state. </summary>
 		///
 		/// <param name="window">  	[in,out] The window. </param>
-		/// <param name="newState">	State of the new. </param>
+		/// <param name="newState">	New state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void TellListener_WindowChangeState(UIWindow& window, EWindowState newState);
 

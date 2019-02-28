@@ -30,6 +30,7 @@ namespace HAPI_UI_SPACE
 
 		/// <summary>	Object specific styles, default to inherit everything. </summary>
 		UiTextStyleGroup m_textStyle;
+
 		/// <summary>	The window style. </summary>
 		UiWindowStyleGroup m_windowStyle;
 
@@ -39,21 +40,19 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Dangerous - do not use, instead do via window. </summary>
 		friend class UIWindow;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Change name. </summary>
-		///
-		/// <param name="newName">	Name of the new. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeName(std::string newName) { m_name = std::move(newName); }
 	
 	protected:
 		/// <summary>	The name. </summary>
 		std::string m_name;
+
 		/// <summary>	The bounds. </summary>
 		RectangleI m_bounds;
 
 		/// <summary>	Used when resizing. </summary>
 		RectangleI m_originalBounds;
+
 		/// <summary>	The original position. </summary>
 		VectorI m_originalPosition;
 
@@ -448,7 +447,7 @@ namespace HAPI_UI_SPACE
 		/// disabled.
 		/// </summary>
 		///
-		/// <param name="newState">	State of the new. </param>
+		/// <param name="newState">	New state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void ChangeActionState(EActionState newState) = 0;
 

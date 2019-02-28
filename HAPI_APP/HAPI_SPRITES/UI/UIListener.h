@@ -7,19 +7,14 @@
 
 namespace HAPI_UI_SPACE
 {
-	/// <summary>	Form for viewing the user interface. </summary>
 	class UIWindow;
-	/// <summary>	A listener pimpl. </summary>
 	class ListenerPimpl;
 
-	/// <summary>	Values that represent window states. </summary>
 	enum class EWindowState;
-	/// <summary>	Values that represent mouse buttons. </summary>
 	enum class EMouseButton;
-	/// <summary>	Values that represent input mapping actions. </summary>
 	enum class EInputMappingAction;
 
-	/// <summary>	Notification events. </summary>
+	/// <summary>	UI Notification events. </summary>
 	enum class EUINotification
 	{
 		eGainedFocus,
@@ -30,11 +25,8 @@ namespace HAPI_UI_SPACE
 	class IHapiSpritesUIListener
 	{
 	public:
-		/// <summary>	Default constructor. </summary>
 		IHapiSpritesUIListener();
-		/// <summary>	Destructor. </summary>
 		virtual ~IHapiSpritesUIListener();
-		/// <summary>	The pimpl. </summary>
 		std::unique_ptr<ListenerPimpl> m_pimpl;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,73 +48,88 @@ namespace HAPI_UI_SPACE
 		bool UI_RemoveWindowToListenTo(const std::string& windowName);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Allows for turning on and off getting event messages altogether. </summary>
+		/// <summary>	Allows for turning on and off getting event messages, from the UI, altogether. </summary>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool UI_WantsEvents() const { return true; }
 
-		// These will provide a user id if one has been found. Note that you should not keep the pointer it is only valid for this call
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Menu menuName in window has had menu item item clicked on. </summary>
+		/// <summary>
+		/// Menu 'menuName' in window has had menu item item clicked on. Will provide a user id if one
+		/// has been found. Note that you should not keep the pointer it is only valid for this call.
+		/// </summary>
 		///
 		/// <param name="window">  	[in,out] The window. </param>
 		/// <param name="menuName">	Name of the menu. </param>
 		/// <param name="item">	   	The item. </param>
-		/// <param name="userId">  	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_MenuItemClicked(UIWindow& window, const std::string& menuName, const std::string& item, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Button buttonName in window has been clicked on. </summary>
+		/// <summary>
+		/// Button buttonName in window has been clicked on. Will provide a user id if one has been
+		/// found. Note that you should not keep the pointer it is only valid for this call.
+		/// </summary>
 		///
 		/// <param name="window">	 	[in,out] The window. </param>
 		/// <param name="buttonName">	Name of the button. </param>
-		/// <param name="userId">	 	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">	 	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_ButtonPressed(UIWindow& window, const std::string& buttonName, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Radio button buttonName in window has changed state between pressed or unpressed.
+		/// Will provide a user id if one has been found. Note that you should not keep the pointer it is only valid for this call
 		/// </summary>
 		///
 		/// <param name="window">	 	[in,out] The window. </param>
 		/// <param name="buttonName">	Name of the button. </param>
 		/// <param name="pressed">   	True if pressed. </param>
-		/// <param name="userId">	 	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">	 	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	List box listBoxName in window has had itemIndex item clicked on. </summary>
+		/// <summary>
+		/// List box listBoxName in window has had itemIndex item clicked on. Will provide a user id if
+		/// one has been found. Note that you should not keep the pointer it is only valid for this call.
+		/// </summary>
 		///
 		/// <param name="window">	  	[in,out] The window. </param>
 		/// <param name="listBoxName">	Name of the list box. </param>
 		/// <param name="itemIndex">  	Zero-based index of the item. </param>
-		/// <param name="userId">	  	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">	  	[in,out] (Optional) If non-null, user identifier for the UI
+		/// 							object. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_ListBoxItemPressed(UIWindow& window, const std::string& listBoxName, int itemIndex, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Slider sliderName in window has a new value (0-1) </summary>
+		/// <summary>
+		/// Slider sliderName in window has a new value (0-1)
+		/// Will provide a user id if one has been found. Note that you should not keep the pointer it is
+		/// only valid for this call.
+		/// </summary>
 		///
 		/// <param name="window">	 	[in,out] The window. </param>
 		/// <param name="sliderName">	Name of the slider. </param>
 		/// <param name="newValue">  	The new value. </param>
-		/// <param name="userId">	 	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">	 	[in,out] (Optional) If non-null, user identifier for the UI
+		/// 							object. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_SliderValueChanged(UIWindow& window, const std::string& sliderName, float newValue, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Clickable text texName in window has been clicked on. Return true if handled.
+		/// Will provide a user id if one has been found. Note that you should not keep the pointer it is only valid for this call
 		/// </summary>
 		///
 		/// <param name="window">  	[in,out] The window. </param>
 		/// <param name="textName">	Name of the text. </param>
-		/// <param name="userId">  	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,13 +137,14 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Canvas are has been clickd on. Return true if handled. mousePos is in canvas space.
+		/// Canvas area has been clicked on. Return true if handled. Note: mousePos is in canvas space.
+		/// Will provide a user id if one has been found. Note that you should not keep the pointer it is only valid for this call.
 		/// </summary>
 		///
 		/// <param name="window">  	[in,out] The window. </param>
 		/// <param name="textName">	Name of the text. </param>
 		/// <param name="mousePos">	The mouse position. </param>
-		/// <param name="userId">  	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,29 +152,33 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// A text entry textEntryName in window has been edited with newText. beingEdited is true if
-		/// user still editing so best wait till goes false.
+		/// A text entry textEntryName in 'window' has been edited with newText. beingEdited is true if
+		/// user still editing so best wait till goes false. Will provide a user id if one has been
+		/// found. Note that you should not keep the pointer it is only valid for this call.
 		/// </summary>
 		///
 		/// <param name="window">			[in,out] The window. </param>
 		/// <param name="textEntryName">	Name of the text entry. </param>
 		/// <param name="newText">			The new text. </param>
 		/// <param name="beingEdited">  	True if being edited. </param>
-		/// <param name="userId">			[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">			[in,out] (Optional) If non-null, user identifier for the UI
+		/// 								object. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_TextEntryChanged(UIWindow& window, const std::string& textEntryName, const std::string& newText, bool beingEdited, int* userId = nullptr) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// The user has rotated dial dialName with new value ratioValue (0 to 1). If beingEdited is true
-		/// they are still adjusting it.
+		/// they are still adjusting it. Will provide a user id if one has been found. Note that you
+		/// should not keep the pointer it is only valid for this call.
 		/// </summary>
 		///
 		/// <param name="window">	  	[in,out] The window. </param>
 		/// <param name="dialName">   	Name of the dial. </param>
 		/// <param name="ratioValue"> 	The ratio value. </param>
 		/// <param name="beingEdited">	True if being edited. </param>
-		/// <param name="userId">	  	[in,out] (Optional) If non-null, identifier for the user. </param>
+		/// <param name="userId">	  	[in,out] (Optional) If non-null, user identifier for the UI
+		/// 							object. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_DialChanged(UIWindow& window, const std::string& dialName, float ratioValue, bool beingEdited, int* userId = nullptr) {}
 
@@ -176,7 +188,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	The window has changed state. </summary>
 		///
 		/// <param name="window">  	[in,out] The window. </param>
-		/// <param name="newState">	State of the new. </param>
+		/// <param name="newState">	New state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_WindowChangeState(UIWindow& window, EWindowState newState) {}
 
@@ -198,7 +210,7 @@ namespace HAPI_UI_SPACE
 		///
 		/// <param name="window">	 	[in,out] The window. </param>
 		/// <param name="objectName">	Name of the object. </param>
-		/// <param name="which">	 	The which. </param>
+		/// <param name="which">	 	Which mouse button. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void UI_MouseClickedOnObject(UIWindow& window, const std::string& objectName, EMouseButton which) {}
 
