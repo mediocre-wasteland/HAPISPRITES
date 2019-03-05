@@ -28,6 +28,7 @@
       <Filter>PickUp</Filter>
     </ClCompile>
     <ClCompile Include="LGAmmoPickup.cpp" />
+    <ClCompile Include="Key.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -56,6 +57,7 @@
       <Filter>PickUp</Filter>
     </ClInclude>
     <ClInclude Include="LGAmmoPickup.h" />
+    <ClInclude Include="Key.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

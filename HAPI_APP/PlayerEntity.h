@@ -38,6 +38,6 @@ private:
 	bool mBankrupt{ false }; // whether or not the player has lost all money and thus the game
 	int mLGAmmo; // the amount of love gun ammo the player currently has
 	int mLGMaxAmmo; // the maximum ammount of love gun ammo the player can hold
-
+	bool mHasKey{ false }; // Check if the player has a key
 };
 

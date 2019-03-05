@@ -31,8 +31,8 @@ void Entity::Render()
 
 bool Entity::LoadSprite()
 {
-
 	sprite = HAPI_Sprites.LoadSprite(mSpriteName);
+	sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
 
 	if (!sprite)
 	{
@@ -78,11 +78,12 @@ void Entity::CheckCollision(Entity & Other)
 		return;
 	}
 
-	if (sprite->CheckCollision(*Other.GetSprite()))
+	CollisionInfo collision;
+
+	if (sprite->CheckCollision(*Other.GetSprite(), &collision))
 	{
 		std::cout << "COLLIDING" << std::endl;
 		isColliding = true;
 		Other.isColliding = true;
-
 	}
 }

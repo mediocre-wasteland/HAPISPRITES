@@ -42,6 +42,8 @@ void PlayerEntity::ShootLG()
 
 void PlayerEntity::Update()
 {
+	//sprite->SetAutoAnimate(5, true, "Player");
+
 	HAPISPACE::VectorF position({ GetPosition() });
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
@@ -52,6 +54,7 @@ void PlayerEntity::Update()
 		mHasSecondJump = true;
 		mTimeFallen = 0;
 	}
+
 	if (isColliding==false)
 	{
 		mIsOnGround = false;

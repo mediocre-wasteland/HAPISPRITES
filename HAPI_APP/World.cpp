@@ -176,3 +176,17 @@ void World::UpdateCamera()
 		gameMap.MoveMap(eDirection::eLeft);
 	}
 }
+
+
+///tick timer
+/*
+constexpr DWORD worldTickTime{ 25 };
+DWORD timeSinceLastWorldTick{ 0 };
+
+if (HAPI.GetTime() - timeSinceLastWorldTick >= worldTickTime)
+{
+
+	timeSinceLastWorldTick = HAPI.GetTime();
+
+}
+*/

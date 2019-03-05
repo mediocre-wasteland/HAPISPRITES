@@ -171,6 +171,7 @@
     <ClCompile Include="BackGroundEntity.cpp" />
     <ClCompile Include="EnemyEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="LGAmmoPickup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="BackGroundEntity.h" />
     <ClInclude Include="EnemyEntity.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="LGAmmoPickup.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MoneyPickup.h" />

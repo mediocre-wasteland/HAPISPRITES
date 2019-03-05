@@ -12,8 +12,8 @@ enum class eSide
 	eObstacle,
 	eNeutral,
 	eCradle
-
 };
+
 enum class eDirection
 {
 	eLeft,
@@ -21,6 +21,7 @@ enum class eDirection
 	eUp,
 	eDown
 };
+
 class Entity
 {
 public:
@@ -39,6 +40,7 @@ public:
 	virtual void Update() = 0;
 	virtual ~Entity();
 	virtual eDirection GetDirection() const = 0;
+
 protected:
 	std::shared_ptr<Sprite> sprite{ nullptr };
 	std::string mSpriteName;
@@ -53,7 +55,6 @@ protected:
 private:
 	HAPISPACE::VectorF mPosition{ 0.f,0.f }; 
 	HAPISPACE::VectorF mOldPosition{ 0.f ,0.f };
-	
 };
 
 
