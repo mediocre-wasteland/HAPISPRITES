@@ -7,7 +7,7 @@ class LGAmmoPickup
 public:
 	LGAmmoPickup();
 	~LGAmmoPickup();
-	void mBePickedUp(PlayerEntity player) { player.addLGAmmo(mAmount);}
+	void mBePickedUp(PlayerEntity player) { player.AddLGAmmo(mAmount);}
 private:
 	int mAmount;
 

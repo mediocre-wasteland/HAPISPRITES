@@ -8,8 +8,9 @@ public:
 	~PlayerEntity();
 
 	virtual void Update() override;
-	void addMoney(int amount); // Increases or decreases money amount
-	void addLGAmmo(int amount); // Increases Love Gun(tm) ammo but not beyond the maximum amount
+	void AddMoney(int amount); // Increases or decreases money amount
+	void AddLGAmmo(int amount); // Increases Love Gun(tm) ammo but not beyond the maximum amount
+	void ShootLG(); // UNFINISHED code to shoot the Love Gun 
 
 	virtual eSide GetSide() const override final{ return mSide; } 
 	virtual eDirection GetDirection() const override final{ return  mDirection; }

@@ -11,26 +11,33 @@ PlayerEntity::~PlayerEntity()
 {
 }
 
-void PlayerEntity::addMoney(int amount) 
+void PlayerEntity::AddMoney(int amount) 
 { 
 	mMoneyAmount += amount; 
-	if (mMoneyAmount < 0)
+	if (mMoneyAmount < 0) // checks if the player has lost more money than they have left and if so marks them as bankrupt
 	{
 		mBankrupt = true;
 	}
 }
 
-void PlayerEntity::addLGAmmo(int amount)
+void PlayerEntity::AddLGAmmo(int amount)
 {
 	mLGAmmo += amount;
-	if (mLGAmmo > mLGMaxAmmo)
+	if (mLGAmmo > mLGMaxAmmo) // if the ammo total reaches a number above capacity it is set back to capacity
 	{
 		mLGAmmo = mLGMaxAmmo;
 	}
-	if (mLGAmmo < 0)
+	if (mLGAmmo < 0) // makes sure the player cannot have negative ammo
 	{
 		mLGAmmo = 0;
 	}
+}
+
+void PlayerEntity::ShootLG()
+{
+	// SHOOTING ANIMATION HERE
+	// PROJECTILE SHOOTING HERE
+	AddLGAmmo(-1);
 }
 
 void PlayerEntity::Update()

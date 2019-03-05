@@ -13,5 +13,5 @@ MoneyPickup::~MoneyPickup()
 
 void MoneyPickup::mBePickedUp(PlayerEntity player)
 {
-	player.addMoney(mValue);
+	player.AddMoney(mValue);
 }
