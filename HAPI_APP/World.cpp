@@ -83,7 +83,7 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
-	entityMap["Player"] = new PlayerEntity((std::string)"Data\\stickGuy.xml");
+	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
 	entityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
 	return true;
 }
@@ -105,10 +105,11 @@ void World::Update()
 	entityMap.at("Enemy")->Update();
 	
 	CheckCollision();
+	UpdateCamera();
 
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	if (mKeyboardInput.scanCode['L'])
+	if (mKeyboardInput.scanCode['P'])
 	{
 		levelComplete = true;
 	}
@@ -124,6 +125,8 @@ void World::Update()
 
 void World::Render()
 {
+	SCREEN_SURFACE->Clear(HAPISPACE::Colour255(12, 223, 235));
+
 	gameMap.Render();
 
 	for (auto &p : entityMap)
@@ -150,4 +153,26 @@ void World::CheckCollision()
 		}
 	}
 	
+}
+
+void World::UpdateCamera()
+{
+	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
+
+	if (mKeyboardInput.scanCode['L'])
+	{
+		gameMap.MoveMap(eDirection::eRight);
+	}
+	if (mKeyboardInput.scanCode['I'])
+	{
+		gameMap.MoveMap(eDirection::eUp);
+	}
+	if (mKeyboardInput.scanCode['K'])
+	{
+		gameMap.MoveMap(eDirection::eDown);
+	}
+	if (mKeyboardInput.scanCode['J'])
+	{
+		gameMap.MoveMap(eDirection::eLeft);
+	}
 }

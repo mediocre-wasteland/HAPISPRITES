@@ -49,15 +49,49 @@ void Map::CreateLevel()
 	char line;
 	std::string fileName = "Data\\Levels\\Level" + std::to_string(currentLevel) + ".txt";
 
-	std::ifstream myFile(fileName);
+	std::fstream myFile(fileName);
+
+	int width{ 0 }, height{ 0 };
+	bool bWidth{ false };
 
 	if (myFile.is_open())
 	{
-		for (int i = 0; i < 13; i++)
+		for (int i = 0; i < 1000; i++)
 		{
-			for (int j = 0; j < 20; j++)
+			char hLine;
+			myFile >> std::skipws >> hLine;
+
+			if (hLine == 'N' && bWidth == false)
+			{
+				width = i;
+				bWidth = true;
+			}
+
+			if (hLine == 'N')
+			{
+				height++;
+			}
+
+			if (myFile.eof())
+			{
+				height--;
+				break;
+			}
+		}
+
+		myFile.clear();
+		myFile.seekg(0, myFile.beg);
+
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
 			{
 				myFile >> std::skipws >> line;
+
+				if (line == 'N')
+				{
+					continue;
+				}
 
 				float x = 64 * j;
 				float y = 64 * i;
@@ -91,6 +125,7 @@ void Map::CreateLevel()
 					}
 				}
 			}
+			myFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 
 		myFile.close();
@@ -99,6 +134,7 @@ void Map::CreateLevel()
 	{
 		HAPI_Sprites.UserMessage("File could not be opened", "Error");
 	}
+
 }
 
 void Map::Render()

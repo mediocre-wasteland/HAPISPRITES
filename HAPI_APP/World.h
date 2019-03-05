@@ -35,5 +35,6 @@ private:
 	void Render();
 
 	void CheckCollision();
+	void UpdateCamera();
 };
 

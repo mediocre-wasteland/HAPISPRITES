@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<TextureAtlas imagePath="Player_surface.png">
+	<SubTexture name="AutoFrame" x="8" y="7" width="14" height="50" SetName="Idle" SetOrder="0">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="14" top="0" bottom="50" />
+			<Circle name="BoundingCircle" type="0" radius="25.961510" y="25.000000" x="7.000000" />
+		</Collider>
+	</SubTexture>
+	<SubTexture name="AutoFrame1" x="70" y="7" width="18" height="50" SetName="Jump" SetOrder="1">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="18" top="0" bottom="50" />
+			<Circle name="BoundingCircle" type="0" radius="26.570660" y="25.000000" x="9.000000" />
+		</Collider>
+	</SubTexture>
+	<SubTexture name="AutoFrame0" x="34" y="9" width="24" height="50" SetName="Jump" SetOrder="0">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="24" top="0" bottom="50" />
+			<Circle name="BoundingCircle" type="0" radius="27.730848" y="25.000000" x="12.000000" />
+		</Collider>
+	</SubTexture>
+</TextureAtlas>
