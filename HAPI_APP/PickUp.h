@@ -1,4 +1,11 @@
 #pragma once
+
+#include <HAPISprites_Lib.h>
+#include <iostream>
+#include "HAPI_SPRITES/Shapes/Vector.h"
+
+using namespace HAPISPACE;
+
 class PickUp
 {
 public:
