@@ -27,8 +27,13 @@
     <ClCompile Include="MoneyPickup.cpp">
       <Filter>PickUp</Filter>
     </ClCompile>
-    <ClCompile Include="LGAmmoPickup.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Key.cpp">
+      <Filter>PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="LGAmmoPickup.cpp">
+      <Filter>PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -56,8 +61,13 @@
     <ClInclude Include="MoneyPickup.h">
       <Filter>PickUp</Filter>
     </ClInclude>
-    <ClInclude Include="LGAmmoPickup.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="Key.h">
+      <Filter>PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="LGAmmoPickup.h">
+      <Filter>PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

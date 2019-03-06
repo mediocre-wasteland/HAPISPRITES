@@ -159,41 +159,41 @@ void Map::MoveMap(eDirection moveDirection)
 	case eDirection::eLeft:
 		for (auto &p : obstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x - 64, p.second->GetPosition().y });
+			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
 		}
 		for (auto &p : backgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x - 64, p.second->GetPosition().y });
+			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eRight:
 		for (auto &p : obstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x + 64, p.second->GetPosition().y });
+			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
 		}
 		for (auto &p : backgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x + 64, p.second->GetPosition().y });
+			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eUp:
 		for (auto &p : obstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 64 });
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 		}
 		for (auto &p : backgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 64 });
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 		}
 		break;
 	case eDirection::eDown:
 		for (auto &p : obstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 64 });
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 		}
 		for (auto &p : backgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 64 });
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 		}
 		break;
 	default:

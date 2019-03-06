@@ -52,8 +52,6 @@ bool World::Initialise()
 
 bool World::Play()
 {
-	//sprite2->SetAutoAnimate(20, true, "Right"); // Animate Character Walk Right at 20 FPS and loop
-
 	while (HAPI_Sprites.Update())
 	{
 		Update();
@@ -112,6 +110,7 @@ void World::Update()
 	if (mKeyboardInput.scanCode['P'])
 	{
 		levelComplete = true;
+		Surface fade;
 	}
 
 	if (levelComplete)
@@ -159,21 +158,21 @@ void World::UpdateCamera()
 {
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	if (mKeyboardInput.scanCode['L'])
+	if (entityMap["Player"]->GetPosition().x < 512 )
 	{
-		gameMap.MoveMap(eDirection::eRight);
+		gameCamera.MoveCamera(eDirection::eRight, gameMap);	
 	}
-	if (mKeyboardInput.scanCode['I'])
+	if (entityMap["Player"]->GetPosition().y < 288)
 	{
-		gameMap.MoveMap(eDirection::eUp);
+		gameCamera.MoveCamera(eDirection::eUp, gameMap);
 	}
-	if (mKeyboardInput.scanCode['K'])
+	if (entityMap["Player"]->GetPosition().y < 544)
 	{
-		gameMap.MoveMap(eDirection::eDown);
+		gameCamera.MoveCamera(eDirection::eDown, gameMap);
 	}
-	if (mKeyboardInput.scanCode['J'])
+	if (entityMap["Player"]->GetPosition().x > 768)
 	{
-		gameMap.MoveMap(eDirection::eLeft);
+		gameCamera.MoveCamera(eDirection::eLeft, gameMap);
 	}
 }
 
