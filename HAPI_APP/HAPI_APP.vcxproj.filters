@@ -21,14 +21,18 @@
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="PickUp.cpp">
-      <Filter>PickUp</Filter>
+    <ClCompile Include="Collectables.cpp">
+      <Filter>Entity\Collectables</Filter>
     </ClCompile>
-    <ClCompile Include="MoneyPickup.cpp">
-      <Filter>PickUp</Filter>
+    <ClCompile Include="MoneyCollectable.cpp">
+      <Filter>Entity\Collectables</Filter>
     </ClCompile>
-    <ClCompile Include="LGAmmoPickup.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="KeyCollectable.cpp">
+      <Filter>Entity\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="AmmoCollectable.cpp">
+      <Filter>Entity\Collectables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -50,14 +54,18 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Map.h" />
-    <ClInclude Include="PickUp.h">
-      <Filter>PickUp</Filter>
+    <ClInclude Include="Collectables.h">
+      <Filter>Entity\Collectables</Filter>
     </ClInclude>
-    <ClInclude Include="MoneyPickup.h">
-      <Filter>PickUp</Filter>
+    <ClInclude Include="MoneyCollectable.h">
+      <Filter>Entity\Collectables</Filter>
     </ClInclude>
-    <ClInclude Include="LGAmmoPickup.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="KeyCollectable.h">
+      <Filter>Entity\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoCollectable.h">
+      <Filter>Entity\Collectables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">
@@ -66,8 +74,8 @@
     <Filter Include="World">
       <UniqueIdentifier>{8528497a-8fdd-4492-bd9a-9069cfbdef33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PickUp">
-      <UniqueIdentifier>{f49c7117-1b79-4648-8c2c-1e26874fb466}</UniqueIdentifier>
+    <Filter Include="Entity\Collectables">
+      <UniqueIdentifier>{9be1a52a-ef8f-418c-8ca8-234b56085550}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

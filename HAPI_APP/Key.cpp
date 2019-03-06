@@ -1,18 +1,20 @@
-#include "Key.h"
-
-
-
-Key::Key()
-{
-}
-
-
-Key::~Key()
-{
-}
-
-
-void Key::Update()
-{
-
-}
+//#include "Key.h"
+//
+//
+//
+//Key::Key()
+//{
+//	//mAlive
+//	//mSide
+//}
+//
+//
+//Key::~Key()
+//{
+//}
+//
+//
+//void Key::Update()
+//{
+//
+//}

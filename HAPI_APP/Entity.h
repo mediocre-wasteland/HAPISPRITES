@@ -11,7 +11,8 @@ enum class eSide
 	eEnemy,
 	eObstacle,
 	eNeutral,
-	eCradle
+	eCradle,
+	eCollectable
 };
 
 enum class eDirection

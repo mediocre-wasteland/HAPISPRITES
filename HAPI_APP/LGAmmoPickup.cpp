@@ -1,12 +1,12 @@
-#include "LGAmmoPickup.h"
-
-
-
-LGAmmoPickup::LGAmmoPickup()
-{
-}
-
-
-LGAmmoPickup::~LGAmmoPickup()
-{
-}
+//#include "LGAmmoPickup.h"
+//
+//
+//
+//LGAmmoPickup::LGAmmoPickup()
+//{
+//}
+//
+//
+//LGAmmoPickup::~LGAmmoPickup()
+//{
+//}

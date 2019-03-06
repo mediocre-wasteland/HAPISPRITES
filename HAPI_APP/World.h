@@ -7,6 +7,7 @@
 #include "PlayerEntity.h"
 #include "EnemyEntity.h"
 #include "Map.h"
+#include "KeyCollectable.h"
 
 using namespace HAPISPACE;
 

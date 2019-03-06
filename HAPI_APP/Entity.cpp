@@ -47,6 +47,11 @@ bool Entity::CanCollide(Entity & other)
 	eSide xEntity = GetSide();
 	eSide yEntity = other.GetSide();
 
+	if (xEntity != eSide::ePlayer && yEntity == eSide::eCollectable || xEntity == eSide::eCollectable && yEntity != eSide::ePlayer)
+	{
+		return false;
+	}
+
 	if (xEntity == yEntity)
 	{
 		return false;

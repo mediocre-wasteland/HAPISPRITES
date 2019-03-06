@@ -168,29 +168,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmmoCollectable.cpp" />
     <ClCompile Include="BackGroundEntity.cpp" />
+    <ClCompile Include="Collectables.cpp" />
     <ClCompile Include="EnemyEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Key.cpp" />
-    <ClCompile Include="LGAmmoPickup.cpp" />
+    <ClCompile Include="KeyCollectable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MoneyPickup.cpp" />
+    <ClCompile Include="MoneyCollectable.cpp" />
     <ClCompile Include="ObstacleEntity.cpp" />
-    <ClCompile Include="PickUp.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmmoCollectable.h" />
     <ClInclude Include="BackGroundEntity.h" />
+    <ClInclude Include="Collectables.h" />
     <ClInclude Include="EnemyEntity.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Key.h" />
-    <ClInclude Include="LGAmmoPickup.h" />
+    <ClInclude Include="KeyCollectable.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="MoneyPickup.h" />
+    <ClInclude Include="MoneyCollectable.h" />
     <ClInclude Include="ObstacleEntity.h" />
-    <ClInclude Include="PickUp.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

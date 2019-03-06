@@ -1,15 +1,15 @@
-#pragma once
-#include "PickUp.h"
-#include "PlayerEntity.h"
-class LGAmmoPickup
-	: public PickUp
-{
-public:
-	LGAmmoPickup();
-	~LGAmmoPickup();
-	void mBePickedUp(PlayerEntity player) { player.AddLGAmmo(mAmount);}
-private:
-	int mAmount;
-
-};
-
+//#pragma once
+//#include "Collectables.h"
+//#include "PlayerEntity.h"
+//class LGAmmoPickup
+//	: public Collectables
+//{
+//public:
+//	LGAmmoPickup();
+//	~LGAmmoPickup();
+//	void mBePickedUp(PlayerEntity player) { player.AddLGAmmo(mAmount);}
+//private:
+//	int mAmount;
+//
+//};
+//
