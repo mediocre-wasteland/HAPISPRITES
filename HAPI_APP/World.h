@@ -8,6 +8,7 @@
 #include "EnemyEntity.h"
 #include "Map.h"
 #include "Camera.h"
+#include "KeyCollectable.h"
 
 using namespace HAPISPACE;
 

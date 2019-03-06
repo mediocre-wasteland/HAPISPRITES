@@ -16,6 +16,7 @@ public:
 	virtual eDirection GetDirection() const override final{ return  mDirection; }
 
 private:
+	///Movement
 	int mMaxJumpLength{ 80 }; // the max amount of updates the player can move vertically from a jump
 	bool mIsJumping{ false }; // whether or not the space bar is held and player has not reached max jump height
 	bool mIsOnGround{ false }; // whether or not the player has terrain directly below them
@@ -34,6 +35,8 @@ private:
 	bool mDodgeLastFacingLeft; // stores the direction the dodge should go
 	int mDodgecooldown{ 200 }; // how many updates after dodging the player can dodge again
 	int mTimeSinceDodge{ mDodgecooldown }; // how many updates since last dodge
+
+	///Collectables
 	int mMoneyAmount; // the amount of money the player has. a sort of "health system" as a player loses some as they get "hit"
 	bool mBankrupt{ false }; // whether or not the player has lost all money and thus the game
 	int mLGAmmo; // the amount of love gun ammo the player currently has

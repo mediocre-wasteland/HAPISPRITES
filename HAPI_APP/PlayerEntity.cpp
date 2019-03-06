@@ -27,6 +27,7 @@ void PlayerEntity::AddLGAmmo(int amount)
 	{
 		mLGAmmo = mLGMaxAmmo;
 	}
+
 	if (mLGAmmo < 0) // makes sure the player cannot have negative ammo
 	{
 		mLGAmmo = 0;
@@ -42,8 +43,6 @@ void PlayerEntity::ShootLG()
 
 void PlayerEntity::Update()
 {
-	//sprite->SetAutoAnimate(5, true, "Player");
-
 	HAPISPACE::VectorF position({ GetPosition() });
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
@@ -65,12 +64,14 @@ void PlayerEntity::Update()
 		// JUMP START ANIMATION HERE
 		mIsJumping = true;
 	}
+
 	if (mHasSecondJump && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP]) && mTimeFallen > mFallingCooldown)
 	{
 		// SECOND JUMP START ANIMATION HERE
 		mIsJumping = true;
 		mHasSecondJump = false;
 	}
+
 	if ((mKeyboardInput.scanCode[HK_CONTROL] || mKeyboardInput.scanCode[HK_LSHIFT]) && mIsOnGround) // checks if either of the dodge keys are pressed and if the player is on the ground and if so they can sneak
 	{
 		mSneaking = true;
@@ -79,6 +80,7 @@ void PlayerEntity::Update()
 	{
 		mSneaking = false;
 	}
+
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
 	{
 		if (!mSneaking)
@@ -92,6 +94,7 @@ void PlayerEntity::Update()
 			SetPosition({ GetPosition().x + mHSpeed/3, GetPosition().y });
 		}
 	}
+
 	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !mIsDodging) // this checks if the user is inputing to go left but not right
 	{
 		if (!mSneaking)
@@ -116,6 +119,7 @@ void PlayerEntity::Update()
 		mTimeDodged = 0;
 		mTimeSinceDodge = 0;
 	}
+
 	if (mKeyboardInput.scanCode['E'] && mTimeSinceDodge >= mDodgecooldown)
 	{
 		mIsDodging = true;
@@ -124,6 +128,7 @@ void PlayerEntity::Update()
 		mTimeDodged = 0;
 		mTimeSinceDodge = 0;
 	}
+
 	if (mIsDodging && mTimeDodged < mMaxDodgeLength) // this checks if the player is dodging and if the amount of updates they can dodge for has passed
 	{
 		if (mDodgeLastFacingLeft)
@@ -143,6 +148,7 @@ void PlayerEntity::Update()
 		mIsDodging = false;
 		mVunerable = true;
 	}
+
 	if (mTimeSinceDodge < mDodgecooldown) // this ticks up until the player can dodge again
 	{
 		mTimeSinceDodge++;
@@ -160,6 +166,7 @@ void PlayerEntity::Update()
 		mIsJumping = false;
 		mTimeJumped = 0;
 	}
+
 	if (!mIsOnGround && !mIsJumping) // if the player is not ascending and not on the ground then gravity will be applyed and send them downwards
 	{
 		// FALLING ANIMATION HERE

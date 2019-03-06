@@ -76,6 +76,13 @@ bool World::LoadSprites()
 		return false;
 	}
 
+	if (!entityMap.at("Key")->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -83,6 +90,7 @@ bool World::LoadEntities()
 {
 	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
 	entityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
+	entityMap["Key"] = new KeyCollectable((std::string) "Data\\KeyPlaceholder.xml");
 	return true;
 }
 
@@ -101,6 +109,7 @@ void World::Update()
 	entityMap.at("Player")->Update();
 	entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 	entityMap.at("Enemy")->Update();
+	entityMap.at("Key")->Update();
 	
 	CheckCollision();
 	UpdateCamera();
