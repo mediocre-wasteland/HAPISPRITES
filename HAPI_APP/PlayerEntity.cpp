@@ -61,7 +61,7 @@ void PlayerEntity::Update()
 
 	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
 	{
-		// JUMP START ANIMATION HERE
+		sprite->SetAutoAnimate(1, false, "Jump");
 		mIsJumping = true;
 	}
 
@@ -85,7 +85,7 @@ void PlayerEntity::Update()
 	{
 		if (!mSneaking)
 		{
-			// RIGHT MOVING ANIMATION HERE
+			sprite->SetAutoAnimate(1, false, "Idle");
 			SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
 		}
 		else
@@ -99,7 +99,7 @@ void PlayerEntity::Update()
 	{
 		if (!mSneaking)
 		{
-			// LEFT MOVING ANIMATION HERE
+			sprite->SetAutoAnimate(1, false, "Idle");
 			SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
 		}
 		else
