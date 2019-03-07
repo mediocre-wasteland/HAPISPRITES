@@ -27,8 +27,10 @@ private:
 	std::unordered_map <std::string, Entity*> entityMap;
 	Map gameMap;
 	Camera gameCamera {832, 1280};
-	Surface fade;
 	bool levelComplete = false;
+
+	const DWORD worldTickTime{ 10 };
+	DWORD timeSinceLastWorldTick{ 0 };
 
 
 	bool LoadSprites();

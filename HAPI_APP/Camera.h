@@ -1,6 +1,7 @@
 #pragma once
 
 #include <HAPISprites_Lib.h>
+#include <unordered_map>
 #include "Entity.h"
 #include "Map.h"
 
@@ -14,7 +15,7 @@ public:
 
 	float GetLeft() { return mPosition.x; };
 	float GetRight() { return mPosition.x + mWidth; };
-	void MoveCamera(eDirection moveDirection, Map &mapIn);
+	void MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn);
 
 private:
 

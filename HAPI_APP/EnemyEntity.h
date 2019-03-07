@@ -19,7 +19,7 @@ private:
 	int screenWidth = 1280;
 	int screenHeight= 832;
 	int mMovementSpeed = 1;
-	HAPISPACE::VectorF mEnemyPosition{ 500,250 };
+	HAPISPACE::VectorF mEnemyPosition{ 500,550 };
 
 	void AIMovement();
 	void ChangeDirection(eDirection newDirection);

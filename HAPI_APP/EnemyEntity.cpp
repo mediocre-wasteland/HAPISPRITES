@@ -3,6 +3,7 @@ EnemyEntity::EnemyEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 	mSide = eSide::eEnemy;
+	SetPosition(mEnemyPosition);
 }
 
 
@@ -22,13 +23,15 @@ void EnemyEntity::Update()
 
 void EnemyEntity::AIMovement()
 {
+	mEnemyPosition = GetPosition();
+
 	if (bPatrolLevel())
 	{
 		switch (mDirection)
 		{
 		case eDirection::eUp:
 		{
-			mEnemyPosition.y -= mMovementSpeed;
+			//mEnemyPosition.y -= mMovementSpeed;
 		}
 		break;
 		case eDirection::eLeft:
@@ -38,7 +41,7 @@ void EnemyEntity::AIMovement()
 		break;
 		case eDirection::eDown:
 		{
-			mEnemyPosition.y += mMovementSpeed;
+			//mEnemyPosition.y += mMovementSpeed;
 		}
 		break;
 		case eDirection::eRight:

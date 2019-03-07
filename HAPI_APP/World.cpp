@@ -103,31 +103,34 @@ bool World::LoadWorld()
 }
 
 void World::Update()
-{
-	SCREEN_SURFACE->Clear();
+{	
 
-	entityMap.at("Player")->Update();
-	entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
-	entityMap.at("Enemy")->Update();
-	entityMap.at("Key")->Update();
-	
-	CheckCollision();
-	UpdateCamera();
 
-	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
-
-	if (mKeyboardInput.scanCode['P'])
+	if (HAPI_Sprites.GetTime() - timeSinceLastWorldTick >= worldTickTime)
 	{
-		levelComplete = true;
-		Surface fade;
-	}
+		CheckCollision();
+		UpdateCamera();
 
-	if (levelComplete)
-	{
-		gameMap.NextLevel();
-		levelComplete = false;
-	}
+		entityMap.at("Player")->Update();
+		entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
+		entityMap.at("Enemy")->Update();
+		entityMap.at("Key")->Update();
 
+		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
+
+		if (mKeyboardInput.scanCode['P'])
+		{
+			levelComplete = true;
+		}
+
+		if (levelComplete)
+		{
+			gameMap.NextLevel();
+			levelComplete = false;
+		}
+
+		timeSinceLastWorldTick = HAPI_Sprites.GetTime();
+	}
 	Render();
 }
 
@@ -169,19 +172,19 @@ void World::UpdateCamera()
 
 	if (entityMap["Player"]->GetPosition().x < 512 )
 	{
-		gameCamera.MoveCamera(eDirection::eRight, gameMap);	
+		gameCamera.MoveCamera(eDirection::eRight, gameMap, entityMap);	
 	}
-	if (entityMap["Player"]->GetPosition().y < 288)
+	if (entityMap["Player"]->GetPosition().y < 832)
 	{
-		gameCamera.MoveCamera(eDirection::eUp, gameMap);
+		//gameCamera.MoveCamera(eDirection::eUp, gameMap);
 	}
-	if (entityMap["Player"]->GetPosition().y < 544)
+	if (entityMap["Player"]->GetPosition().y < 0)
 	{
-		gameCamera.MoveCamera(eDirection::eDown, gameMap);
+		//gameCamera.MoveCamera(eDirection::eDown, gameMap);
 	}
 	if (entityMap["Player"]->GetPosition().x > 768)
 	{
-		gameCamera.MoveCamera(eDirection::eLeft, gameMap);
+		gameCamera.MoveCamera(eDirection::eLeft, gameMap, entityMap);
 	}
 }
 
