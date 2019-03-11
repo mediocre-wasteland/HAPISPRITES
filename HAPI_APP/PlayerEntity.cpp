@@ -91,7 +91,29 @@ void PlayerEntity::Update()
 		if (!mSneaking)
 		{
 			sprite->SetAutoAnimate(1, false, "Idle");
-			SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+			//SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+
+			constexpr DWORD MoveTime{ 10 };
+			DWORD timeSinceLastMoveTime{ 0 };
+
+			if (HAPI_Sprites.GetTime() - timeSinceLastMoveTime >= MoveTime)
+			{
+				float Acceleration;
+				float Force = 210;
+				float Mass = 70;
+				float OldVelocity{ 0 };
+				float NewVelocity{ 0 };
+				float OldPos;
+				float NewPos;
+
+				Acceleration = Force / Mass;
+				NewVelocity = OldVelocity + (Acceleration / HAPI_Sprites.GetTime());
+				NewPos = OldPos + (NewVelocity * HAPI_Sprites.GetTime());
+
+				SetPosition({ GetPosition().x + NewPos, GetPosition().y });
+
+				timeSinceLastMoveTime = HAPI_Sprites.GetTime();
+			}
 		}
 		else
 		{
