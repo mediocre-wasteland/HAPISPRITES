@@ -26,31 +26,51 @@ namespace HAPISPACE {
 		Colour255(BYTE gray, BYTE a = 255)  noexcept : red(gray), green(gray), blue(gray), alpha(a) {}
 
 		// Helpers
-		static Colour255 BLACK;
-		static Colour255 WHITE;
-		static Colour255 RED;
-		static Colour255 GREEN;
-		static Colour255 BLUE;
-		static Colour255 YELLOW;
-		static Colour255 CYAN;
-		static Colour255 MAGENTA;
-		static Colour255 HORRID_PINK;
-		static Colour255 ZERO; // 0,0,0,0
+		static const Colour255 BLACK;
+		static const Colour255 WHITE;
+		static const Colour255 RED;
+		static const Colour255 GREEN;
+		static const Colour255 BLUE;
+		static const Colour255 YELLOW;
+		static const Colour255 CYAN;
+		static const Colour255 MAGENTA;
+		static const Colour255 HORRID_PINK;
+		static const Colour255 ZERO; // 0,0,0,0
 
-		// Returns a random colour
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Returns a random colour. </summary>
+		///
+		/// <returns>	A Colour255. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		static Colour255 Random() { return Colour255(rand() % 255, rand() % 255, rand() % 255); }
 
 		friend std::ostream& operator<<(std::ostream& os, const Colour255& col);
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Convert this object into a string representation. </summary>
+		///
+		/// <returns>	A std::string that represents this object. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string ToString() const { std::stringstream str; str << *this; return str.str(); }
 
-		// Cannot be done via a cast operator unfortunately
-		const HAPI_TColour& AsHAPI_TColour() const
-		{
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Convert to legacy format. Cannot be done via a cast operator unfortunately.
+		/// </summary>
+		///
+		/// <returns>	A reference to a const HAPI_TColour. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		const HAPI_TColour& AsHAPI_TColour() const{
 			return *(const HAPI_TColour*)this;
 		}
 
-		// Modulate. Note: must be accurate so no bit shift used
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Modulate. Note: must be accurate so no bit shift used. </summary>
+		///
+		/// <param name="rhs">	The right hand side. </param>
+		///
+		/// <returns>	The result of the operation. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Colour255& operator*=(const Colour255 &rhs)
 		{
 			red = (red * rhs.red) / 255;
@@ -60,7 +80,14 @@ namespace HAPISPACE {
 			return *this;
 		}
 
-		Colour255& operator=(HAPI_TColour &rhs)
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Assignment operator. </summary>
+		///
+		/// <param name="rhs">	The right hand side. </param>
+		///
+		/// <returns>	A shallow copy of this object. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		Colour255& operator=(const HAPI_TColour &rhs)
 		{
 			// Byte copy
 			*this = *(const Colour255*)&rhs;
@@ -68,7 +95,14 @@ namespace HAPISPACE {
 		}
 	};
 
-	// Can be used with cout to output colour to output pane and log
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Can be used with cout to output colour to output pane and log. </summary>
+	///
+	/// <param name="os"> 	[in,out] The stream. </param>
+	/// <param name="col">	The colour. </param>
+	///
+	/// <returns>	The streamed result. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::ostream& operator<<(std::ostream& os, const Colour255& col)
 	{
 		os << "R: " + std::to_string(col.red) +
@@ -78,18 +112,40 @@ namespace HAPISPACE {
 		return os;
 	}
 
-	// Equivelance operator
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Equivelance operator. </summary>
+	///
+	/// <param name="lhs">	The first instance to compare. </param>
+	/// <param name="rhs">	The second instance to compare. </param>
+	///
+	/// <returns>	True if the parameters are considered equivalent. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool operator==(const Colour255& lhs, const Colour255& rhs)
 	{
 		return (*(DWORD*)&lhs == *(DWORD*)&rhs);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Inequality operator. </summary>
+	///
+	/// <param name="lhs">	The first instance to compare. </param>
+	/// <param name="rhs">	The second instance to compare. </param>
+	///
+	/// <returns>	True if the parameters are not considered equivalent. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool operator!=(const Colour255& lhs, const Colour255& rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	// Subtract one colour from the other handling wrap around
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Subtract one colour from the other handling wrap around. </summary>
+	///
+	/// <param name="lhs">	The first value. </param>
+	/// <param name="rhs">	A value to subtract from it. </param>
+	///
+	/// <returns>	The result of the operation. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline Colour255 operator- (const Colour255& lhs, const Colour255& rhs)
 	{
 		// Allow loop around
@@ -104,7 +160,14 @@ namespace HAPISPACE {
 		return Colour255((BYTE)r, (BYTE)g, (BYTE)b, (BYTE)a);
 	}
 
-	// Modulate one colour by another
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Modulate one colour by another. </summary>
+	///
+	/// <param name="lhs">	The first value to multiply. </param>
+	/// <param name="rhs">	The second value to multiply. </param>
+	///
+	/// <returns>	The result of the operation. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline Colour255 operator* (const Colour255& lhs, Colour255 rhs)
 	{
 		Colour255 sourceMod{ lhs };
@@ -115,7 +178,7 @@ namespace HAPISPACE {
 		return sourceMod;
 	}
 
-	// A simple floating point colour type
+	/// <summary>	A simple floating point colour type. </summary>
 	class ColourF
 	{
 	public:
@@ -124,19 +187,33 @@ namespace HAPISPACE {
 		float blue{ 1.f };
 		float alpha{ 1.f };
 
-		// Constructor 1 - Colour defaults to white	
+		/// <summary>	Constructor 1 - Colour defaults to white. </summary>
 		ColourF() noexcept = default;
 
-		// Constructor 2 - Colours passed in, alpha defaults to 1 (opaque) if not provided
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Constructor 2 - Colours passed in, alpha defaults to 1 (opaque) if not provided.
+		/// </summary>
+		///
+		/// <param name="r">	Red channel. </param>
+		/// <param name="g">	Green channel. </param>
+		/// <param name="b">	Blue channel. </param>
+		/// <param name="a">	(Optional) Alpha channel. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourF(float r, float g, float b, float a = 1.0f) noexcept : red(r), green(g), blue(b), alpha(a) {}
 
-		// Constructor 3 - gray
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Constructor 3 - gray. </summary>
+		///
+		/// <param name="gray">	The gray scale - filled into R, G and B channels. </param>
+		/// <param name="a">   	(Optional)  Alpha channel. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourF(float gray, float a = 1.0f) noexcept : red(gray), green(gray), blue(gray), alpha(a) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor 4 - from a Colour255. </summary>
 		///
-		/// <param name="col">	The col. </param>
+		/// <param name="col">	The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourF(Colour255 col) noexcept : red{ col.red / 255.0f }, green{ col.green / 255.0f }, blue{ col.blue / 255.0f }, alpha{ col.alpha / 255.0f } {}
 
@@ -191,40 +268,40 @@ namespace HAPISPACE {
 		}
 
 		/// <summary>	Helpers. </summary>
-		static ColourF BLACK;
-		/// <summary>	The white. </summary>
-		static ColourF WHITE;
-		/// <summary>	The red. </summary>
-		static ColourF RED;
-		/// <summary>	The green. </summary>
-		static ColourF GREEN;
-		/// <summary>	The blue. </summary>
-		static ColourF BLUE;
-		/// <summary>	The yellow. </summary>
-		static ColourF YELLOW;
-		/// <summary>	The cyan. </summary>
-		static ColourF CYAN;
-		/// <summary>	The magenta. </summary>
-		static ColourF MAGENTA;
+		static const ColourF BLACK;
+		/// <summary>	white. </summary>
+		static const ColourF WHITE;
+		/// <summary>	red. </summary>
+		static const ColourF RED;
+		/// <summary>	green. </summary>
+		static const ColourF GREEN;
+		/// <summary>	blue. </summary>
+		static const ColourF BLUE;
+		/// <summary>	yellow. </summary>
+		static const ColourF YELLOW;
+		/// <summary>	cyan. </summary>
+		static const ColourF CYAN;
+		/// <summary>	magenta. </summary>
+		static const ColourF MAGENTA;
 		/// <summary>	0,0,0,0. </summary>
-		static ColourF ZERO;
-		/// <summary>	The horrid pink. </summary>
-		static ColourF HORRID_PINK;
+		static const ColourF ZERO;
+		/// <summary>	A horrid pink. </summary>
+		static const ColourF HORRID_PINK;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the random. </summary>
+		/// <summary>	Gets a random colour. </summary>
 		///
 		/// <returns>	A ColourF. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		static ColourF Random() { return Colour255(rand() % 255, rand() % 255, rand() % 255); }
+		static const ColourF Random() { return Colour255(rand() % 255, rand() % 255, rand() % 255); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Stream insertion operator. </summary>
 		///
-		/// <param name="os"> 	[in,out] The operating system. </param>
-		/// <param name="col">	The col. </param>
+		/// <param name="os"> 	[in,out] The output stream. </param>
+		/// <param name="col">	The colour. </param>
 		///
-		/// <returns>	The shifted result. </returns>
+		/// <returns>	The output stream. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		friend std::ostream& operator<<(std::ostream& os, const ColourF& col);
 
@@ -244,7 +321,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// made explicit as it is not a straight forward operation so user needs to know.
+		/// Conversion. Made explicit as it is not a straight forward operation so user needs to know.
 		/// </summary>
 		///
 		/// <returns>	The result of the operation. </returns>
@@ -259,10 +336,10 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Can be used with cout to output colour to output pane and log. </summary>
 	///
-	/// <param name="os"> 	[in,out] The operating system. </param>
-	/// <param name="col">	The col. </param>
+	/// <param name="os"> 	[in,out] The stream. </param>
+	/// <param name="col">	The colour. </param>
 	///
-	/// <returns>	The shifted result. </returns>
+	/// <returns>	The streamed result. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::ostream& operator<<(std::ostream& os, const ColourF& col)
 	{

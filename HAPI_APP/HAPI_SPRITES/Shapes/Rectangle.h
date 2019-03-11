@@ -10,8 +10,8 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
 	/// A rectangle. A simple rectangle class with left, right, top and bottom members. Bottom is >
-	/// top(y down the screen)
-	/// HAPI Sprites treats bottom and left as outside borders e.g. for frames.
+	/// top (y down the screen). HAPI Sprites treats bottom and left as outside borders e.g. for
+	/// frames.
 	/// </summary>
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
@@ -22,7 +22,6 @@ namespace HAPISPACE {
 		/// <summary>Default values are for an invalid rectangle </summary>
 		T left{ 0 }, right{ 0 }, top{ 0 }, bottom{ 0 };
 
-		/// <summary>	Constructors. </summary>
 		Rectangle()  noexcept {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,15 +37,15 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Construct from a top left Vector<T> and bottom right point. </summary>
 		///
-		/// <param name="topLeft">	  	The top left. </param>
-		/// <param name="bottomRight">	The bottom right. </param>
+		/// <param name="topLeft">	  	The top left point. </param>
+		/// <param name="bottomRight">	The bottom right point. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle(Vector<T> topLeft, Vector<T> bottomRight) noexcept : left(topLeft.x), right(bottomRight.x), top(topLeft.y), bottom(bottomRight.y) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Construct from top left and width and height. </summary>
 		///
-		/// <param name="topLeft">	The top left. </param>
+		/// <param name="topLeft">	The top left point. </param>
 		/// <param name="width">  	The width. </param>
 		/// <param name="height"> 	The height. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,9 +60,16 @@ namespace HAPISPACE {
 		Rectangle(T width, T height)  noexcept : left(0), right(width), top(0), bottom(height) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct to cover all points. </summary>
+		/// <summary>	Construct from dimensions </summary>
 		///
-		/// <param name="points">	The points. </param>
+		/// <param name="size">	The dimensions. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		Rectangle(const Vector<T>& size)  noexcept : left(0), right(size.x), top(0), bottom(size.y) {}
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Construct to cover all passed in points. </summary>
+		///
+		/// <param name="points">	The points to cover. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle(const std::vector<Vector<T>>& points) noexcept
 		{
@@ -84,16 +90,16 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns the width of the rectagle. </summary>
+		/// <summary>	Returns the width of the rectangle. </summary>
 		///
-		/// <returns>	A T. </returns>
+		/// <returns>	Width. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		T Width() const noexcept { return right - left; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Return the height of the rectange. </summary>
+		/// <summary>	Return the height of the rectangle. </summary>
 		///
-		/// <returns>	A T. </returns>
+		/// <returns>	Height. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		T Height() const noexcept { return bottom - top; }
 
@@ -107,9 +113,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Does this rectangle completely contain the other? </summary>
 		///
-		/// <param name="other">	The const Rectangle&amp; to test for containment. </param>
+		/// <param name="other">	The Rectangle&amp; to test for containment. </param>
 		///
-		/// <returns>	True if the object is in this collection, false if not. </returns>
+		/// <returns>	True if the other is completely contained, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool Contains(const Rectangle& other) const { return (other.left >= left && other.right < right && other.top >= top && other.bottom < bottom); }
 
@@ -118,7 +124,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="other">	The Vector&lt;T&gt; to test for containment. </param>
 		///
-		/// <returns>	True if the object is in this collection, false if not. </returns>
+		/// <returns>	True if the other is completely contained, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool Contains(Vector<T> other) const { return !(other.x < left || other.x > right || other.y < top || other.y > bottom); }
 
@@ -127,7 +133,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="other">	The other. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it is outside. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool OutsideOf(const Rectangle& other) const { return (right < other.left || bottom < other.top || left >= other.right || top >= other.bottom); }
 
@@ -137,16 +143,16 @@ namespace HAPISPACE {
 		/// <param name="dx">	The dx. </param>
 		/// <param name="dy">	The dy. </param>
 		///
-		/// <returns>	A reference to a Rectangle&lt;T&gt; </returns>
+		/// <returns>	For ease returns a reference to this Rectangle&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle<T>& Translate(T dx, T dy) { left += dx; right += dx; top += dy; bottom += dy; return *this;}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Translate this rectangle using a point. </summary>
 		///
-		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
+		/// <param name="d">	A Vector&lt;T&gt; to translate by. </param>
 		///
-		/// <returns>	A reference to a Rectangle&lt;T&gt; </returns>
+		/// <returns>	For ease. A reference to a Rectangle&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle<T>& Translate(Vector<T> d) { left += d.x; right += d.x; top += d.y; bottom += d.y; return *this; }
 
@@ -172,8 +178,8 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Returns translated version of this. </summary>
 		///
-		/// <param name="dx">	The dx. </param>
-		/// <param name="dy">	The dy. </param>
+		/// <param name="dx">	The dx translation. </param>
+		/// <param name="dy">	The dy translation. </param>
 		///
 		/// <returns>	A Rectangle&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +191,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translate rectangle using a point Returns translated version of this. </summary>
+		/// <summary>	Translate rectangle using a point. Returns translated version of this. </summary>
 		///
 		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
 		///
@@ -202,7 +208,7 @@ namespace HAPISPACE {
 		void TranslateToOrigin() { right -= left; left = 0; bottom -= top; top = 0; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns translated version of this to origin. </summary>
+		/// <summary>	Returns translated version of this, to origin. </summary>
 		///
 		/// <returns>	A Rectangle&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,21 +217,21 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Expand leaves left, top the same. </summary>
 		///
-		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
+		/// <param name="d">	A Vector&lt;T&gt; to expand by. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Expand(Vector<T> d) { right += d.x; bottom += d.y; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	ExpandAll works on all edges. </summary>
 		///
-		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
+		/// <param name="d">	A Vector&lt;T&gt; to expand by. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ExpandAll(Vector<T> d) { right += d.x; bottom += d.y; left -= d.x; top -= d.y; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Encompass passed in rectangle i.e. grow if required. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other rectangle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Encompass(const Rectangle& other) {
 			left = std::min(left, other.left); right = std::max(right, other.right);
@@ -235,7 +241,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Encompass passed in vector i.e. grow if required. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The vector. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Encompass(const Vector<T>& other) {
 			left = std::min(left, other.x); right = std::max(right, other.x);
@@ -245,7 +251,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Clip this rectangle against the other. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other rectangle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ClipTo(const Rectangle& other)
 		{
@@ -257,7 +263,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Vector<T> class getters for individual access to the 4 corners of the rectangle.
+		/// Vector<T> class getter for individual access to the corners of the rectangle.
 		/// </summary>
 		///
 		/// <returns>	A Vector&lt;T&gt; </returns>
@@ -265,21 +271,21 @@ namespace HAPISPACE {
 		Vector<T> TopLeft() const { return Vector<T>(left, top); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Top right. </summary>
+		/// <summary>	Top right corner. </summary>
 		///
 		/// <returns>	A Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Vector<T> TopRight() const { return Vector<T>(right, top); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Bottom left. </summary>
+		/// <summary>	Bottom left corner. </summary>
 		///
 		/// <returns>	A Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Vector<T> BottomLeft() const { return Vector<T>(left, bottom); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Bottom right. </summary>
+		/// <summary>	Bottom right corner. </summary>
 		///
 		/// <returns>	A Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,8 +300,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Returns all 4 corners of the rectangle in clockwise order Note: once Vis fully supports c++14
-		/// can remove extra bracket.
+		/// Returns all 4 corners of the rectangle in clockwise order. Note: once Vis fully supports
+		/// c++14 can remove extra bracket.
 		/// </summary>
 		///
 		/// <returns>	The corners. </returns>
@@ -303,7 +309,7 @@ namespace HAPISPACE {
 		std::vector<Vector<T>> GetCorners() const { return{ { {TopLeft()},{TopRight()},{BottomRight()},{BottomLeft()} } }; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns 4 lines representing the outline of this rectangle or the edges. </summary>
+		/// <summary>	Returns 4 lines representing the outline of this rectangle (the edges). </summary>
 		///
 		/// <returns>	The outline. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,7 +318,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Length from top left to bottom right squared. </summary>
 		///
-		/// <returns>	A T. </returns>
+		/// <returns>	Length. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		T DiagonalLengthSquared() const { return (right - left)*(right - left) + (bottom - top)*(bottom - top); }
 
@@ -327,8 +333,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// enclossing = true returns radius of a circle around this rectangle enclossing = false returns
-		/// radius of a circle within this rectangle.
+		/// Enclossing = true returns radius of a circle around this rectangle. enclossing = false
+		/// returns radius of a circle within this rectangle.
 		/// </summary>
 		///
 		/// <param name="enclossing">	(Optional) True to enclossing. </param>
@@ -349,13 +355,13 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a random rectangle between min and max points Note max must be > min by at least 2.
+		/// Creates a random rectangle between min and max points. Note max must be > min by at least 2.
 		/// </summary>
 		///
-		/// <param name="min">	The minimum. </param>
-		/// <param name="max">	The maximum. </param>
+		/// <param name="min">	The min point. </param>
+		/// <param name="max">	The max point. </param>
 		///
-		/// <returns>	A Rectangle. </returns>
+		/// <returns>	A random rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		static Rectangle Random(Vector<T> min, Vector<T> max)
 		{
@@ -367,9 +373,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	float * this rectangle evenly. </summary>
 		///
-		/// <param name="mult">	The multiply. </param>
+		/// <param name="mult">	The multiplication amount. </param>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	The resultant rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle& operator*=(float mult)
 		{
@@ -383,9 +389,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	vector float * this rectangle. </summary>
 		///
-		/// <param name="mult">	The multiply. </param>
+		/// <param name="mult">	The multiplication amount. </param>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	The resultant rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle& operator*=(const VectorF &mult)
 		{
@@ -399,9 +405,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Subtract other from this. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other rectangle. </param>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	The resultant rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle<T> operator-=(const Rectangle<T> &other)
 		{
@@ -415,9 +421,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Add other to this. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other rectangle. </param>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	The resultant rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle<T> operator+=(const Rectangle<T> &other)
 		{
@@ -433,10 +439,10 @@ namespace HAPISPACE {
 		/// Cast that converts the given std::ostream&amp; to a &lt;&lt;&lt;typename T&gt;
 		/// </summary>
 		///
-		/// <param name="os">	[in,out] The operating system. </param>
+		/// <param name="os">	[in,out] The output stream. </param>
 		/// <param name="r"> 	A Rectangle&lt;T&gt; to process. </param>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	The resultant rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		friend std::ostream& operator<<(std::ostream& os, const Rectangle<T>& r);
@@ -480,7 +486,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
+		/// <summary>	Writes XML. </summary>
 		///
 		/// <param name="node">	[in,out] The node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,7 +499,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Reads an XML. </summary>
+		/// <summary>	Reads XML. </summary>
 		///
 		/// <param name="node">	[in,out] The node. </param>
 		/// <param name="rect">	[in,out] The rectangle. </param>
@@ -525,7 +531,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Decided to make  both of these explicit so I can spot any slow conversions explicit
+		/// Decided to make both of these explicit so I can spot any slow conversions explicit
 		/// conversion to int.
 		/// </summary>
 		///
@@ -534,7 +540,7 @@ namespace HAPISPACE {
 		explicit operator Rectangle<int>() const noexcept { return Rectangle<int>((int)left,(int)right,(int)top,(int)bottom); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	explicit conversion to float. </summary>
+		/// <summary>	Explicit conversion to float. </summary>
 		///
 		/// <returns>	The result of the operation. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -545,7 +551,7 @@ namespace HAPISPACE {
 	/// <summary>	vector float * this rectangle. </summary>
 	///
 	/// <param name="lhs"> 	The left hand side. </param>
-	/// <param name="mult">	The multiply. </param>
+	/// <param name="mult">	The multiplication amount. </param>
 	///
 	/// <returns>	The result of the operation. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -558,10 +564,10 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Can be used with cout to output values to output pane and log. </summary>
 	///
-	/// <param name="os">	[in,out] The operating system. </param>
+	/// <param name="os">	[in,out] The output stream. </param>
 	/// <param name="r"> 	A Rectangle&lt;T&gt; to process. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	The output stream. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline std::ostream& operator<<(std::ostream& os, const Rectangle<T>& r)
@@ -578,7 +584,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	The resultant rectangle. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline Rectangle<T> operator-(Rectangle<T> lhs, const Rectangle<T> &rhs)
@@ -594,7 +600,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	The resultant rectangle. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline Rectangle<T> operator+(Rectangle<T> lhs, const Rectangle<T> &rhs)
@@ -610,7 +616,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	True if equal</returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline bool operator==(const Rectangle<T> &lhs, const Rectangle<T> &rhs)
@@ -624,7 +630,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	True if unequal. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline bool operator!=(const Rectangle<T> &lhs, const Rectangle<T> &rhs)
@@ -632,13 +638,13 @@ namespace HAPISPACE {
 		return !(lhs==rhs);
 	}
 
-	/// <summary>	The rectangle i. </summary>
+	/// <summary>	Shortcut for an integer rectangle. </summary>
 	using RectangleI = Rectangle<int>;
-	/// <summary>	The rectangle f. </summary>
+	/// <summary>	Shortcut for a float rectangle. </summary>
 	using RectangleF = Rectangle<float>;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A rectangle oriented. This class cannot be inherited. </summary>
+	/// <summary>	An oriented rectangle. </summary>
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -646,15 +652,14 @@ namespace HAPISPACE {
 	class RectangleOriented final
 	{
 	public:
-		// Cannot describe as left, top etc. as may not be
-		/// <summary>	The corners[ 4]. </summary>
+		/// <summary>	The corners[ 4]. Cannot describe as left, top etc. as may not be. </summary>
 		Vector<T> corners[4];
 
 		/// <summary>	Default constructor. </summary>
 		RectangleOriented() = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Individually. </summary>
+		/// <summary>	Construct with individual corners. </summary>
 		///
 		/// <param name="c1">	The first Vector&lt;T&gt; </param>
 		/// <param name="c2">	The second Vector&lt;T&gt; </param>
@@ -670,7 +675,7 @@ namespace HAPISPACE {
 		/// <summary>	Construct from aligned rect. </summary>
 		///
 		/// <typeparam name="U">	Generic type parameter. </typeparam>
-		/// <param name="rect">	The rectangle. </param>
+		/// <param name="rect">	The aligned rectangle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename U>
 		RectangleOriented(const Rectangle<U> &rect) : corners
@@ -683,11 +688,14 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Scales around origin. </summary>
 		///
-		/// <param name="scale"> 	The scale. </param>
+		/// <param name="scale"> 	The scale amount. </param>
 		/// <param name="origin">	The origin. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Scale(const VectorF& scale, Vector<T> origin)
 		{
+			if (scale.x == 1 && scale.y == 1)
+				return;
+
 			Translate(-origin);
 
 			for (int i = 0; i < 4; i++)
@@ -697,7 +705,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	cos and sine precalculated to feed in: </summary>
+		/// <summary> Rotation with cos and sine pre-calculated to feed in: </summary>
 		///
 		/// <param name="cosine">	The cosine. </param>
 		/// <param name="sine">  	The sine. </param>
@@ -722,6 +730,9 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Rotate(float radians)
 		{
+			if (radians == 0)
+				return;
+
 			Rotate(cos(radians), sin(radians));
 		}		
 
@@ -751,8 +762,8 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Translate rectangle. </summary>
 		///
-		/// <param name="dx">	The dx. </param>
-		/// <param name="dy">	The dy. </param>
+		/// <param name="dx">	The dx offset. </param>
+		/// <param name="dy">	The dy offset. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Translate(T dx, T dy)
 		{
@@ -774,7 +785,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translated. </summary>
+		/// <summary>	Returns translated. </summary>
 		///
 		/// <param name="dx">	The dx. </param>
 		/// <param name="dy">	The dy. </param>
@@ -793,7 +804,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
 		///
-		/// <returns>	A RectangleOriented&lt;T&gt; </returns>
+		/// <returns>	Returns a RectangleOriented&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleOriented<T> Translated(Vector<T> d) const
 		{
@@ -822,9 +833,9 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets enclosing a bb. </summary>
+		/// <summary>	Gets enclosing AABB. </summary>
 		///
-		/// <returns>	The enclosing a bb. </returns>
+		/// <returns>	The enclosing AABB. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Rectangle<T> GetEnclosingAABB() const noexcept
 		{
@@ -837,9 +848,9 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Assumes points are defined clockwise this is corner 2 - corner 1. </summary>
+		/// <summary>	Assumes points are defined clockwise. This is corner 2 - corner 1. </summary>
 		///
-		/// <returns>	A T. </returns>
+		/// <returns>	Width. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		T Width() const
 		{
@@ -849,7 +860,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Assumes points are defined clockwise this is corner 3 - corner 0. </summary>
 		///
-		/// <returns>	A T. </returns>
+		/// <returns>	Height. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		T Height() const
 		{
@@ -857,7 +868,9 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	To avoid linked dependencies now returning points. </summary>
+		/// <summary>
+		/// Get outline of rectangle. To avoid linked dependencies now returning points.
+		/// </summary>
 		///
 		/// <returns>	The outline. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -872,7 +885,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="point">	The Vector&lt;T&gt; to test for containment. </param>
 		///
-		/// <returns>	True if the object is in this collection, false if not. </returns>
+		/// <returns>	True if the object is contained, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool Contains(Vector<T> point) const 
 		{ 
@@ -907,7 +920,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	vector float * this rectangle's corners (scale) </summary>
 		///
-		/// <param name="mult">	The multiply. </param>
+		/// <param name="mult">	The multiply amount. </param>
 		///
 		/// <returns>	The result of the operation. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -920,7 +933,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Emplicit conversion as quite a bit of work. </summary>
+		/// <summary>	Emplicit conversion as quite a bit of work to carry out. </summary>
 		///
 		/// <returns>	The result of the operation. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -931,9 +944,11 @@ namespace HAPISPACE {
 			for (int i = 0; i < 4; i++)
 				newRect.corners[i] = (Vector<U>)corners[i];
 			return newRect;
-		}
+		}	
 	};
 
-	/// <summary>	The rectangle oriented f. </summary>
+
+
+	/// <summary>	Shortcut for a float rectangle oriented. </summary>
 	using RectangleOrientedF = RectangleOriented<float>;
 }

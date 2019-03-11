@@ -9,7 +9,7 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// A basic line class. Performance wise it is normally best to pass by value not const reference.
+	/// A basic line class. Performance wise it is normally best to pass by value, not const reference.
 	/// </summary>
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
@@ -25,8 +25,8 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Construct from two points. </summary>
 		///
-		/// <param name="p1in">	The 1in. </param>
-		/// <param name="p2in">	The 2in. </param>
+		/// <param name="p1in">	The 1st point. </param>
+		/// <param name="p2in">	The 2nd point. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Line(Vector<T> p1in, Vector<T> p2in)  noexcept : p1(p1in), p2(p2in) {}
 
@@ -43,35 +43,35 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Translates this line by d. </summary>
 		///
-		/// <param name="d">	A Vector&lt;T&gt; to process. </param>
+		/// <param name="d">	A Vector&lt;T&gt; to translate by. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Translate(const Vector<T> &d) {p1 += d; p2 += d;}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns the manhattan length of the line. </summary>
+		/// <summary>	Returns the Manhattan length of the line. </summary>
 		///
-		/// <returns>	An int. </returns>
+		/// <returns>	Manhattan length. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int ManhattanLength() const {return p1.ManhattanDistanceBetween(p2);}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Returns the length squared (useful for optimisation) </summary>
 		///
-		/// <returns>	A float. </returns>
+		/// <returns>	Length squared. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		float LengthSquared() const { return p1.DistanceBetween(p2); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Returns the actual length of the line. </summary>
 		///
-		/// <returns>	A float. </returns>
+		/// <returns>	Length </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		float Length() const { return sqrt(LengthSquared()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Returns the direction of the line from p1 to p2. </summary>
 		///
-		/// <returns>	A Vector&lt;T&gt; </returns>
+		/// <returns>	A direction Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Vector<T> Direction() const { return (p2 - p1).Normalized(); }
 
@@ -80,7 +80,7 @@ namespace HAPISPACE {
 		/// A 2D line has two normals depending on perceived rotation Normal of the line.
 		/// </summary>
 		///
-		/// <param name="clockwise">	True to clockwise. </param>
+		/// <param name="clockwise">	True to return clockwise one. </param>
 		///
 		/// <returns>	The normal. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ namespace HAPISPACE {
 		/// https://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line.
 		/// </summary>
 		///
-		/// <param name="pnt">	The point. </param>
+		/// <param name="pnt">	The point to test. </param>
 		///
 		/// <returns>	True if clockwise, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,11 +126,11 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// implicit conversion Note: it is worth making this explicit sometimes to detect any uneeded
+		/// Implicit conversion. Note: it is worth making this explicit sometimes to detect any not needed
 		/// casts automatically happening.
 		/// </summary>
 		///
-		/// <returns>	The result of the operation. </returns>
+		/// <returns>	Cast. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename U>
 		operator Line<U>() const { return Line<U>((Vector<U>)p1, (Vector<U>)p2); }
@@ -140,7 +140,7 @@ namespace HAPISPACE {
 		/// Cast that converts the given std::ostream&amp; to a &lt;&lt;&lt;typename T&gt;
 		/// </summary>
 		///
-		/// <param name="os">	[in,out] The operating system. </param>
+		/// <param name="os">	[in,out] The output stream. </param>
 		/// <param name="l"> 	A Line&lt;T&gt; to process. </param>
 		///
 		/// <returns>	The result of the operation. </returns>
@@ -159,7 +159,7 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Can be used with cout to output values to output pane and log. </summary>
 	///
-	/// <param name="os">	[in,out] The operating system. </param>
+	/// <param name="os">	[in,out] The output stream. </param>
 	/// <param name="l"> 	A Line&lt;T&gt; to process. </param>
 	///
 	/// <returns>	The result of the operation. </returns>
@@ -177,7 +177,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	Are they equal? </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline bool operator==(const Line<T>& lhs, const Line<T>& rhs)
@@ -191,7 +191,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The left hand side. </param>
 	/// <param name="rhs">	The right hand side. </param>
 	///
-	/// <returns>	The result of the operation. </returns>
+	/// <returns>	Are they not equal? </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline bool operator!=(const Line<T>& lhs, const Line<T>& rhs)

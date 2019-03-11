@@ -12,7 +12,7 @@ namespace HAPISPACE {
 
 	class Surface;
 
-	/// <summary>	Information about the collision check result. </summary>
+	/// <summary>	The collision result. </summary>
 	enum class ECollisionResult
 	{
 		eBoundingFail,
@@ -35,13 +35,14 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Determines transform, which collision checks are carried out and what data is returned.
+	/// Determines transform, which collision checks are carried out, and what data is returned.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	struct CollisionSettings
 	{
 		/// <summary>	Transforms for the two colliders involved in the collision test. </summary>
 		Transform thisTransform;
+
 		/// <summary>	The other transform. </summary>
 		Transform otherTransform;
 
@@ -98,24 +99,35 @@ namespace HAPISPACE {
 		// The following are only provided if CollisionSettings has calculateCollisionData set to true
 		// Or a pixel perfect collision is being carried out
 
-		/// <summary>	Pixel on the screen where the collision occured. </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Pixel on the screen where the collision occured. Only provided if CollisionSettings has
+		/// calculateCollisionData set to true Or a pixel perfect collision is being carried out.
+		/// </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorI screenPos;
 
-		/// <summary>	Normal at the point of collision on 'other'. </summary>
+		/// <summary>	Normal at the point of collision on 'other'.Only provided if CollisionSettings has
+		/// calculateCollisionData set to true Or a pixel perfect collision is being carried out.
+		/// </summary>
 		VectorF normal;
 
-		/// <summary>	Local position relative to the frame of 'this' where collision happened. </summary>
+		/// <summary>	Local position relative to the frame of 'this' where collision happened.Only provided if CollisionSettings has
+		/// calculateCollisionData set to true Or a pixel perfect collision is being carried out.
+		/// </summary>
 		VectorI thisLocalPos;
 
-		/// <summary>	Local position relative to the frame of 'other' where collision happened. </summary>
+		/// <summary>	Local position relative to the frame of 'other' where collision happened.Only provided if CollisionSettings has
+		/// calculateCollisionData set to true Or a pixel perfect collision is being carried out.
+		/// </summary>
 		VectorI otherLocalPos;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Helper. </summary>
+		/// <summary>	Helper to convert shape type to string. </summary>
 		///
-		/// <param name="type">	The type. </param>
+		/// <param name="type">	The shape type. </param>
 		///
-		/// <returns>	A std::string. </returns>
+		/// <returns>	Shape type as a string. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		static std::string CollisionShapeTypeToString(ECollisionShapeType type)
 		{
@@ -139,11 +151,11 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Helper. </summary>
+		/// <summary>	Helper to convert result to a string. </summary>
 		///
 		/// <param name="result">	The result. </param>
 		///
-		/// <returns>	A std::string. </returns>
+		/// <returns>	The result as a string. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		static std::string CollisionResultToString(ECollisionResult result)
 		{
@@ -181,57 +193,55 @@ namespace HAPISPACE {
 	/// <summary>	Supported collider types. </summary>
 	enum class EColliderType
 	{
-		eBounding,	// A bounding area collider, must be intersected for a true collision response
-		eOneOf,		// One or more of these collider types must be hit for a true collision response
-		eMarker		// Used to determine screen positions for points or to detect areas hit etc. not part of collision result
+		// A bounding area collider, must be intersected for a true collision response. 
+		eBounding,	
+		// One or more of these collider types must be hit for a true collision response
+		eOneOf,		
+		// Used to determine screen positions for points or to detect areas hit etc. not part of collision result
+		eMarker		
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Colliders are all defined in local space i.e. with 0,0 top left of frame They are all shapes.
-	/// Pixel perfect colliisions are done via the component or sprite directly Base collider class.
+	/// Base collider class. Colliders are all defined in local space i.e. with 0,0 top left of
+	/// frame. They are all shapes. Pixel perfect collisions are done via the component or sprite
+	/// directly.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Collider
 	{
 	protected:
-		/// <summary>	The name. </summary>
 		std::string m_name;
-		/// <summary>	The type. </summary>
 		EColliderType m_type;
-		/// <summary>	Default constructor. </summary>
 		Collider() = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes a base. </summary>
+		/// <summary>	Writes base XML data. </summary>
 		///
 		/// <param name="thisNode">	[in,out] If non-null, this node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void WriteBase(CHapiXMLNode* thisNode) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Reads a base. </summary>
+		/// <summary>	Reads base XML data. </summary>
 		///
 		/// <param name="thisNode">	[in,out] If non-null, this node. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool ReadBase(CHapiXMLNode* thisNode);
+		
+		friend class ColliderGroup;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// For debug purposes can render the collider to a surface. Cannot be called direct as needs
-		/// cache update.
+		/// cache update.Renders this object.
 		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		friend class ColliderGroup;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
 		///
 		/// <param name="renderSurface">	[in,out] The render surface. </param>
 		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
+		/// <param name="col">				The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const = 0;
 
@@ -246,21 +256,20 @@ namespace HAPISPACE {
 		/// <summary>	Constructor. </summary>
 		///
 		/// <param name="name">	The name. </param>
-		/// <param name="type">	The type. </param>
+		/// <param name="type">	The collider type. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Collider(std::string name, EColliderType type) noexcept : m_name(name), m_type(type) {}
-		/// <summary>	Destructor. </summary>
 		virtual ~Collider() = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the shape. </summary>
+		/// <summary>	Gets the shape enum. </summary>
 		///
 		/// <returns>	The shape. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual EColliderShape GetShape() const = 0;		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
+		/// <summary>	Writes XML. </summary>
 		///
 		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +290,7 @@ namespace HAPISPACE {
 		EColliderType GetType() const { return m_type; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
+		/// <summary>	Changes type. Prefer to do via ColliderGroup to maintain cache integrity. </summary>
 		///
 		/// <param name="newType">	Type of the new. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +299,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Change name. </summary>
 		///
-		/// <param name="newName">	Name of the new. </param>
+		/// <param name="newName">	New name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeName(std::string newName) { m_name = newName; }
 
@@ -310,21 +319,20 @@ namespace HAPISPACE {
 	class RectangleCollider : public Collider
 	{
 	private:
-		/// <summary>	The rectangle. </summary>
 		RectangleI m_rect;
-		/// <summary>	Cached result. Transformed RectangleI gives a RectangleOrientedF. </summary>
 		RectangleOrientedF m_transformed;	
-		/// <summary>	Additional caching as this was taking a lot of time - monitor. </summary>
+		// Additional caching as this was taking a lot of time - monitor
 		Polygon m_tranformedAsPolygon;
 	protected:
-		// For debug purposes can render the collider to a surface. Cannot be called direct as needs cache update.
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
+		/// <summary>
+		/// For debug purposes can render the collider to a surface. Cannot be called direct as needs
+		/// cache update. Renders this object.
+		/// </summary>
 		///
 		/// <param name="renderSurface">	[in,out] The render surface. </param>
 		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
+		/// <param name="col">				The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const override final;
 
@@ -336,10 +344,8 @@ namespace HAPISPACE {
 		void CacheTransform(const Transform& trans) override final;
 		
 	public:
-		// Construct from rect
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
+		/// <summary>	Constructor from rect. </summary>
 		///
 		/// <param name="name">	The name. </param>
 		/// <param name="rect">	The rectangle. </param>
@@ -363,14 +369,16 @@ namespace HAPISPACE {
 		const RectangleI &GetRect() const { return m_rect; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
+		/// <summary>
+		/// Change Rectangle. Prefer to do via ColliderGroup to maintain cache integrity.
+		/// </summary>
 		///
 		/// <param name="newRect">	The new rectangle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeRect(RectangleI newRect) { m_rect = newRect; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
+		/// <summary>	Writes XML. </summary>
 		///
 		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -386,14 +394,14 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Cached result. </summary>
 		///
-		/// <returns>	A reference to a const RectangleOrientedF. </returns>
+		/// <returns>	Cached OBR. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleOrientedF& CachedResult() const { return m_transformed; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cached outline. </summary>
+		/// <summary>	Cached outline of the collider. </summary>
 		///
-		/// <returns>	A reference to a const Polygon. </returns>
+		/// <returns>	A polygon describing the outline. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Polygon& CachedOutline() const { return m_tranformedAsPolygon; }
 
@@ -413,19 +421,18 @@ namespace HAPISPACE {
 	class CircleCollider : public Collider
 	{
 	private:
-		/// <summary>	The circle. </summary>
 		Circle m_circle;
-		/// <summary>	Cached result. </summary>
 		Circle m_transformed;
 	protected:
-		// For debug purposes can render the collider to a surface. Cannot be called direct as needs cache update.
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
+		/// <summary>
+		/// For debug purposes can render the collider to a surface. Cannot be called direct as needs
+		/// cache update. Renders this object.
+		/// </summary>
 		///
 		/// <param name="renderSurface">	[in,out] The render surface. </param>
 		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
+		/// <param name="col">				The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const override final;
 
@@ -441,7 +448,7 @@ namespace HAPISPACE {
 		/// <summary>	Constructor. </summary>
 		///
 		/// <param name="name">	The name. </param>
-		/// <param name="circ">	The circ. </param>
+		/// <param name="circ">	The circle. </param>
 		/// <param name="type">	The type. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		CircleCollider(std::string name, Circle circ, EColliderType type) noexcept : m_circle(circ), Collider(name,type) {}
@@ -462,14 +469,16 @@ namespace HAPISPACE {
 		const Circle& GetCircle() const { return m_circle; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
+		/// <summary>
+		/// Change the circle. Prefer to do via ColliderGroup to maintain cache integrity.
+		/// </summary>
 		///
 		/// <param name="newCircle">	The new circle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeCircle(Circle newCircle) { m_circle = newCircle; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
+		/// <summary>	Writes XML. </summary>
 		///
 		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

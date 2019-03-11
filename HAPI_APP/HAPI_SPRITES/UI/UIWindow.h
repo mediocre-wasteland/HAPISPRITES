@@ -13,36 +13,23 @@ class SkinEditor;
 
 namespace HAPI_UI_SPACE
 {
-	/// <summary>	An object. </summary>
 	class UIObject;
-	/// <summary>	An object menu. </summary>
 	class UIObjectMenu;
-	/// <summary>	An object button. </summary>
 	class UIObjectButton;
-	/// <summary>	An object text. </summary>
 	class UIObjectText;
-	/// <summary>	An object text entry. </summary>
 	class UIObjectTextEntry;
-	/// <summary>	An object adornments. </summary>
 	class UIObjectAdornments;	
-	/// <summary>	An object canvas. </summary>
 	class UIObjectCanvas;
-	/// <summary>	An object list box. </summary>
 	class UIObjectListBox;
-	/// <summary>	An object dial. </summary>
 	class UIObjectDial;
-	/// <summary>	An object slider. </summary>
 	class UIObjectSlider;
-	/// <summary>	An object shape. </summary>
 	class UIObjectShape;
-	/// <summary>	A multi selection. </summary>
 	class UIMultiSelection;
 
-	/// <summary>	A window user data. </summary>
+	/// <summary>	Window user data. </summary>
 	class IWindowUserData
 	{
 	public:
-		/// <summary>	Destructor. </summary>
 		virtual ~IWindowUserData() {};
 	};
 
@@ -50,15 +37,12 @@ namespace HAPI_UI_SPACE
 	class UIWindow
 	{
 	private:
-		/// <summary>	The name. </summary>
 		std::string m_name;
-
-		/// <summary>	The skin. </summary>
 		std::shared_ptr<Skin> m_skin;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Changed to map from unordered as editor needs the order Monitor this but it should not be
+		/// Changed to map from unordered as editor needs the order. Monitor this but it should not be
 		/// much of a hit.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,19 +50,20 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Radio button collections Set is ordered and fast to find in O(log N), insertion is fast Since
+		/// Radio button collections. Set is ordered and fast to find in O(log N), insertion is fast Since
 		/// button itself needs to know if it is in a collection using shared pointers.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::vector<std::shared_ptr<std::vector<std::string>>> m_radioButtonCollections;
 
-		/// <summary>	For objects that should follow the mouse Name, offset. </summary>
+		/// <summary>	For objects that should follow the mouse. Name, offset. </summary>
 		std::map<std::string, VectorI> m_followingMouse;
 
 		/// <summary>	top left. </summary>
 		VectorI m_windowPos{ 0,0 };
 		/// <summary>	The pre minimised position. </summary>
 		VectorI m_preMinimisedPosition;
+		/// <summary>	The pre minimised size. </summary>
 		RectangleI m_preMinimisedSize;
 		/// <summary>	The minimised into window. </summary>
 		std::string m_minimisedIntoWindow;
@@ -94,9 +79,10 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI m_clientRect;
 
-		/// <summary>	Used for resizing. </summary>
+		/// <summary>	Used for resizing. Original width. </summary>
 		int m_originalWidth{ 0 };
-		/// <summary>	Height of the original. </summary>
+
+		/// <summary>	Used for resizing. Original height. </summary>
 		int m_originalHeight{ 0 };
 
 		/// <summary>	Each window can have just one of these. </summary>
@@ -108,12 +94,12 @@ namespace HAPI_UI_SPACE
 		/// <summary>	For handling multiple selections. </summary>
 		std::shared_ptr<UIMultiSelection> m_multiSelection;
 
-		/// <summary>	The state. </summary>
+		/// <summary>	The window state. </summary>
 		EWindowState m_state{ EWindowState::eClosed };
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Tag added to each object that can be used in global operations, e.g. turn off, turn on so
+		/// Tag added to each object that can be used in global operations, e.g. turn off, turn on, so
 		/// useful for a screen.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +128,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// User can specify an id for a named object for ease This is a map holding a map between object
+		/// User can specify an id for a named object for ease. This is a map holding a map between object
 		/// names and ids.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,13 +137,13 @@ namespace HAPI_UI_SPACE
 		/// <summary>	True if window is being dragged. </summary>
 		bool m_windowIsBeingDragged{ false };
 
-		/// <summary>	Debug usage TODO: add a keypress to toggle this. </summary>
+		/// <summary>	Debug usage. TODO: add a keypress to toggle this. </summary>
 		bool m_showBoundingRectangles{ false };
 		
-		/// <summary>	True to use hardware. </summary>
+		/// <summary>	True to use hardware rendering. </summary>
 		bool m_useHardware{ false };
 
-		/// <summary>	Some functionality needs ot change if being edited in editor. </summary>
+		/// <summary>	Some functionality needs to change if being edited in editor. </summary>
 		bool m_beingEdited{ false };
 
 		/// <summary>	Every window has to have one adornment. </summary>
@@ -166,9 +152,9 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Window rectangle to screen rectangle. </summary>
 		///
-		/// <param name="rect">	The rectangle. </param>
+		/// <param name="rect">	The window rectangle. </param>
 		///
-		/// <returns>	A RectangleI. </returns>
+		/// <returns>	The screen rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI WindowRectToScreenRect(RectangleI rect) const {
 			return rect.Translate(m_windowPos);
@@ -177,9 +163,9 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Screen rectangle to window rectangle. </summary>
 		///
-		/// <param name="rect">	The rectangle. </param>
+		/// <param name="rect">	The screen rectangle. </param>
 		///
-		/// <returns>	A RectangleI. </returns>
+		/// <returns>	The window rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI ScreenRectToWindowRect(RectangleI rect) const {
 			return rect.Translate(-m_windowPos);
@@ -188,7 +174,6 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Calculates the client rectangle. </summary>
 		void CalculateClientRect();
 
-		/// <summary>	A system. </summary>
 		friend class UISystem;		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +182,8 @@ namespace HAPI_UI_SPACE
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Open();
-		/// <summary>	Closes this object. </summary>
+
+		/// <summary>	Closes this window. </summary>
 		void Close();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +192,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="object">	The object. </param>
 		/// <param name="id">	 	[in,out] If non-null, the identifier. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	If there is a user id mapping this returns it else false. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetUserIdMapping(const UIObject& object, int *id) const;
 				
@@ -221,27 +207,22 @@ namespace HAPI_UI_SPACE
 		/// <param name="positioning">		   	The positioning. </param>
 		/// <param name="alignment">		   	(Optional) The alignment. </param>
 		/// <param name="gap">				   	(Optional) The gap. </param>
-		/// <param name="translate">		   	(Optional) The translate. </param>
+		/// <param name="translate">		   	(Optional) The translation. </param>
 		/// <param name="axis">				   	(Optional) The axis. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PositionRelativeTo(const std::string& objectToPositionName, RectangleI relativeToRectangle,
 			EDirection positioning, EAlignment alignment = EAlignment::eAlignMinToMin, EGap gap=EGap::eNormal,
 			const VectorI& translate = VectorI(), EAxis axis = EAxis::eBoth);
 
-		//friend class UIEditor;
-		/// <summary>	A system. </summary>
 		friend class UISystem;
-		/// <summary>	A multi selection. </summary>
 		friend class UIMultiSelection;
-		/// <summary>	Form for viewing the user interface editor main. </summary>
 		friend class UIEditorMainWindow;
-		/// <summary>	Form for viewing the user interface editor object common. </summary>
 		friend class UIEditorObjectCommonWindow;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Only to be called from UISystem, otherwise go via UI.RenameWindow. </summary>
 		///
-		/// <param name="newName">	Name of the new. </param>
+		/// <param name="newName">	New name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeNameDirect(const std::string& newName) { m_name = newName; } 
 
@@ -286,7 +267,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// This window has gained the focus Optionally we may be provided with whcih of our objects
+		/// This window has gained the focus. Optionally we may be provided with which of our objects
 		/// should also take the focus.
 		/// </summary>
 		///
@@ -308,7 +289,7 @@ namespace HAPI_UI_SPACE
 		bool FocusObjectHandleInputAction(EInputMappingAction action, EInputMappingAction lastAction);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Names of all objects. </summary>
+		/// <summary>	Names of all objects in this window. </summary>
 		///
 		/// <returns>	all object names. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -333,7 +314,6 @@ namespace HAPI_UI_SPACE
 		/// <param name="rootNode">	[in,out] If non-null, the root node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UIWindow(std::shared_ptr<Skin> skin, CHapiXML &xml, CHapiXMLNode *rootNode);
-		/// <summary>	Destructor. </summary>
 		~UIWindow();
 
 		/// <summary>	Cascade styles and recreate all objects. </summary>
@@ -342,17 +322,17 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	True to disable window and contents. </summary>
 		///
-		/// <param name="set">	True to set. </param>
+		/// <param name="set">	True to disable. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Disable(bool set);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// True to disable contents (excluding adornments)
+		/// True to disable contents (excluding adornments).
 		/// They remember their previous state and return to it on passing false here.
 		/// </summary>
 		///
-		/// <param name="set">	True to set. </param>
+		/// <param name="set">	True to disable. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DisableContents(bool set);
 
@@ -390,6 +370,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="objectNames">	List of names of the objects. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void MultipleObjectSelection(const std::vector<std::string> &objectNames);
+
 		/// <summary>	Clears the whole collection. </summary>
 		void MultipleObjectSelectionClear();
 
@@ -401,7 +382,7 @@ namespace HAPI_UI_SPACE
 		void MultipleObjectSelectionRemove(const std::string& objectName);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets if anything is slected. </summary>
+		/// <summary>	Gets if anything is selected. </summary>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -426,7 +407,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Makes sure an object is completely on the window, takes into account margins and optionally
-		/// isd aligned to grid made from skin horizontal and vertical gaps.
+		/// ids aligned to grid made from skin horizontal and vertical gaps.
 		/// </summary>
 		///
 		/// <param name="objectName">	Name of the object. </param>
@@ -457,7 +438,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Every window has to have one adornment object Name is window name + "_Adorn".
+		/// Every window has to have one adornment. Name is window name + "_Adorn".
 		/// </summary>
 		///
 		/// <returns>	The adornments. </returns>
@@ -492,7 +473,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	For user's use, just held and accessed here, nothing else. </summary>
 		///
-		/// <param name="newData">	Information describing the new. </param>
+		/// <param name="newData">	Information describing the user data. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetUserData(std::shared_ptr<IWindowUserData> newData) { m_userData = newData; }
 
@@ -505,8 +486,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows user to map object names to their own id for ease Returns false if an object could not
-		/// be found Note: if the name already exists in the map its id will be overriden.
+		/// Allows user to map object names to their own id for ease. Returns false if an object could not
+		/// be found. Note: if the name already exists in the map its id will be overridden.
 		/// </summary>
 		///
 		/// <param name="newMappings">	The new mappings. </param>
@@ -516,7 +497,7 @@ namespace HAPI_UI_SPACE
 		bool AddIDMappings(const std::map<std::string, int>& newMappings);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Debug show bounding rectangles. </summary>
+		/// <summary>	Show bounding rectangles. </summary>
 		///
 		/// <param name="set">	(Optional) True to set. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -552,49 +533,44 @@ namespace HAPI_UI_SPACE
 		void ChangeState(EWindowState newState) { m_state = newState; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the state. </summary>
+		/// <summary>	Gets the current state. </summary>
 		///
 		/// <returns>	The state. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EWindowState GetState() const { return m_state; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the skin used by this window to read. </summary>
+		/// <summary>	Gets the skin used by this window (read only). </summary>
 		///
 		/// <returns>	The skin. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Skin& GetSkin() const { return *m_skin; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the skin used by this window to write. </summary>
+		/// <summary>	Gets the skin used by this window. </summary>
 		///
 		/// <returns>	The skin. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Skin& GetSkin() { return *m_skin; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	To share. </summary>
-		///
-		/// <returns>	The skin to share. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::shared_ptr<Skin> GetSkinToShare() const { return m_skin; }
+		//std::shared_ptr<Skin> GetSkinToShare() const { return m_skin; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the skin sizes used by this window to read. </summary>
+		/// <summary>	Gets the skin sizes used by this window (Read only). </summary>
 		///
 		/// <returns>	The skin sizes. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		const UiSkinSizes& GetSkinSizes() const;
+		const UiSkinSizes& GetSkinSizes() const { return m_skin->GetSizes(GetName()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets a dragging. </summary>
+		/// <summary>	Sets dragging. </summary>
 		///
 		/// <param name="set">	True to set. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetDragging(bool set) { m_windowIsBeingDragged = set; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the dragging. </summary>
+		/// <summary>	Gets the dragging state. </summary>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -622,49 +598,49 @@ namespace HAPI_UI_SPACE
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the name. </summary>
+		/// <summary>	Gets the window name. </summary>
 		///
 		/// <returns>	The name. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const std::string& GetName() const { return m_name; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local rectangle. </summary>
+		/// <summary>	Gets window local rectangle. </summary>
 		///
 		/// <returns>	The local rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetLocalRect() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets screen rectangle. </summary>
+		/// <summary>	Gets window screen rectangle. </summary>
 		///
 		/// <returns>	The screen rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetScreenRect() const { return WindowRectToScreenRect(GetLocalRect()); }		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local client rectangle. </summary>
+		/// <summary>	Gets window local client rectangle. </summary>
 		///
 		/// <returns>	The local client rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleI& GetLocalClientRect() const { return m_clientRect; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets screen space client rectangle. </summary>
+		/// <summary>	Gets window screen space client rectangle. </summary>
 		///
 		/// <returns>	The screen space client rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetScreenSpaceClientRect() const { return WindowRectToScreenRect(GetLocalClientRect()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local menu area rectangle. </summary>
+		/// <summary>	Gets window local menu area rectangle. </summary>
 		///
 		/// <returns>	The local menu area rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetLocalMenuAreaRect() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Covers screen point. </summary>
+		/// <summary>	Determines if screen point is within the window. </summary>
 		///
 		/// <param name="screenPoint">	The screen point. </param>
 		///
@@ -675,21 +651,21 @@ namespace HAPI_UI_SPACE
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets screen position. </summary>
+		/// <summary>	Sets window screen position. </summary>
 		///
 		/// <param name="newPos">	The new position. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetScreenPosition(VectorI newPos){ m_windowPos = newPos; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets screen position. </summary>
+		/// <summary>	Gets window screen position. </summary>
 		///
 		/// <returns>	The screen position. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorI GetScreenPosition() const {return m_windowPos;}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Searches for the first object at screen point. </summary>
+		/// <summary>	Searches for the first object at a screen point. </summary>
 		///
 		/// <param name="screenPoint">	The screen point. </param>
 		///
@@ -698,7 +674,7 @@ namespace HAPI_UI_SPACE
 		std::string FindObjectAtScreenPoint(VectorI screenPoint) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Searches for the first object at window point. </summary>
+		/// <summary>	Searches for the first object at a window point. </summary>
 		///
 		/// <param name="windowPoint">	The window point. </param>
 		///
@@ -707,7 +683,7 @@ namespace HAPI_UI_SPACE
 		std::string FindObjectAtWindowPoint(VectorI windowPoint) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Scaling is dependant on feature flag set on creation. </summary>
+		/// <summary>	Resize window. Scaling is dependant on feature flag set on creation. </summary>
 		///
 		/// <param name="newWidth"> 	Width of the new. </param>
 		/// <param name="newHeight">	Height of the new. </param>
@@ -723,7 +699,7 @@ namespace HAPI_UI_SPACE
 		/// </summary>
 		///
 		/// <param name="objectName">	Name of the object. </param>
-		/// <param name="newName">   	Name of the new. </param>
+		/// <param name="newName">   	New name. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -731,7 +707,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Get object pointer by name, can supress error message, returns nullptr if not found.
+		/// Get object by name, can suppress error message, returns nullptr if not found.
 		/// </summary>
 		///
 		/// <param name="objectName"> 	Name of the object. </param>
@@ -743,7 +719,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Get object pointer by user id, can supress error message, returns nullptr if not found.
+		/// Get object pointer by user id, can suppress error message, returns nullptr if not found.
 		/// </summary>
 		///
 		/// <param name="userId">	  	Identifier for the user. </param>
@@ -755,10 +731,10 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Makes a copy of an object If duplicateName empty OR duplicateName already exists a new name
-		/// is creasted from original name (number appended)
+		/// Makes a copy of an object. If duplicateName empty OR duplicateName already exists a new name
+		/// is created from original name (number appended).
 		/// Note: you will want to change its position afterwards otherwise it will appear on the top of
-		/// the old one Returns null if fails.
+		/// the old one. Returns null if fails.
 		/// </summary>
 		///
 		/// <param name="objectName">   	Name of the object. </param>
@@ -770,8 +746,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Constructs a menu. If type is drop down first item is the menu title If inMenuBar is true the
-		/// y position is set automatically to menu bar but x is left to user.
+		/// Constructs a menu. If type is drop down first item is the menu title. If inMenuBar is true the
+		/// y position is set automatically to the menu bar but x is left to user.
 		/// </summary>
 		///
 		/// <param name="name">					The name. </param>
@@ -786,7 +762,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Constructs a button from scratch When button type is one with text to left or right, size of
+		/// Constructs a button from scratch. When button type is one with text to left or right, size of
 		/// button is determined by bounds width.
 		/// </summary>
 		///
@@ -819,7 +795,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Constructs a canvas to rect size Can optionally provide a sprite to render to canvas before
+		/// Constructs a canvas to rect size. Can optionally provide a sprite to render to canvas before
 		/// user renders.
 		/// </summary>
 		///
@@ -832,19 +808,15 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UIObjectCanvas* AddCanvas(std::string name, RectangleI rect, std::shared_ptr<Sprite> sprite=nullptr, int textSizeIncrement = 0);
 
-		/*
-			A helper that does a few common tasks:
-				Ceates the buttons and sets them all to the same size 
-				Sets them as a radio button collection
-				Fills them into rows
-				Optionally assigns an id range
-
-				nameAndText is a pair , one for the id name and one for text on the button
-				/When button type is one with text to left or right, size of button is determined by bounds width
-		*/
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Adds a radio buttons. </summary>
+		/// <summary>
+		/// Adds a radio buttons.A helper that does a few common tasks: Ceates the buttons and sets them
+		/// all to the same size Sets them as a radio button collection Fills them into rows Optionally
+		/// assigns an id range
+		/// 
+		/// nameAndText is a pair, one for the id name and one for text on the button / When button type
+		/// is one with text to left or right, size of button is determined by bounds width.
+		/// </summary>
 		///
 		/// <param name="nameAndText">			The name and text. </param>
 		/// <param name="relativeToObject"> 	The relative to object. </param>
@@ -864,16 +836,12 @@ namespace HAPI_UI_SPACE
 			EAlignment alignment = EAlignment::eAlignMinToMin,const int * const userIdStart = nullptr,
 			bool initiallyVisible=true, EButtonType type=EButtonType::eRadio, int textSizeIncrement = 0, bool setAsCollection=true);
 
-		/*
-		A helper that does a few common tasks:
-		Ceates the toggle buttons and sets them all to the same size
-		Fills them into rows
-		Optionally assigns an id range
-		nameAndText is a pair , one for the id name and one for text on the button
-		*/
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Adds the buttons. </summary>
+		/// <summary>
+		/// Adds the buttons.A helper that does a few common tasks: Ceates the toggle buttons and sets
+		/// them all to the same size Fills them into rows Optionally assigns an id range nameAndText is
+		/// a pair, one for the id name and one for text on the button.
+		/// </summary>
 		///
 		/// <param name="nameAndText">			The name and text. </param>
 		/// <param name="relativeToObject"> 	The relative to object. </param>
@@ -890,14 +858,11 @@ namespace HAPI_UI_SPACE
 			const std::string& relativeToObject, EDirection positioning, int maxInRow,
 			EAlignment alignment = EAlignment::eAlignMinToMin, int *userIdStart = nullptr, int textSizeIncrement = 0);
 
-		/*
-		A helper that adds a text entry and a label to go with it
-		Assumes text entry to right of label and 
-		Positioning refers to position of label
-		*/
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Adds a text entry and label. </summary>
+		/// <summary>
+		/// Adds a text entry and label. A helper that adds a text entry and a label to go with it
+		/// Assumes text entry to right of label and Positioning refers to position of label.
+		/// </summary>
 		///
 		/// <param name="textEntryName">		Name of the text entry. </param>
 		/// <param name="labelName">			Name of the label. </param>
@@ -963,9 +928,6 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UIObjectText* AddText(std::string name, std::string text, UiTextStyleGroup style, ETextType type = ETextType::eStatic,int textSizeIncrement = 0);
 
-		// Adds a text entry box with one of the provided lambdas to set dimensions
-		//UIObjectTextEntry* AddTextEntry(std::string name, RectangleI dimensions,ETextEntryLambdas validatingLambda = ETextEntryLambdas::eEverything);
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Adds a text entry box with one of the provided lambdas to dimensions calculated from num
@@ -984,7 +946,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Adds a text entry box with a user supplied text validating lambda Note: if used it cannot be
+		/// Adds a text entry box with a user supplied text validating lambda. Note: if used it cannot be
 		/// saved in XML so will need post-applying after a load.
 		/// </summary>
 		///
@@ -1048,7 +1010,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Adds scrollbars to this window. They are in the form of sliders but with no shadow and tumb
+		/// Adds scrollbars to this window. They are in the form of sliders but with no shadow and thumb
 		/// region stops against the lengths. Adds if object name is not empty.
 		/// </summary>
 		///
@@ -1091,7 +1053,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Useful for lining up menus in a window menu bar Window must have been created with menu
+		/// Useful for lining up menus in a window menu bar. Window must have been created with menu
 		/// feature flag.
 		/// </summary>
 		///
@@ -1101,7 +1063,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Used ot position one menu in a menu bar. Position relates to any other menus.
+		/// Used to position one menu in a menu bar. Position relates to any other menus.
 		/// </summary>
 		///
 		/// <param name="menuName">	Name of the menu. </param>
@@ -1111,8 +1073,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Position first object relative to second object Note: if positioning direction is a diagonal
-		/// then alignment is ignored translate is in terms of object gaps not actual pixels.
+		/// Position first object relative to second object. Note: if positioning direction is a diagonal
+		/// then alignment is ignored. translate is in terms of object gaps not actual pixels.
 		/// </summary>
 		///
 		/// <param name="objectToPositionName">	Name of the object to position. </param>
@@ -1120,7 +1082,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="positioning">		   	The positioning. </param>
 		/// <param name="alignment">		   	(Optional) The alignment. </param>
 		/// <param name="gap">				   	(Optional) The gap. </param>
-		/// <param name="translate">		   	(Optional) The translate. </param>
+		/// <param name="translate">		   	(Optional) The translation. </param>
 		/// <param name="axis">				   	(Optional) The axis. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PositionRelativeTo(const std::string& objectToPositionName, const std::string& relativeToObject,EDirection positioning,
@@ -1128,28 +1090,28 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Quick alignment to another on an axis translate is in terms of object gaps not actual pixels.
+		/// Quick alignment to another on an axis. translate is in terms of object gaps not actual pixels.
 		/// </summary>
 		///
 		/// <param name="objectToPositionName">	Name of the object to position. </param>
 		/// <param name="relativeToObject">	   	The relative to object. </param>
 		/// <param name="axis">				   	The axis. </param>
 		/// <param name="alignment">		   	(Optional) The alignment. </param>
-		/// <param name="translate">		   	(Optional) The translate. </param>
+		/// <param name="translate">		   	(Optional) The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void AlignTo(const std::string& objectToPositionName, const std::string& relativeToObject, EAxis axis,
 			EAlignment alignment = EAlignment::eAlignMinToMin, const VectorI& translate = VectorI(0));		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Position at the edge (or corner) of this window translate is in terms of object gaps not
+		/// Position at the edge (or corner) of this window. translate is in terms of object gaps not
 		/// actual pixels.
 		/// </summary>
 		///
 		/// <param name="toPositionName">	Name of to position. </param>
 		/// <param name="edge">			 	The edge. </param>
 		/// <param name="gap">			 	(Optional) The gap. </param>
-		/// <param name="translate">	 	(Optional) The translate. </param>
+		/// <param name="translate">	 	(Optional) The translation. </param>
 		/// <param name="axis">			 	(Optional) The axis. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PositionObjectAgainstWindowEdge(const std::string& toPositionName, EDirection edge, 
@@ -1157,7 +1119,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows 1 or more objects to be positioned centrally in a window, axis can be specified Note
+		/// Allows 1 or more objects to be positioned centrally in a window, axis can be specified. Note
 		/// that for multiple objects they are positioned as if they were one object with the rectangle
 		/// bounding them all being centred.
 		/// </summary>
@@ -1169,11 +1131,11 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// For positioning a window relative to this one Note that windows are not children of other
-		/// windows so positioning is in screen space if inside is true edge is the inside edge else
+		/// For positioning a window relative to this one. Note that windows are not children of other
+		/// windows so positioning is in screen space. If inside is true edge is the inside edge else
 		/// outside edge
 		/// E.g. if you say east and inside then it will be positioned inside this window against left
-		/// edge But if you say east and !inside then it will be positioned to the left of the left edge
+		/// edge. But if you say east and !inside then it will be positioned to the left of the left edge.
 		/// translate is in terms of object gaps not actual pixels.
 		/// </summary>
 		///
@@ -1181,16 +1143,16 @@ namespace HAPI_UI_SPACE
 		/// <param name="edge">				   	The edge. </param>
 		/// <param name="inside">			   	(Optional) True to inside. </param>
 		/// <param name="gap">				   	(Optional) The gap. </param>
-		/// <param name="translate">		   	(Optional) The translate. </param>
+		/// <param name="translate">		   	(Optional) The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PositionWindowAgainstWindowEdge(const std::string& windowToPositionName, EDirection edge, 
 			bool inside=false, EGap gap = EGap::eNormal, const VectorI& translate = VectorI(0));
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Alters one edge of an object to match an edge of another object Directions here can only be 1
-		/// of the four primary ones whichEdge is the edge to alter, toWhichEdge is the edge of the
-		/// relative object This effectivley sizes an object. Note that some objects may alter their own
+		/// Alters one edge of an object to match an edge of another object. Directions here can only be 1
+		/// of the four primary ones. whichEdge is the edge to alter, toWhichEdge is the edge of the
+		/// relative object. This effectively sizes an object. Note that some objects may alter their own
 		/// size to a minimum.
 		/// </summary>
 		///
@@ -1203,7 +1165,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Sets the size of objectToSizeName to be the same as relativeToObject width and height can be
+		/// Sets the size of objectToSizeName to be the same as relativeToObject. width and height can be
 		/// optionally set.
 		/// </summary>
 		///
@@ -1215,7 +1177,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows a group of objects to be sized to the largest dimension of any adjust is in terms of
+		/// Allows a group of objects to be sized to the largest dimension of any. adjust is in terms of
 		/// object gaps not actual pixels and is added to size.
 		/// </summary>
 		///
@@ -1252,7 +1214,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Called when HAPI detects a key event (via UI)
-		/// Return false if not handled Additionally passed an input action that may have been detected
+		/// Return false if not handled. Additionally passed an input action that may have been detected
 		/// from mappings.
 		/// </summary>
 		///
@@ -1267,7 +1229,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Return false if not handled Additionally passed an input action that may have been detected
+		/// Return false if not handled. Additionally passed an input action that may have been detected
 		/// from mappings.
 		/// </summary>
 		///
@@ -1281,7 +1243,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Called for a controller event, currently not using (via UI)
+		/// Called for a controller event
 		/// Return false if not handled.
 		/// </summary>
 		///
@@ -1310,7 +1272,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Tag added to each object that can be used in global operations, e.g. turn off, turn on so
-		/// useful for a screen Returns old tag.
+		/// useful for a screen. Returns old tag.
 		/// </summary>
 		///
 		/// <param name="tag">	The tag. </param>
@@ -1318,6 +1280,7 @@ namespace HAPI_UI_SPACE
 		/// <returns>	A std::string. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string SetCurrentTag(std::string tag) { std::string oldTag{ m_currentTag }; m_currentTag = tag; return oldTag; }
+	
 		/// <summary>	Clears the current tag. </summary>
 		void ClearCurrentTag() { m_currentTag = std::string(); }
 
@@ -1338,7 +1301,7 @@ namespace HAPI_UI_SPACE
 		void SetTitleText(const std::string& newText);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets tagge objects visibility. </summary>
+		/// <summary>	Sets tagged object's visibility. </summary>
 		///
 		/// <param name="tag">	The tag. </param>
 		/// <param name="set">	True to set. </param>
@@ -1354,7 +1317,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Only call if you have completely finished with it Otherwise just set its visibility to false
+		/// Only call if you have completely finished with it otherwise just set its visibility to false
 		/// to disable it.
 		/// </summary>
 		///
@@ -1371,13 +1334,12 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool WriteXML(CHapiXMLNode *windowNode) const;
 
-		/*
-			Saves all the object names to a text file for easy reference when building the UI backend code
-			Uses current working directory and window name to save to, can optionally open in notepad
-		*/
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an object names. </summary>
+		/// <summary>
+		/// Saves all object names. Saves all the object names to a text file for easy reference when
+		/// building the UI back end code. Uses current working directory and window name to save to, can
+		/// optionally open in notepad.
+		/// </summary>
 		///
 		/// <param name="openInNotepad">	(Optional) True to open in notepad. </param>
 		///

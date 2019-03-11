@@ -7,7 +7,6 @@
 #include "UI\UITypes.h"
 
 namespace HAPISPACE {
-	/// <summary>	Form for viewing the user interface editor object style. </summary>
 	class UIEditorObjectStyleWindow;
 }
 
@@ -18,13 +17,13 @@ namespace HAPI_UI_SPACE
 	{
 		/// <summary>	Main text colour. </summary>
 		std::string textColour;
-		/// <summary>	Outline colour if thickness>0.0f. </summary>
+		/// <summary>	Outline colour if thickness > 0.0f. </summary>
 		std::string textOutlineColour;
-		/// <summary>	value of 0.0f means no outline. </summary>
+		/// <summary>	Value of 0.0f means no outline. </summary>
 		float textOutlineThickness{ 0.0f };
-		/// <summary>	from UI default value. </summary>
+		/// <summary>	From UI default value. </summary>
 		int textSizeIncrement{ 0 };
-		/// <summary>	see HAPI_TextStyle. </summary>
+		/// <summary>	See HAPI_TextStyle. </summary>
 		unsigned int styleFlags{ 0 };
 		/// <summary>	Inheritance flags. </summary>
 		bool textColour_Inherited{ true };
@@ -37,18 +36,10 @@ namespace HAPI_UI_SPACE
 		/// <summary>	True if style flags inherited. </summary>
 		bool styleFlags_Inherited{ true };
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets all inheritance. </summary>
-		///
-		/// <param name="set">	True to set. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetAllInheritance(bool set);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Cascade inherited values into this. </summary>
-		///
-		/// <param name="parent">	The parent. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Cascade(const UiTextStyle& parent);
 	};
 
@@ -56,108 +47,99 @@ namespace HAPI_UI_SPACE
 	class UiTextStyleGroup
 	{
 	private:
-		/// <summary>	A skin. </summary>
 		friend class Skin;
-		/// <summary>	An object. </summary>
 		friend class UIObject;
-		/// <summary>	Form for viewing the user interface editor object style. </summary>
 		friend class HAPISPACE::UIEditorObjectStyleWindow;
 
-		/// <summary>	The style[(int) e skin sub style number sub styles]. </summary>
+		/// <summary>	The sub styles </summary>
 		UiTextStyle style[(int)ESkinSubStyle::eNumSubStyles];
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Remove any non-existant palette entries. </summary>
-		///
-		/// <param name="window">	[in,out] The window. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Validate(UIWindow& window);
 	public:
-		// Optional tyext size increment is applied to all sub styles
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
+		/// <summary>	Constructor. Optional text size increment is applied to all sub styles. </summary>
 		///
 		/// <param name="textSizeIncrement">	(Optional) The text size increment. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UiTextStyleGroup(int textSizeIncrement=0);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets a sub. </summary>
+		/// <summary>	Get skin sub style. </summary>
 		///
-		/// <param name="sub">	The sub. </param>
+		/// <param name="sub">	The sub style. </param>
 		///
-		/// <returns>	The sub. </returns>
+		/// <returns>	The sub style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const UiTextStyle& GetSub(ESkinSubStyle sub) const { return style[(size_t)sub]; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets a sub. </summary>
+		/// <summary>	Get skin sub style. </summary>
 		///
-		/// <param name="sub">	The sub. </param>
+		/// <param name="sub">	The sub style. </param>
 		///
-		/// <returns>	The sub. </returns>
+		/// <returns>	The sub style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UiTextStyle& GetSub(ESkinSubStyle sub) { return style[(size_t)sub]; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Sets text colour. </summary>
+		/// <summary>	Sets the text colour. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="colour">			The colour. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetTextColour(ESkinSubStyle sub, const std::string& colour, bool inheritedFlag=false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets text outline colour. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="colour">			The colour. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetTextOutlineColour(ESkinSubStyle sub, const std::string& colour, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets text outline thickness. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="thickness">		The thickness. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetTextOutlineThickness(ESkinSubStyle sub, float thickness, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets text size increment. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="increment">		Amount to increment by. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetTextSizeIncrement(ESkinSubStyle sub, int increment, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets text style flags. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="styleFlags">   	The style flags. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetTextStyleFlags(ESkinSubStyle sub, unsigned int styleFlags, bool inheritedFlag = false);		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Which just used for writing attribute. </summary>
+		/// <summary>	Which style just used for writing attribute. </summary>
 		///
 		/// <param name="parent">  	[in,out] If non-null, the parent. </param>
-		/// <param name="which">   	The which. </param>
-		/// <param name="asMaster">	(Optional) True to as master. </param>
+		/// <param name="which">   	The style. </param>
+		/// <param name="asMaster">	(Optional) True to set as master. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool SaveXML(CHapiXMLNode *parent, ESkinStyle which,bool asMaster=false) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Loads an XML. </summary>
+		/// <summary>	Loads from XML. </summary>
 		///
 		/// <param name="xml">  	[in,out] The XML. </param>
 		/// <param name="root"> 	[in,out] If non-null, the root. </param>
@@ -168,7 +150,7 @@ namespace HAPI_UI_SPACE
 		bool LoadXML(CHapiXML &xml, CHapiXMLNode *root, ESkinStyle &style);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Loads an XML. </summary>
+		/// <summary>	Loads from XML. </summary>
 		///
 		/// <param name="xml">					[in,out] The XML. </param>
 		/// <param name="skinTextStyleNode">	[in,out] If non-null, the skin text style node. </param>
@@ -205,10 +187,12 @@ namespace HAPI_UI_SPACE
 		std::string backgroundShader;
 		/// <summary>	The shadow shader. </summary>
 		std::string shadowShader;
+		
 		/// <summary>	max is 10. </summary>
 		int borderWidth{ 0 };
 		/// <summary>	The curvature. </summary>
 		float curvature{ 0.0f };
+	
 		/// <summary>	True if has shadow, false if not. </summary>
 		bool hasShadow{ true };
 
@@ -226,18 +210,10 @@ namespace HAPI_UI_SPACE
 		/// <summary>	True if has shadow inherited, false if not. </summary>
 		bool hasShadow_Inherited{ true };		
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets all inheritance. </summary>
-		///
-		/// <param name="set">	True to set. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetAllInheritance(bool set);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Cascade inherited values into this. </summary>
-		///
-		/// <param name="parent">	The parent. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Cascade(const UiWindowStyle& parent);
 	};
 
@@ -245,73 +221,67 @@ namespace HAPI_UI_SPACE
 	class UiWindowStyleGroup
 	{
 	private:
-		/// <summary>	A skin. </summary>
 		friend class Skin;
-		/// <summary>	An object. </summary>
 		friend class UIObject;
-		/// <summary>	Form for viewing the user interface editor object style. </summary>
 		friend class UIEditorObjectStyleWindow;
-		/// <summary>	The style[(int) e skin sub style number sub styles]. </summary>
+
+		/// <summary>	The sub styles. </summary>
 		UiWindowStyle style[(int)ESkinSubStyle::eNumSubStyles];
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Remove any non-existant palette entries. </summary>
-		///
-		/// <param name="window">	[in,out] The window. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Validate(UIWindow& window);
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets border shader. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="shader">			The shader. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetBorderShader(ESkinSubStyle sub, const std::string& shader, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets background shader. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="shader">			The shader. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetBackgroundShader(ESkinSubStyle sub, const std::string& shader, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets border width. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="width">			The width. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetBorderWidth(ESkinSubStyle sub, int width, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets a curvature. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="curvature">		The curvature. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetCurvature(ESkinSubStyle sub, float curvature, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets has shadow. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="hasShadow">		True if has shadow, false if not. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetHasShadow(ESkinSubStyle sub, bool hasShadow, bool inheritedFlag = false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Sets shadow shader. </summary>
 		///
-		/// <param name="sub">				The sub. </param>
+		/// <param name="sub">				The sub style. </param>
 		/// <param name="shader">			The shader. </param>
-		/// <param name="inheritedFlag">	(Optional) True to inherited flag. </param>
+		/// <param name="inheritedFlag">	(Optional) True to set inherited flag. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetShadowShader(ESkinSubStyle sub, const std::string& shader, bool inheritedFlag = false);
 
@@ -336,25 +306,25 @@ namespace HAPI_UI_SPACE
 		void Cascade(const UiWindowStyleGroup& parent);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets a sub. </summary>
+		/// <summary>	Get skin sub style. </summary>
 		///
-		/// <param name="sub">	The sub. </param>
+		/// <param name="sub">	The sub style. </param>
 		///
-		/// <returns>	The sub. </returns>
+		/// <returns>	The sub style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const UiWindowStyle& GetSub(ESkinSubStyle sub) const { return style[(size_t)sub]; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets a sub. </summary>
+		/// <summary>	Get skin sub style. </summary>
 		///
-		/// <param name="sub">	The sub. </param>
+		/// <param name="sub">	The sub style. </param>
 		///
-		/// <returns>	The sub. </returns>
+		/// <returns>	The sub style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UiWindowStyle& GetSub(ESkinSubStyle sub) { return style[(size_t)sub]; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an XML. </summary>
+		/// <summary>	Save to XML under root node. </summary>
 		///
 		/// <param name="parent">  	[in,out] If non-null, the parent. </param>
 		/// <param name="which">   	The which. </param>
@@ -365,7 +335,7 @@ namespace HAPI_UI_SPACE
 		bool SaveXML(CHapiXMLNode *parent, ESkinStyle which, bool asMaster=false) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Loads an XML. </summary>
+		/// <summary>	Loads from XML. </summary>
 		///
 		/// <param name="xml">  	[in,out] The XML. </param>
 		/// <param name="root"> 	[in,out] If non-null, the root. </param>
@@ -376,7 +346,7 @@ namespace HAPI_UI_SPACE
 		bool LoadXML(CHapiXML &xml, CHapiXMLNode *root, ESkinStyle &style);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Loads an XML. </summary>
+		/// <summary>	Loads from XML. </summary>
 		///
 		/// <param name="xml">				  	[in,out] The XML. </param>
 		/// <param name="skinWindowStyleNode">	[in,out] If non-null, the skin window style node. </param>

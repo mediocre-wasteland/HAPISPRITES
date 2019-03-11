@@ -48,7 +48,7 @@ namespace HAPI_UI_SPACE
 		/// </summary>
 		///
 		/// <param name="surface">  	[in,out] The surface. </param>
-		/// <param name="translate">	The translate. </param>
+		/// <param name="translate">	The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
 		void Render(std::shared_ptr<Surface> &surface, VectorI translate) const override final;
 

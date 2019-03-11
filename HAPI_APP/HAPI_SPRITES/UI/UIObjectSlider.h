@@ -135,7 +135,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Overrides required by UIObject. </summary>
 		///
 		/// <param name="surface">  	[in,out] The surface. </param>
-		/// <param name="translate">	The translate. </param>
+		/// <param name="translate">	The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &surface, VectorI translate) const override final;
 		/// <summary>	Lost focus. </summary>

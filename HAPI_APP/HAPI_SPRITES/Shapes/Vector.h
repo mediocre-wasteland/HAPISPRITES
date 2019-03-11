@@ -371,7 +371,7 @@ namespace HAPISPACE {
 		/// Cast that converts the given std::ostream&amp; to a &lt;&lt;&lt;typename T&gt;
 		/// </summary>
 		///
-		/// <param name="os">	[in,out] The operating system. </param>
+		/// <param name="os">	[in,out] The output stream. </param>
 		/// <param name="p"> 	A Vector&lt;T&gt; to process. </param>
 		///
 		/// <returns>	The result of the operation. </returns>
@@ -420,7 +420,7 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Can be used with cout to output values to output pane and log. </summary>
 	///
-	/// <param name="os">	[in,out] The operating system. </param>
+	/// <param name="os">	[in,out] The output stream. </param>
 	/// <param name="p"> 	A Vector&lt;T&gt; to process. </param>
 	///
 	/// <returns>	The result of the operation. </returns>

@@ -11,19 +11,16 @@ namespace HAPISPACE {
 	class Circle
 	{
 	public:
-		/// <summary>	The radius. </summary>
 		float radius{ 0 };
-		/// <summary>	The centre. </summary>
 		VectorF centre;
 	public:
-		/// <summary>	Default constructor. </summary>
 		Circle() noexcept = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="cent">	The cent. </param>
-		/// <param name="radi">	The radi. </param>
+		/// <param name="cent">	The centre. </param>
+		/// <param name="radi">	The radius. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Circle(VectorF cent, float radi) noexcept : centre(cent), radius(radi) {}
 
@@ -42,10 +39,10 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translates the given tran. </summary>
+		/// <summary>	Translates. </summary>
 		///
 		/// <typeparam name="T">	Generic type parameter. </typeparam>
-		/// <param name="tran">	The tran. </param>
+		/// <param name="tran">	The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		void Translate(const Vector<T>& tran)
@@ -54,12 +51,12 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translated the given tran. </summary>
+		/// <summary>	Translated. </summary>
 		///
 		/// <typeparam name="T">	Generic type parameter. </typeparam>
 		/// <param name="tran">	The tran. </param>
 		///
-		/// <returns>	A Circle. </returns>
+		/// <returns>	The translated Circle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		Circle Translated(const Vector<T>& tran) const
@@ -75,7 +72,7 @@ namespace HAPISPACE {
 		*/
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Encompass the given other. </summary>
+		/// <summary>	Encompass the other circle. </summary>
 		///
 		/// <param name="other">	The other. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,9 +121,9 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets enclosing a bb. </summary>
+		/// <summary>	Gets enclosing AABB. </summary>
 		///
-		/// <returns>	The enclosing a bb. </returns>
+		/// <returns>	The enclosing AABB. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleF GetEnclosingAABB() const noexcept
 		{

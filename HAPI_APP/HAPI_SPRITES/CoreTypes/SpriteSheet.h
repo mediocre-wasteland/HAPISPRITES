@@ -11,8 +11,8 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// A spritesheet has a surface and a number of frame descriptions. RULES: every frame must have a
-	/// name and every frame name must be unique within the spritesheet.
+	/// A SpriteSheet has a surface and a number of frame descriptions. RULES: every frame must have a
+	/// name and every frame name must be unique within the SpriteSheet.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class SpriteSheet
@@ -27,15 +27,11 @@ namespace HAPISPACE {
 		/// <summary>	Used for PP collisions and also normal generation. </summary>
 		BYTE m_minAlphaForCollision{ 255 };
 
-		/// <summary>	For editor internal access. </summary>
+		// Editor internal access
 		friend class SpriteEditor;
-		/// <summary>	Form for viewing the sprite editor main. </summary>
 		friend class SpriteEditorMainWindow;
-		/// <summary>	A sprite editor payload data. </summary>
 		friend class SpriteEditorPayloadData;
-		/// <summary>	Form for viewing the sprite editor copy. </summary>
 		friend class SpriteEditorCopyWindow;
-		/// <summary>	Form for viewing the sprite editor toolbox. </summary>
 		friend class SpriteEditorToolboxWindow;
 
 		/// <summary>	Potentially slow. Returns null if none. </summary>
@@ -43,8 +39,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Editor get frames. Direct write access to frame data for editor use NOTE: if you add a frame
-		/// or change position of one you must call m_shared->spriteSheet->SortFrames();
+		/// Editor get frames. Direct write access to frame data for editor use only. NOTE: if you add a
+		/// frame or change position of one you must call m_shared->spriteSheet->SortFrames();
 		/// </summary>
 		///
 		/// <returns>	A reference to a std::vector&lt;Frame&gt; </returns>
@@ -52,11 +48,11 @@ namespace HAPISPACE {
 		std::vector<Frame>& EditorGetFrames() { return m_frames; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets frame by name. </summary>
+		/// <summary>	Gets a frame by name. </summary>
 		///
 		/// <param name="name">	The name. </param>
 		///
-		/// <returns>	Null if it fails, else the frame by name. </returns>
+		/// <returns>	Null if it fails, else the frame. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Frame* GetFrameByName(const std::string& name);
 
@@ -76,7 +72,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="circle">  	[in,out] The circle. </param>
 		/// <param name="frame">   	[in,out] The frame. </param>
-		/// <param name="minAlpha">	The minimum alpha. </param>
+		/// <param name="minAlpha">	The minimum alpha considered to be solid. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void FitCircle(Circle &circle, Frame& frame, BYTE minAlpha);
 
@@ -84,12 +80,12 @@ namespace HAPISPACE {
 		/// <summary>	Fits a tight rectangle around data in the frame. </summary>
 		///
 		/// <param name="rect">	   	[in,out] The rectangle. </param>
-		/// <param name="minAlpha">	The minimum alpha. </param>
+		/// <param name="minAlpha">	The minimum alpha considered to be solid. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void FitRect(RectangleI &rect, BYTE minAlpha);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	When using frame sets the frame index returned here != frame number. </summary>
+		/// <summary>	When using frame sets, the frame index returned here != frame number. </summary>
 		///
 		/// <param name="frameSetName">  	Name of the frame set. </param>
 		/// <param name="frameSetNumber">	The frame set number. </param>
@@ -116,7 +112,7 @@ namespace HAPISPACE {
 		CHapiXMLNode* SaveXML() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the neighbours. </summary>
+		/// <summary>	Gets the neighbours for breadth search. </summary>
 		///
 		/// <param name="pnt">	The point. </param>
 		/// <param name="w">  	The width. </param>
@@ -134,7 +130,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="surface">		   	The surface. </param>
 		/// <param name="numFrames">	   	(Optional) Number of frames. </param>
-		/// <param name="layoutHorizontal">	(Optional) True to layout horizontal. </param>
+		/// <param name="layoutHorizontal">	(Optional) True for horizontal layout. </param>
 		/// <param name="frameSetName">	   	(Optional) Name of the frame set. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		SpriteSheet(std::shared_ptr<Surface> surface, unsigned int numFrames = 1, bool layoutHorizontal = true, const std::string& frameSetName = std::string());
@@ -161,17 +157,17 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows creation of a new surface and spritesheet from an XML file that describes the layout.
+		/// Allows creation of a new surface and SpriteSheet from an XML file that describes the layout.
 		/// </summary>
 		///
 		/// <param name="xmlFilename">	  	Filename of the XML file. </param>
-		/// <param name="textureRootPath">	(Optional) Full pathname of the texture root file. </param>
+		/// <param name="textureRootPath">	(Optional) Full pathname of the texture root file if different. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		SpriteSheet(const std::string& xmlFilename, const std::string& textureRootPath = std::string());
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows creation of a new surface and spritesheet from an XML byte stream that describes the layout.
+		/// Allows creation of a new surface and SpriteSheet from an XML byte stream that describes the layout.
 		/// </summary>
 		///
 		/// <param name="xmlByteSteam">	The XML byte steam. </param>
@@ -182,18 +178,17 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Copy constructor, allocates memory and copies raw data - deep copy. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other SpriteSheet. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		SpriteSheet(const SpriteSheet &other);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Copy constructor, allocates memory and copies raw data - deep copy. </summary>
 		///
-		/// <param name="other">	The other. </param>
+		/// <param name="other">	The other SpriteSheet. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		SpriteSheet(const std::shared_ptr<SpriteSheet> &other);
 
-		/// <summary>	Destructor. </summary>
 		~SpriteSheet() = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +200,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Checks integrity including checking rules
+		/// Checks integrity including checking the following rules
 		/// - every frame has a name
 		/// - every frame name is unique
 		/// - any frame sets have sequential numbering.
@@ -217,9 +212,9 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// min alpha defaults to 255 meaning collisions occur only when alpha is 255. This function
+		/// Min alpha defaults to 255 meaning collisions occur only when alpha is 255. This function
 		/// allows you to lower that amount. NOTE: any surface normal calculations will need recalculating
-		/// (not done for you)
+		/// (not done automatically)
 		/// </summary>
 		///
 		/// <param name="minAlpha">	The minimum alpha. </param>
@@ -233,11 +228,15 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		BYTE GetMinimumAlphaForCollision() const { return m_minAlphaForCollision; }
 
-		/// <summary>	Note: uses current value of m_minAlphaForCollision. </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Generate normals. Can be slow. Note: uses current value of m_minAlphaForCollision.
+		/// </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void GenerateNormals();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	If generated otherwise returns Zero vector. </summary>
+		/// <summary>	Gets a normal, if generated, otherwise returns Zero vector. </summary>
 		///
 		/// <param name="surfacePosition">	The surface position. </param>
 		///
@@ -246,14 +245,14 @@ namespace HAPISPACE {
 		VectorF GetNormal(VectorI surfacePosition) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets read access to the surface the spritesheet uses. </summary>
+		/// <summary>	Gets read access to the surface the SpriteSheet uses. </summary>
 		///
 		/// <returns>	The surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const std::shared_ptr<Surface>& GetSurface() const { return m_surface; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets read / write access to the surface the spritesheet uses. </summary>
+		/// <summary>	Gets read / write access to the surface the SpriteSheet uses. </summary>
 		///
 		/// <returns>	The surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,9 +263,9 @@ namespace HAPISPACE {
 		/// Returns the number of frames. Optionally can limit to the number in a frame set.
 		/// </summary>
 		///
-		/// <param name="setName">	(Optional) Name of the set. </param>
+		/// <param name="setName">	(Optional) Name of the frame set. </param>
 		///
-		/// <returns>	The number frames. </returns>
+		/// <returns>	The number of frames. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int GetNumFrames(const std::string &setName = std::string()) const;
 
@@ -275,7 +274,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="frameName">	Name of the frame. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it exist, false if it does not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetFrameExists(const std::string& frameName) const;
 
@@ -284,7 +283,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="frameSetName">	Name of the frame set. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it exist, false if it does not </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetFrameSetExists(const std::string& frameSetName) const;
 
@@ -298,14 +297,14 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Returns a unique frame name. </summary>
 		///
-		/// <param name="root">	The root. </param>
+		/// <param name="root">	The name root. </param>
 		///
 		/// <returns>	The unique name. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string GetUniqueName(const std::string root) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Get the rectangle for a frame and hence size. </summary>
+		/// <summary>	Get the rectangle for a frame and hence the size. </summary>
 		///
 		/// <param name="frameNum">	   	The frame number. </param>
 		/// <param name="frameSetName">	(Optional) Name of the frame set. </param>
@@ -315,7 +314,7 @@ namespace HAPISPACE {
 		RectangleI GetFrameRect(unsigned int frameNum, const std::string& frameSetName = std::string()) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Collider group for this frame. </summary>
+		/// <summary>	Get collider group for this frame. </summary>
 		///
 		/// <param name="frameNum">	   	The frame number. </param>
 		/// <param name="frameSetName">	(Optional) Name of the frame set. </param>
@@ -354,7 +353,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Deletes the first frame with this name (and collider data). Warning: this can be slow.
+		/// Deletes the frame with this name (and collider data). Warning: this can be slow.
 		/// </summary>
 		///
 		/// <param name="frameName">	Name of the frame. </param>
@@ -369,7 +368,7 @@ namespace HAPISPACE {
 		/// Automatically finds frames in the image by finding solid blocks of colour (with alpha >
 		/// minAlpha)
 		/// How well it works will depend if there are gaps between frames in the image. Warning: replaces
-		/// all existing frame data if removeExistingFrames true.
+		/// all existing frame data if removeExistingFrames is true.
 		/// </summary>
 		///
 		/// <param name="removeExistingFrames">	(Optional) True to remove existing frames. </param>
@@ -378,7 +377,7 @@ namespace HAPISPACE {
 		void AutoFindFrames(bool removeExistingFrames = false, BYTE minAlpha = 1 );
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Divides surface up into equally sized frames. Replaces all existing frame data. </summary>
+		/// <summary>	Divides a surface up into equally sized frames. Replaces all existing frame data. </summary>
 		///
 		/// <param name="numX">	Number of frames in x. </param>
 		/// <param name="numY">	Number of frames in y. </param>
@@ -394,14 +393,14 @@ namespace HAPISPACE {
 		/// <param name="searchPoint">	The search point. </param>
 		/// <param name="minAlpha">   	(Optional) The minimum alpha. </param>
 		///
-		/// <returns>	A std::string. </returns>
+		/// <returns>	name of new frame or empty string if none</returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string AutoFindFrame(VectorI searchPoint,BYTE minAlpha = 1);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Collider names are not unique per framesheet so you need to specify the frame name as well
-		/// (which is unique)
+		/// Delete a collider. Collider names are not unique per SpriteSheet so you need to specify the
+		/// frame name as well (which is unique)
 		/// </summary>
 		///
 		/// <param name="frameName">   	Name of the frame. </param>
@@ -432,7 +431,7 @@ namespace HAPISPACE {
 		bool SaveAsXML(const std::string& filename, bool saveSurface = false) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves to byte stream. </summary>
+		/// <summary>	Saves to a byte stream. </summary>
 		///
 		/// <returns>	A std::vector&lt;BYTE&gt; Empty on error.</returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,16 +439,15 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a new spritesheet with a new surface which is made up solely of areas in the frame
-		/// collection Useful for trimming away dead areas or for making more cache friendly if alongX is
-		/// true then frames are added left to right if alongX is false then frames are added top to
-		/// bottom (the default as this is best cache friendly method)
-		/// Can also limit to a frameset (or provide an empty string for all)
-		/// Note: does memory allocation so potentially slow.
+		/// Creates a new SpriteSheet with a new surface which is made up solely of areas in the frame
+		/// collection. This is useful for trimming away dead areas or for making more cache friendly. If
+		/// alongX is true then frames are added left to right. If alongX is false then frames are added
+		/// top to bottom (the default, as this is best cache friendly method). Can also limit to a frame
+		/// set (or provide an empty string for all). Note: does memory allocation so potentially slow.
 		/// </summary>
 		///
-		/// <param name="alongX">  	(Optional) True to along x coordinate. </param>
-		/// <param name="frameSet">	(Optional) Set the frame belongs to. </param>
+		/// <param name="alongX">  	(Optional) True to create along x coordinate. </param>
+		/// <param name="frameSet">	(Optional) Set the frame set. </param>
 		///
 		/// <returns>	The new compacted. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -457,50 +455,49 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Joins two spritesheets together to create a third if alongX is true then other sprite is
-		/// added to the right of this if alongX is false then other sprite is added below this Note:
+		/// Joins two SpriteSheets together to create a third. If alongX is true then other sprite is
+		/// added to the right of this. If alongX is false then other sprite is added below this. Note:
 		/// does memory allocation so potentially slow.
 		/// </summary>
 		///
-		/// <param name="other">	The other. </param>
-		/// <param name="dir">  	(Optional) The dir. </param>
+		/// <param name="other">	The other sheet. </param>
+		/// <param name="dir">  	(Optional) The direction to add. </param>
 		///
-		/// <returns>	The new combined. </returns>
+		/// <returns>	The new combined SpriteSheet. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::unique_ptr<SpriteSheet> CreateCombined(const std::shared_ptr<SpriteSheet>& other, EDirection dir = EDirection::eEast) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Flips image data for each frame and creates a new frame with extension _flipHoriz You can
+		/// Flips image data for each frame and creates a new frame with extension _flipHoriz. You can
 		/// specify which frame set to process (empty string for all) and a frame set name for the new
-		/// frames Currently only supports horizontal flip (TODO)
-		/// Horizontal of true means frames laid out along x otherwise down y Useful if you have a
-		/// character graphic facing one way and need it to face another way as well Not for realtime use,
-		/// does lots of memory allocation and copying Creates and returns a new spritesheet, does not
-		/// modify existing.
+		/// frames. Currently only supports horizontal flip (TODO). Horizontal of true means frames laid
+		/// out along x otherwise down y. Useful if you have a character graphic facing one way and need
+		/// it to face another way as well. Not for real time use, does lots of memory allocation and
+		/// copying. Creates and returns a new SpriteSheet, does not modify existing.
 		/// </summary>
 		///
-		/// <param name="whichFrameSet">  	(Optional) Set the which frame belongs to. </param>
+		/// <param name="whichFrameSet">  	(Optional) For which frame set. </param>
 		/// <param name="newFrameSetName">	(Optional) Name of the new frame set. </param>
-		/// <param name="horizontal">	  	(Optional) True to horizontal. </param>
+		/// <param name="horizontal">	  	(Optional) True to flip horizontal. </param>
 		///
-		/// <returns>	The new flipped frames. </returns>
+		/// <returns>	The new flipped frames SpriteSheet. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::unique_ptr<SpriteSheet> CreateFlippedFrames(const std::string& whichFrameSet = std::string(), const std::string& newFrameSetName = std::string(), bool horizontal = false) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a new surface repeating the image num times, each time scaleX, scaleY different in
-		/// size Then creates a new sprite with frame data set to each of the repeats if alongX is true
-		/// then scaled surfaces are added horizontally if alongX is false then scaled surfaces are added
-		/// vertically Be careful! The resulting surface could become enormous if your scale factors are
-		/// too high.
+		/// Creates a new surface repeating the image num times (mip mapping). Each time scaleX, scaleY
+		/// is different in size. Then creates a new sprite with frame data set to each of the repeats.
+		/// If alongX is true then scaled surfaces are added horizontally, if alongX is false then scaled
+		/// surfaces are added vertically. Be careful! The resulting surface could become enormous if
+		/// your scale factors are too high.
 		/// </summary>
 		///
 		/// <param name="scaleX">	The scale x coordinate. </param>
 		/// <param name="scaleY">	The scale y coordinate. </param>
-		/// <param name="num">   	Number of. </param>
-		/// <param name="alongX">	(Optional) True to along x coordinate. </param>
+		/// <param name="num">   	Number of sizes. </param>
+		/// <param name="alongX">	(Optional) True to lay out along x coordinate. </param>
 		/// <param name="filter">	(Optional) Specifies the filter. </param>
 		///
 		/// <returns>	The new sizes. </returns>
@@ -509,24 +506,24 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a new surface for each frame of this spritesheet They are saved under a filename
-		/// generated as: [surface name]_[Frame name].png Returns a vector with all the new filenames You
-		/// can specify destination directory and file type (via the extension)
+		/// Creates a new surface for each frame of this SpriteSheet. They are saved under a filename
+		/// generated as: [surface name]_[Frame name].png. Returns a vector with all the new filenames.
+		/// You can specify destination directory and file type (via the extension).
 		/// </summary>
 		///
-		/// <param name="directory">	Pathname of the directory. </param>
+		/// <param name="directory">	Path. </param>
 		/// <param name="extension">	(Optional) The extension. </param>
 		///
-		/// <returns>	A std::vector&lt;std::string&gt; </returns>
+		/// <returns>	The saved file names </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::vector<std::string> SaveFramesAsImages(const std::string &directory, std::string extension = ".png") const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Reduce collider sizes to tightest fit Note: uses current value of m_minAlphaForCollision.
+		/// Reduce collider sizes to tightest fit. Note: uses current value of m_minAlphaForCollision.
 		/// </summary>
 		///
-		/// <param name="limitToFrame">	(Optional) The limit to frame. </param>
+		/// <param name="limitToFrame">	(Optional) The frame to limit to. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void AutoFitColliders(const std::string& limitToFrame=std::string());
 

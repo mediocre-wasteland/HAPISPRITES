@@ -48,7 +48,7 @@ namespace HAPI_UI_SPACE
 		bool UI_RemoveWindowToListenTo(const std::string& windowName);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Allows for turning on and off getting event messages, from the UI, altogether. </summary>
+		/// <summary>	Allows for turning on and off getting event messages from the UI, altogether. </summary>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,9 +129,9 @@ namespace HAPI_UI_SPACE
 		///
 		/// <param name="window">  	[in,out] The window. </param>
 		/// <param name="textName">	Name of the text. </param>
-		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
+		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if handled. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool UI_TextClicked(UIWindow& window, const std::string& textName, int* userId = nullptr) { return true; }
 
@@ -146,7 +146,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="mousePos">	The mouse position. </param>
 		/// <param name="userId">  	[in,out] (Optional) If non-null, user identifier for the UI object.. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if handled. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool UI_CanvasClicked(UIWindow& window, const std::string& textName, HAPISPACE::VectorI mousePos, int* userId = nullptr) { return true; }
 

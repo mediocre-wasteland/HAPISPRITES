@@ -20,19 +20,28 @@
 // Also the full class and function reference:
 // https://scma-intranet.tees.ac.uk/users/u0018197/Happier/doc/html/index.html
 // 
-// Last modified by Keith Ditchburn: February 2019
+// Last modified by Keith Ditchburn: March 2019
 // 
 // SELF NOTE: PRIOR TO FINALISING GENERATE DOXYGEN
 // 
+// Version 0.85 10/03/19
+// - BUGFIX: there was a bug in the local position collision info. returned when not doing PP collisions
+// - BUGFIX: while fixing the above discovered a bug when a sprite is scaled. Collision info is now in unscaled local space.
+// - BUGFIX: correct normal returned from raw shape colliders
+// - NEW: Added a GetFrameSetName function
+// - NEW: Collision with raw rectangle shape collider now used oriented rectangle if required
+// - DOC - much improved Doxygen comments
+// - OPT - small optimisations
+// 
 // Version 0.84 - 25/02/19
 // - BUGFIX: There was an error in pixel perfect collisions when not using rotation or scaling
-// - NEW: Added origin(pivot point) to frame, now used when rendering as origin
+// - NEW : Added origin(pivot point) to frame, now used when rendering as origin
 // - NEW : Added support for loading pivot point from XML
 // - NEW : UI Editor : Added pivot values to Toolbox and a show toggle radio button
 // - NEW : UI Editor : Added Position Pivots menu option
 // - NEW : UI: MultiChoiceDialog addition
 // - NEW : Added functions to the vector to convert to and from isometric view
-// - BUGFIX : UI Editor alignment radio buttons were resetting to min - to - min
+// - BUGFIX : UI Editor alignment radio buttons were resetting to 'min - to - min'
 // - BUGFIX : A number of small fixes to the UI
 // - DOC: Further improved some auto documentation
 //
@@ -178,7 +187,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Load a spritesheet and create a sprite for it. This one has the advantage of loading full
+		/// Load a SpriteSheet and create a sprite for it. This one has the advantage of loading full
 		/// frame set data and normals etc.
 		/// </summary>
 		///
@@ -191,7 +200,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Shortcut to create a surface, spritesheet and sprite (returned) from a texture filename.
+		/// Shortcut to create a surface, SpriteSheet and sprite (returned) from a texture filename.
 		/// </summary>
 		///
 		/// <param name="textureFilename">	Filename of the texture file. </param>
@@ -204,7 +213,7 @@ namespace HAPISPACE {
 		virtual std::unique_ptr<Sprite> MakeSprite(const std::string& textureFilename, int numFrames = 1, bool horizontal = true, const std::string& frameSetName = std::string()) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Make a sprite from an existing spritesheet. </summary>
+		/// <summary>	Make a sprite from an existing SpriteSheet. </summary>
 		///
 		/// <param name="spriteSheet">	The sprite sheet. </param>
 		///
@@ -213,7 +222,7 @@ namespace HAPISPACE {
 		virtual std::unique_ptr<Sprite> MakeSprite(std::shared_ptr<SpriteSheet> spriteSheet) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Make a sprite from a surface - creates a default spritesheet. </summary>
+		/// <summary>	Make a sprite from a surface - creates a default SpriteSheet. </summary>
 		///
 		/// <param name="surface">	The surface. </param>
 		///
@@ -223,14 +232,14 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Loads a spritesheet from an xml file. If texture not in same directory you can provide a path.
+		/// Loads a SpriteSheet from an xml file. If texture not in same directory you can provide a path.
 		/// to it.
 		/// </summary>
 		///
 		/// <param name="xmlFilename">	  	Filename of the XML file. </param>
 		/// <param name="textureRootPath">	(Optional) Full pathname of the texture root file. </param>
 		///
-		/// <returns>	The spritesheet. </returns>
+		/// <returns>	The SpriteSheet. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual std::shared_ptr<SpriteSheet> LoadSpritesheet(const std::string& xmlFilename, const std::string& textureRootPath = std::string()) const = 0;
 
@@ -246,7 +255,7 @@ namespace HAPISPACE {
 		virtual std::shared_ptr<SpriteSheet> MakeSpritesheet(const std::string& textureFilename, int numFrames = 1, bool horizontal = true) const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Creates a full copy of a spritesheet, returns new shared pointer. </summary>
+		/// <summary>	Creates a full copy of a SpriteSheet, returns new shared pointer. </summary>
 		///
 		/// <param name="other">	Other instance to copy. </param>
 		///
@@ -845,7 +854,7 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="name">		  	The name. </param>
-		/// <param name="newFilename">	Filename of the new file. </param>
+		/// <param name="newFilename">	The new filename. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

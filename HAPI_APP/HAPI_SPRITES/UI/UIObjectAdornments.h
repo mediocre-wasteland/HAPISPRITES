@@ -11,7 +11,7 @@ namespace HAPI_UI_SPACE
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// An object adornments. Can be used as background for a window Fill colour and border colour
+	/// An object adornments. Can be used as background for a window. Fill colour and border colour
 	/// come from style unless overwritten.
 	/// </summary>
 	///
@@ -20,56 +20,41 @@ namespace HAPI_UI_SPACE
 	class UIObjectAdornments final : public UIObject
 	{
 	private:
-		/// <summary>	The title bar rectangle. </summary>
 		RectangleI m_titleBarRect;
-		/// <summary>	The menu bar rectangle. </summary>
 		RectangleI m_menuBarRect;
-		/// <summary>	The sizing area rectangle. </summary>
 		RectangleI m_sizingAreaRect;
-		/// <summary>	The text position. </summary>
+		RectangleI m_newSizeRect;
+
+		/// <summary>	Different when minimised. </summary>
+		RectangleI m_minimisedBounds;
+
+		/// <summary>	So can restore after minimisation. </summary>
+		RectangleI m_oldBounds;
+
 		VectorI m_textPos;
-		/// <summary>	The cross position. </summary>
 		VectorI m_crossPos;
-		/// <summary>	The minimise position. </summary>
 		VectorI m_minimisePos;
-		/// <summary>	The drag start. </summary>
 		VectorI m_dragStart;
 
 		/// <summary>	For the minimise, maximise and close buttons. </summary>
 		VectorI m_iconSize;
-		/// <summary>	The close frame number. </summary>
 		int m_closeFrameNum{ 0 };
-		/// <summary>	The minimise frame number. </summary>
 		int m_minimiseFrameNum{ 0 };
-		/// <summary>	The maximise frame number. </summary>
-		int m_maximiseFrameNum{ 0 };
-		/// <summary>	Different when minimised. </summary>
-		RectangleI m_minimisedBounds;
-		/// <summary>	So can restore after minimisation. </summary>
-		RectangleI m_oldBounds;
+		int m_maximiseFrameNum{ 0 };						
 
-		/// <summary>	True to sizing. </summary>
-		bool m_sizing{ false };
-		/// <summary>	The new size rectangle. </summary>
-		RectangleI m_newSizeRect;
-		
-		/// <summary>	The title text. </summary>
 		std::string m_titleText;
 
-		/// <summary>	The features flags. </summary>
 		unsigned int m_featuresFlags;
-				
-		/// <summary>	True to previous mouse down state. </summary>
+
+		bool m_sizing{ false };
 		bool m_previousMouseDownState{ false };		
-		/// <summary>	True to highlight cross. </summary>
 		bool m_highlightCross{ false };
-		/// <summary>	True to highlight minimise. </summary>
 		bool m_highlightMinimise{ false };		
 	public:	
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="owner">			[in,out] If non-null, the owner. </param>
+		/// <param name="owner">			[in,out] If non-null, the owning window. </param>
 		/// <param name="name">				The name. </param>
 		/// <param name="tag">				The tag. </param>
 		/// <param name="textStyle">		The text style. </param>
@@ -81,11 +66,11 @@ namespace HAPI_UI_SPACE
 			unsigned int featuresFlags,std::string titleText);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
+		/// <summary>	Constructor from XML. </summary>
 		///
-		/// <param name="owner">		 	[in,out] If non-null, the owner. </param>
+		/// <param name="owner">		 	[in,out] If non-null, the owning window. </param>
 		/// <param name="name">			 	The name. </param>
-		/// <param name="xml">			 	[in,out] The XML. </param>
+		/// <param name="xml">			 	[in,out] The XML data. </param>
 		/// <param name="adornmentsNode">	[in,out] If non-null, the adornments node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UIObjectAdornments(UIWindow* owner, std::string name, CHapiXML &xml, CHapiXMLNode *adornmentsNode);
@@ -95,7 +80,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Allows change after creation. </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which">	The feature flag. </param>
 		/// <param name="set">  	True to set. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetFeatureFlag(WindowFeatures::EAdornmentFeatures which, bool set);
@@ -109,17 +94,17 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// For adornments refers to window title Allows setting text directly (if object supports it)
+		/// For adornments refers to window title.
 		/// </summary>
 		///
-		/// <param name="newText">	The new text. </param>
+		/// <param name="newText">	The new title text. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetText(const std::string &newText) override final { m_titleText = newText;  Recreate(); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Allows getting text directly (if supported else empty) </summary>
+		/// <summary>	Allows getting text directly.  </summary>
 		///
-		/// <returns>	The text. </returns>
+		/// <returns>	The title text. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string GetText() const override final { return m_titleText; }
 
@@ -145,16 +130,16 @@ namespace HAPI_UI_SPACE
 		unsigned int GetFeaturesFlags() const { return m_featuresFlags; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets user draw. </summary>
+		/// <summary>	Gets if this is user draw. </summary>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it is. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetUserDraw() const { return (m_featuresFlags & WindowFeatures::eUserDraw || m_featuresFlags & WindowFeatures::eSystem); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets should scale on size. </summary>
+		/// <summary>	Gets weather should scale on size. </summary>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it should </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool GetShouldScaleOnSize() const { return (m_featuresFlags & WindowFeatures::eScaleWhenSized); }
 
@@ -180,18 +165,20 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// These come from mappings of key / mouse combinations e.g. CTRL-C is ePaste Return true if
+		/// These come from mappings of key / mouse combinations e.g. CTRL-C is ePaste. Return true if
 		/// handled.
 		/// </summary>
 		///
 		/// <param name="action">	 	The action. </param>
 		/// <param name="lastAction">	The last action. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it handled the action, false otherwise. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool HandleInputAction(EInputMappingAction action, EInputMappingAction lastAction) override final;
+
 		/// <summary>	Lost focus. </summary>
 		void LostFocus() override final;
+
 		/// <summary>	Gained focus. </summary>
 		void GainedFocus() override final;
 
@@ -208,7 +195,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Renders this object. </summary>
 		///
 		/// <param name="surface">  	[in,out] The surface. </param>
-		/// <param name="translate">	The translate. </param>
+		/// <param name="translate">	The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &surface, VectorI translate) const override final;
 
@@ -220,7 +207,7 @@ namespace HAPI_UI_SPACE
 		void ChangeActionState(EActionState newState) override final;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
+		/// <summary>	Writes XML data. </summary>
 		///
 		/// <param name="rootNode">	[in,out] If non-null, the root node. </param>
 		///
@@ -243,15 +230,14 @@ namespace HAPI_UI_SPACE
 		ESkinStyle GetSkinStyle() const override final { return ESkinStyle::eWindowNormal; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the type. </summary>
+		/// <summary>	Gets the object type. </summary>
 		///
 		/// <returns>	The type. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EObjectType GetType() const override final { return EObjectType::eAdornment; }
 
 	protected:
-		// Renders to surfaces and uploads to HW for quick rendering
-		/// <summary>	Creates the surfaces. </summary>
+		/// <summary>	Creates the surfaces.Renders to surfaces and uploads to HW for quick rendering. </summary>
 		void CreateSurfaces() override final;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,7 +248,13 @@ namespace HAPI_UI_SPACE
 		/// <param name="sub">		  	The sub. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void RenderToSurface(std::shared_ptr<Surface> &surface, RectangleI surfaceRect, ESkinSubStyle sub) const override final;
-		// Calculates bounds and positioning of gfx etc.
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Calculates bounds and positioning of gfx etc. </summary>
+		///
+		/// <param name="newSize">  	Size of the desired  rectangle. </param>
+		/// <param name="forceSize">	(Optional) True to force size. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void CalculateSizes(const RectangleI& newSize, bool forceSize = false) override final;
 	};
 

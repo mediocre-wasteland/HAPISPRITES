@@ -9,26 +9,22 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// very simple plane class - will be expanded later A plane can be represented by a normal and
+	/// very simple / incomplete plane class - may be expanded later. A plane can be represented by a normal and
 	/// an offset.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Plane
 	{
 	public:
-		/// <summary>	The normal. </summary>
 		VectorF normal;
-		/// <summary>	The offset. </summary>
 		float offset;
-
-		/// <summary>	Default constructor. </summary>
 		Plane() noexcept = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="norm">	The normalise. </param>
-		/// <param name="off"> 	The off. </param>
+		/// <param name="norm">	The normal. </param>
+		/// <param name="off"> 	The offset. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Plane(const VectorF& norm, float off) noexcept : normal(norm), offset(off) {}
 	};

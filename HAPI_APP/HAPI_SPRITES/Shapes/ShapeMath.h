@@ -501,6 +501,12 @@ namespace HAPISPACE {
 		// Round origin
 		VectorF ret = (VectorF)v - trans.origin;
 
+		// Origin is in unscaled space
+		if (trans.IsScaled())
+			ret = (VectorF)v - (trans.origin * trans.scale);
+
+
+
 		// T
 		ret -= trans.position;
 
@@ -656,12 +662,12 @@ namespace HAPISPACE {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Transform circle. </summary>
+	/// <summary>	Transform a circle. </summary>
 	///
-	/// <param name="c">		A Circle to process. </param>
+	/// <param name="c">		A Circle to be transformed. </param>
 	/// <param name="trans">	The transform. </param>
 	///
-	/// <returns>	A Circle. </returns>
+	/// <returns>	A transformed circle. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline Circle TransformCircle(const Circle c, const Transform& trans)
 	{

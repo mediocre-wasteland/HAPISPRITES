@@ -407,7 +407,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Modulates by the last modulation colour. If none then just returns col. </summary>
 		///
-		/// <param name="col">	The col. </param>
+		/// <param name="col">	The colour. </param>
 		///
 		/// <returns>	A Colour255. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -488,7 +488,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="col">	The col. </param>
+		/// <param name="col">	The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourFill(Colour255 col) noexcept : m_colour(col) {}
 
@@ -528,7 +528,7 @@ namespace HAPISPACE {
 		void ChangeColour(Colour255 newCol) { m_colour = newCol; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an XML. </summary>
+		/// <summary>	Save as XML under root node. </summary>
 		///
 		/// <param name="parent">	[in,out] If non-null, the parent. </param>
 		///
@@ -582,7 +582,7 @@ namespace HAPISPACE {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an XML. </summary>
+		/// <summary>	Save as XML under root node. </summary>
 		///
 		/// <param name="parent">	[in,out] If non-null, the parent. </param>
 		///

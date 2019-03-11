@@ -15,25 +15,20 @@ namespace HAPISPACE {
 		eNumTypes
 	};
 
-	/// <summary>	A sprite. </summary>
 	class Sprite;
 
 	/// <summary>	Base component class. </summary>
 	class IComponent
 	{
 	private:
-		/// <summary>	The owner. </summary>
 		Sprite &m_owner;
-	protected:
-
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
-		/// <param name="owner">	[in,out] The owner. </param>
+		/// <param name="owner">	[in,out] The sprite owner. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		IComponent(Sprite &owner) noexcept : m_owner(owner) {}
-		/// <summary>	Destructor. </summary>
+		IComponent(Sprite &owner) noexcept : m_owner(owner) {}		
 		virtual ~IComponent() {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +39,7 @@ namespace HAPISPACE {
 		Sprite& GetOwner() const { return m_owner; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Virtuals. </summary>
+		/// <summary>	The component type </summary>
 		///
 		/// <returns>	The type. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

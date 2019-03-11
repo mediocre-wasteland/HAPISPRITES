@@ -10,16 +10,11 @@ namespace HAPISPACE {
 	/// <summary>	Transform information. </summary>
 	struct Transform
 	{
-		/// <summary>	The position. </summary>
 		VectorF position{ 0 };
-		/// <summary>	The scale. </summary>
 		VectorF scale{ 1 };
-		/// <summary>	The origin. </summary>
 		VectorF origin{ 0, 0 };
-		/// <summary>	The rotation. </summary>
 		float rotation{ 0 };
 
-		/// <summary>	Default constructor. </summary>
 		Transform() noexcept {};
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +39,9 @@ namespace HAPISPACE {
 		bool IsScaled() const { return (scale.x != 1.0f || scale.y != 1.0f); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translates the given transaction. </summary>
+		/// <summary>	Translates . </summary>
 		///
-		/// <param name="trans">	The transform. </param>
+		/// <param name="trans">	The translation. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Translate(const VectorF &trans) { position += trans; }
 
@@ -64,7 +59,7 @@ namespace HAPISPACE {
 	/// <param name="lhs">	The first instance to compare. </param>
 	/// <param name="rhs">	The second instance to compare. </param>
 	///
-	/// <returns>	True if the parameters are considered equivalent. </returns>
+	/// <returns>	True if the transforms are considered equivalent. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool operator==(const Transform& lhs, const Transform& rhs)
 	{

@@ -7,17 +7,14 @@
 
 namespace HAPISPACE {
 
-	/// <summary>	Allows stencilled drawing. </summary>
 	class Stencil;
-
-	/// <summary>	Handles render target specific code for a HW surface. </summary>
 	class HWRenderTarget;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
 	/// Holds the raw surface data and has functions used by Sprite along with some basic 2D drawing
-	/// functions. Used to represent the screen via the special SCREEN_SURFACE macro as well as for
-	/// textures Note : never changes width and height or numBytes.
+	/// functions. Used to represent the screen via the special SCREEN_SURFACE macro, as well as for
+	/// textures. Note : never changes width and height or numBytes.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Surface final
@@ -49,19 +46,11 @@ namespace HAPISPACE {
 		RectangleF m_areaOfFill;
 		RectangleI m_clipArea;
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// A number of internal classes that need access to implementation-only functions.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// A number of internal classes that need access to implementation-only functions.
 		friend class CHapiSpritesCore;
-		/// <summary>	A hardware sprite. </summary>
 		friend class HardwareSprite;
-		/// <summary>	A fill shader. </summary>
 		friend class FillShader;
-		/// <summary>	A sprite. </summary>
 		friend class Sprite;
-		/// <summary>	A stencil. </summary>
 		friend class Stencil;
 
 		void SetAreaOfFill(const RectangleF &newArea);
@@ -158,7 +147,7 @@ namespace HAPISPACE {
 		/// <param name="y1">   	The first y value. </param>
 		/// <param name="x2">   	The second x value. </param>
 		/// <param name="y2">   	The second y value. </param>
-		/// <param name="fill"> 	The fill. </param>
+		/// <param name="fill"> 	The fill shader. </param>
 		/// <param name="width">	The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawQuadBezierImp(int x0, int y0, int x1, int y1, int x2, int y2, const FillShader& fill, float width);
@@ -172,7 +161,7 @@ namespace HAPISPACE {
 		/// <param name="y1">   	The first y value. </param>
 		/// <param name="x2">   	The second x value. </param>
 		/// <param name="y2">   	The second y value. </param>
-		/// <param name="fill"> 	The fill. </param>
+		/// <param name="fill"> 	The fill shader. </param>
 		/// <param name="width">	The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawQuadBezierSeg(int x0, int y0, int x1, int y1, int x2, int y2, const FillShader& fill, float width);
@@ -190,9 +179,9 @@ namespace HAPISPACE {
 		std::vector<VectorF> CalculateSuperEllipsePoints(const RectangleF& rect, float curvature, float startAngle = 0, float endAngle = DEGREES_TO_RADIANS(360));
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. Construct from image file, most formats supported. </summary>
+		/// <summary>	Constructor. Construct from an image file, most formats supported. </summary>
 		///
-		/// <param name="filename">	Filename of the file. </param>
+		/// <param name="filename">	Filename of the image file. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Surface(const std::string& filename);
 
@@ -202,11 +191,11 @@ namespace HAPISPACE {
 		/// one automatically Can also be used to create a HW render surface.
 		/// </summary>
 		///
-		/// <param name="width">   	The width. </param>
-		/// <param name="height">  	The height. </param>
-		/// <param name="filename">	(Optional) Filename of the file. </param>
-		/// <param name="colour">  	(Optional) The colour. </param>
-		/// <param name="type">	   	(Optional) The type. </param>
+		/// <param name="width">   	The surface width. </param>
+		/// <param name="height">  	The surface height. </param>
+		/// <param name="filename">	(Optional) Filename of the file (for future saves). </param>
+		/// <param name="colour">  	(Optional) The fill colour. </param>
+		/// <param name="type">	   	(Optional) The surface type. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Surface(int width, int height, std::string filename = std::string(), Colour255 colour = Colour255::ZERO, ESurfaceType type = ESurfaceType::eNormal);
 
@@ -247,12 +236,11 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Surface(BYTE *alignedMemoryPointer, int width, int height);
 
-		/// <summary>	Destructor. </summary>
 		~Surface();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Makes a deep copy of this surface and returns shared pointer to new surface New surface is a
+		/// Makes a deep copy of this surface and returns shared pointer to new surface. New surface is a
 		/// normal surface type.
 		/// </summary>
 		///
@@ -270,28 +258,28 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Width of the surface in texels. </summary>
 		///
-		/// <returns>	An int. </returns>
+		/// <returns>	Width </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int Width() const noexcept { return m_width; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Height of the surface in texels. </summary>
 		///
-		/// <returns>	An int. </returns>
+		/// <returns>	Height </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int Height() const noexcept { return m_height; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Number of texels in the surface. </summary>
 		///
-		/// <returns>	The number pixels. </returns>
+		/// <returns>	The number of texels. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int GetNumPixels() const noexcept { return m_width * m_height; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns a rectangle  set to the dimensions of the surface. </summary>
+		/// <summary>	Returns a rectangle set to the dimensions of the surface. </summary>
 		///
-		/// <returns>	The dimensions. </returns>
+		/// <returns>	The dimensions of the surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetDimensions() const { return RectangleI(Width(), Height()); }
 
@@ -308,6 +296,7 @@ namespace HAPISPACE {
 		/// <param name="set">	True to set. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PushWriteAlpha(bool set) { m_writeAlphaStack.push(set); m_writeAlphaTop = set; }
+		
 		/// <summary>	Pops the write alpha. </summary>
 		void PopWriteAlpha();
 
@@ -316,9 +305,10 @@ namespace HAPISPACE {
 		/// Blend mode for subsequent draw functions (not blit - that is passed into the function)
 		/// </summary>
 		///
-		/// <param name="mode">	The mode. </param>
+		/// <param name="mode">	The new mode. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void PushBlendMode(EBlendMode mode) { m_drawBlendModeStack.push(mode); m_drawBlendModeTop = mode; }
+	
 		/// <summary>	Pops the blend mode. </summary>
 		void PopBlendMode();
 
@@ -330,7 +320,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="newClipArea">	The new clip area. </param>
 		///
-		/// <returns>	Returns the old clip area which should normally be used rather than null rect. </returns>
+		/// <returns>	Returns the old clip area which should normally be used when done, rather than null rect. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI SetClipArea(const RectangleI& newClipArea);
 
@@ -343,12 +333,13 @@ namespace HAPISPACE {
 		/// <param name="area">	The area. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void EnableStencilArea(RectangleI area);
+		
 		/// <summary>	Disables the stencil area. </summary>
 		void DisableStencilArea();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Returns a scratch pad surface of same size as this Note: not created until first requested,
+		/// Returns a scratch pad surface of same size as this. Note: not created until first requested,
 		/// then persists.
 		/// </summary>
 		///
@@ -359,14 +350,14 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// If this surface is a render target (other than screen) you must call this to carry out
-		/// drawing.
+		/// the actual drawing.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ProcessHWDraws();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Makes on/off alpha by setting alpha to transparent wherever colour=colourKey otherwise opaque
+		/// Makes on/off alpha by setting alpha to transparent wherever colour=colourKey otherwise opaque.
 		/// If errorPercentage is 0 (the default) then only an exact match for colourKey will be used. If
 		/// this is higher then rough matches are also included. Note a value of 100 means all colours.
 		/// </summary>
@@ -395,23 +386,23 @@ namespace HAPISPACE {
 		/// Copies one channel to another Channel, numbers are 0=red, 1=green, 2=blue, 3=alpha.
 		/// </summary>
 		///
-		/// <param name="from">	Source for the. </param>
-		/// <param name="to">  	to. </param>
+		/// <param name="from">	Channel from </param>
+		/// <param name="to">  	Channel to </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void CopyChannel(int from, int to);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Blit onto this surface from other surface using transform (can be rotated and / or scaled)
+		/// Blit onto this surface from other surface using transform (can be rotated and / or scaled).
 		/// If area invalid then whole 'other' surface used. Note: ignores surface wide blending mode and
 		/// uses passed in one instead.
 		/// </summary>
 		///
-		/// <param name="other">	  	The other. </param>
+		/// <param name="other">	  	The surface to blit from. </param>
 		/// <param name="trans">	  	(Optional) The transform. </param>
-		/// <param name="area">		  	(Optional) The area. </param>
+		/// <param name="area">		  	(Optional) The area of the surface. </param>
 		/// <param name="blendMode">  	(Optional) The blend mode. </param>
-		/// <param name="mod">		  	(Optional) The modifier. </param>
+		/// <param name="mod">		  	(Optional) The modifier colour. </param>
 		/// <param name="blendLambda">	(Optional) The blend lambda. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Blit(const std::shared_ptr<Surface>& other, const Transform &trans = Transform(), RectangleI area = RectangleI(),
@@ -421,7 +412,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Set a pixel to a colour, ignores if not on surface, blending based on colour alpha channel,
-		/// checks write alpha. Potentially slow if you do a lot of them.
+		/// checks write alpha. Potentially slow if you do a lot of them and very slow if to a HW surface.
 		/// </summary>
 		///
 		/// <param name="pos">   	The position. </param>
@@ -458,21 +449,21 @@ namespace HAPISPACE {
 		///
 		/// <param name="pos">	The position. </param>
 		///
-		/// <returns>	A Colour255. </returns>
+		/// <returns>	An interpolated colour. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Colour255 BilinearInterpolate(const VectorF &pos) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws an arc from start on the edge of an arc with a defined centre and angle. The more
+		/// Draws an arc from start, on the edge of an arc, with a defined centre and angle. The more
 		/// numLines the better the quality but worse the performance.
 		/// </summary>
 		///
-		/// <param name="start">   	The start. </param>
-		/// <param name="centre">  	The centre. </param>
+		/// <param name="start">   	The start point. </param>
+		/// <param name="centre">  	The centre point. </param>
 		/// <param name="angle">   	The angle. </param>
 		/// <param name="numLines">	Number of lines. </param>
-		/// <param name="fill">	   	The fill. </param>
+		/// <param name="fill">	   	The fill shader. </param>
 		/// <param name="width">   	The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawArc(const VectorF &start, const VectorF &centre, float angle, int numLines, const FillShader& fill, float width);
@@ -481,7 +472,7 @@ namespace HAPISPACE {
 		/// <summary>	Draws a single line. </summary>
 		///
 		/// <param name="line"> 	The line. </param>
-		/// <param name="fill"> 	The fill. </param>
+		/// <param name="fill"> 	The fill shader. </param>
 		/// <param name="width">	(Optional) The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawLine(LineF line, const FillShader& fill, float width = 1.0f);
@@ -489,24 +480,22 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Draws a single line - alternative parameters. </summary>
 		///
-		/// <param name="start">	The start. </param>
-		/// <param name="end">  	The end. </param>
-		/// <param name="fill"> 	The fill. </param>
+		/// <param name="start">	The start point. </param>
+		/// <param name="end">  	The end point. </param>
+		/// <param name="fill"> 	The fill shader. </param>
 		/// <param name="width">	(Optional) The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawLine(VectorF start, VectorF end, const FillShader& fill, float width = 1.0f) { DrawLine(LineF{ start,end }, fill, width); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Draw multiple lines. widthOut of true means the line is the bottom part of the line with the
-		/// line made wider 'above' it (uses winding)
-		/// false (normal) means the line width is expanded out from the centre.
-		/// </summary>
+		/// <summary>	Draw multiple lines. </summary>
 		///
 		/// <param name="lines">   	The lines. </param>
-		/// <param name="fill">	   	The fill. </param>
+		/// <param name="fill">	   	The fill shader. </param>
 		/// <param name="width">   	(Optional) The width. </param>
-		/// <param name="widthOut">	(Optional) True to width out. </param>
+		/// <param name="widthOut">	(Optional) widthOut of true means the line is the bottom part of the
+		/// 						line with the line made wider 'above' it (uses winding). false
+		/// 						(normal) means the line width is expanded out from the centre. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawLines(const std::vector<LineF>& lines, const FillShader& fill, float width = 1.0f, bool widthOut = false);
 
@@ -514,9 +503,9 @@ namespace HAPISPACE {
 		/// <summary>	Same as DrawLines but using the Polygon type as parameter. </summary>
 		///
 		/// <param name="poly">	   	The polygon. </param>
-		/// <param name="fill">	   	The fill. </param>
+		/// <param name="fill">	   	The fill shader. </param>
 		/// <param name="width">   	(Optional) The width. </param>
-		/// <param name="widthOut">	(Optional) True to width out. </param>
+		/// <param name="widthOut">	(Optional) True to draw width out. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawPolygon(const Polygon& poly, const FillShader& fill, float width = 1.0f, bool widthOut = false);
 
@@ -528,8 +517,8 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="poly">		  	The polygon. </param>
-		/// <param name="fill">		  	The fill. </param>
-		/// <param name="borderFill"> 	(Optional) The border fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
+		/// <param name="borderFill"> 	(Optional) The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawFilledConvexPolygon(const Polygon& poly, const FillShader& fill,
@@ -539,7 +528,7 @@ namespace HAPISPACE {
 		/// <summary>	Draws a Rectangle outline. </summary>
 		///
 		/// <param name="rect">		  	The rectangle. </param>
-		/// <param name="fill">		  	The fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawRect(const RectangleF &rect, const FillShader& fill, float borderWidth = 1.0f);
@@ -551,7 +540,7 @@ namespace HAPISPACE {
 		/// </summary>
 		///
 		/// <param name="rect">		  	The rectangle. </param>
-		/// <param name="fill">		  	The fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawOrientedRect(const RectangleOrientedF& rect, const FillShader& fill, float borderWidth = 1.0f);
@@ -560,8 +549,8 @@ namespace HAPISPACE {
 		/// <summary>	Draws a Filled Oriented Rectangle, assumes points are in clockwise order. </summary>
 		///
 		/// <param name="rect">		  	The rectangle. </param>
-		/// <param name="fill">		  	The fill. </param>
-		/// <param name="borderFill"> 	(Optional) The border fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
+		/// <param name="borderFill"> 	(Optional) The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawFilledOrientedRect(const RectangleOrientedF& rect, const FillShader& fill,
@@ -571,8 +560,8 @@ namespace HAPISPACE {
 		/// <summary>	Draws a filled rectangle. </summary>
 		///
 		/// <param name="rect">		  	The rectangle. </param>
-		/// <param name="fill">		  	The fill. </param>
-		/// <param name="borderFill"> 	(Optional) The border fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
+		/// <param name="borderFill"> 	(Optional) The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawFilledRect(const RectangleF& rect, const FillShader& fill,
@@ -582,7 +571,7 @@ namespace HAPISPACE {
 		/// <summary>	Draws a circle outline. </summary>
 		///
 		/// <param name="circle">	  	The circle. </param>
-		/// <param name="borderFill"> 	The border fill. </param>
+		/// <param name="borderFill"> 	The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawCircle(const Circle& circle, const FillShader& borderFill, float borderWidth = 1.0f);
@@ -591,8 +580,8 @@ namespace HAPISPACE {
 		/// <summary>	Draws a filled circle. </summary>
 		///
 		/// <param name="circle">	  	The circle. </param>
-		/// <param name="fill">		  	The fill. </param>
-		/// <param name="borderFill"> 	(Optional) The border fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
+		/// <param name="borderFill"> 	(Optional) The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawFilledCircle(const Circle& circle, const FillShader& fill,
@@ -604,14 +593,14 @@ namespace HAPISPACE {
 		/// <param name="pnt1"> 	The first point. </param>
 		/// <param name="pnt2"> 	The second point. </param>
 		/// <param name="pnt3"> 	The third point. </param>
-		/// <param name="fill"> 	The fill. </param>
+		/// <param name="fill"> 	The fill shader. </param>
 		/// <param name="width">	(Optional) The width. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawQuadBezier(VectorF pnt1, VectorF pnt2, VectorF pnt3, const FillShader& fill, float width = 1.0f);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws a super ellipse outline (something between a rectangle and a circle)
+		/// Draws a super ellipse outline (something between a rectangle and a circle).
 		/// Good for rounded edges on UI buttons etc. but it is quite slow for realtime usage. Curvature
 		/// of 1 produces a pure circle while 0 produces a pure rectangle. Optionally you can limit the
 		/// part of the shape drawn using the angles.
@@ -619,7 +608,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="rect">		 	The rectangle. </param>
 		/// <param name="curvature"> 	The curvature. </param>
-		/// <param name="fill">		 	The fill. </param>
+		/// <param name="fill">		 	The fill shader. </param>
 		/// <param name="width">	 	(Optional) The width. </param>
 		/// <param name="startAngle">	(Optional) The start angle. </param>
 		/// <param name="endAngle">  	(Optional) The end angle. </param>
@@ -636,8 +625,8 @@ namespace HAPISPACE {
 		///
 		/// <param name="rect">		  	The rectangle. </param>
 		/// <param name="curvature">  	The curvature. </param>
-		/// <param name="fill">		  	The fill. </param>
-		/// <param name="borderFill"> 	(Optional) The border fill. </param>
+		/// <param name="fill">		  	The fill shader. </param>
+		/// <param name="borderFill"> 	(Optional) The border fill shader. </param>
 		/// <param name="borderWidth">	(Optional) Width of the border. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DrawFilledSuperEllipse(const RectangleF& rect, float curvature, const FillShader& fill,
@@ -645,7 +634,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Draws text to this surface using the current font (changed via HAPI_Sprites.ChangeFont)
+		/// Draws text to this surface using the current font (changed via HAPI_Sprites.ChangeFont).
 		/// Note: unlike HAPI_Sprites.RenderText this uses a SW renderer to draw the text onto the
 		/// surface if it is not a HW surface.
 		/// </summary>
@@ -663,8 +652,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Applies a gaussian blur to this surface with provided radius. Slow i.e. not for use as a real
-		/// time operation. To limit effect use cliparea.
+		/// Applies a Gaussian blur to this surface with provided radius. Slow i.e. not for use as a real
+		/// time operation. To limit effect use clip area.
 		/// </summary>
 		///
 		/// <param name="sigma">	The sigma. </param>
@@ -673,8 +662,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Black and greyscale clear - very quick .Note: clears alpha to grey as well, if you need alpha
-		/// set differently use one below.
+		/// Black and grey scale clear - very quick .Note: clears alpha to grey as well, if you need alpha
+		/// set differently use Clear below.
 		/// </summary>
 		///
 		/// <param name="grey">	(Optional) The grey. </param>
@@ -684,7 +673,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Colour clear. </summary>
 		///
-		/// <param name="colour">	The colour. </param>
+		/// <param name="colour">	The colour to clear to. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Clear(const Colour255& colour);
 
@@ -693,13 +682,12 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Joins two surfaces together to create a third. Note: does dynamic memory allocation. Dir
-		/// decides which side B is attached to A.
+		/// Joins two surfaces together to create a third. Note: does dynamic memory allocation.
 		/// </summary>
 		///
 		/// <param name="surfaceA">	The surface a. </param>
 		/// <param name="surfaceB">	The surface b. </param>
-		/// <param name="dir">	   	(Optional) The dir. </param>
+		/// <param name="dir">	   	(Optional) The dir decides which side B is attached to A. </param>
 		///
 		/// <returns>	A std::shared_ptr&lt;Surface&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -713,12 +701,12 @@ namespace HAPISPACE {
 		/// useful if you want to keep the width and height divisible by a number e.g. for frames.
 		/// </summary>
 		///
-		/// <param name="scaleX">   	The scale x coordinate. </param>
-		/// <param name="scaleY">   	The scale y coordinate. </param>
-		/// <param name="filter">   	(Optional) Specifies the filter. </param>
+		/// <param name="scaleX">   	The x scale amount. </param>
+		/// <param name="scaleY">   	The y scale amount. </param>
+		/// <param name="filter">   	(Optional) Specifies the filter to use. </param>
 		/// <param name="alignment">	(Optional) The alignment. </param>
 		///
-		/// <returns>	The new scaled. </returns>
+		/// <returns>	The new scaled surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<Surface> CreateScaled(float scaleX, float scaleY, EFilter filter = EFilter::eNearest, int alignment = 1) const;
 
@@ -729,17 +717,17 @@ namespace HAPISPACE {
 		/// The filter to use can also be provided, one of the enum EFilter.
 		/// </summary>
 		///
-		/// <param name="width"> 	The width. </param>
-		/// <param name="height">	The height. </param>
+		/// <param name="width"> 	The new surface width. </param>
+		/// <param name="height">	The new surface height. </param>
 		/// <param name="filter">	(Optional) Specifies the filter. </param>
 		///
-		/// <returns>	The new scaled. </returns>
+		/// <returns>	The new scaled surface. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<Surface> CreateScaled(int width, int height, EFilter filter = EFilter::eNearest) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Returns the filename used when creating the surface (or auto generated one)
+		/// Returns the filename associated with the surface (wither loaded texture name or auto-generated name)
 		/// </summary>
 		///
 		/// <returns>	The filename. </returns>
@@ -747,9 +735,9 @@ namespace HAPISPACE {
 		std::string GetFilename() const { return m_filename; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Allows the filename to be changed Note: this should exclude the path. </summary>
+		/// <summary>	Allows the filename to be changed. Note: this should exclude the path. </summary>
 		///
-		/// <param name="newFilename">	Filename of the new file. </param>
+		/// <param name="newFilename">	The new filename. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeFilename(std::string newFilename) { m_filename = newFilename; }
 
@@ -765,8 +753,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Saves a copy of the surface with a new filename (does not change filename)
-		/// Supported formats are bmp, png, tga and jpg - format is derived from filename extension
+		/// Saves a copy of the surface with a new filename (does not change stored filename).
+		/// Supported formats are bmp, png, tga and jpg - format is derived from filename extension.
 		/// Optionally can specify just an area to save.
 		/// </summary>
 		///

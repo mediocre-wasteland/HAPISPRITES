@@ -46,10 +46,10 @@ Version 0.70 - 7/10/18
 - Added gradient shading to the surface
 - Changed structure and usage so sprite now contains simulation data, moving more toward a 2D engine than API.
 - Added components for colliders and transform and restructured parts of the systems and where responsibility lies
-e.g. a sprite now has a spritesheet which has a surface. A spritesheet can hold colliders per frame (and save and load them)
+e.g. a sprite now has a SpriteSheet which has a surface. A SpriteSheet can hold colliders per frame (and save and load them)
 - Added expanded collider functionality (see collider demo)
 - Text can now be drawn to any surface and is draw order dependant
-- Added in built spritesheet editor including addition of collider editing and auto-fit functionality
+- Added in built SpriteSheet editor including addition of collider editing and auto-fit functionality
 - Expanded the XML file format to include collider data
 - Improved UI
 - UIWindow class that can be set to allow user drawing

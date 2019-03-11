@@ -9,31 +9,29 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// A ray has origin and direction to infinity TODO: not fully implemented. HS uses a LineF
+	/// A ray has origin and direction to infinity. TODO: not fully implemented. HS uses a LineF
 	/// instead.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Ray
 	{
 	public:
-		/// <summary>	The origin. </summary>
 		VectorF origin;
-		/// <summary>	The direction. </summary>
 		VectorF direction;
 
 		/// <summary>	Default leaves values undefined. </summary>
 		Ray()  noexcept = default;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct with values Note: dir must be normalized. </summary>
+		/// <summary>	Construct with values. Note: dir must be normalized. </summary>
 		///
-		/// <param name="ori">	The ori. </param>
-		/// <param name="dir">	The dir. </param>
+		/// <param name="ori">	The origin. </param>
+		/// <param name="dir">	The direction. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Ray(const VectorF& ori, const VectorF& dir)  noexcept : origin(ori), direction(dir) {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct from line. </summary>
+		/// <summary>	Construct from a line. </summary>
 		///
 		/// <param name="line">	The line. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

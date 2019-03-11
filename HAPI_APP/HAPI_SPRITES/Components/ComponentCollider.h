@@ -8,11 +8,6 @@
 
 namespace HAPISPACE {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A collider group. </summary>
-	///
-	/// <seealso cref="T:IComponent"/>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class ColliderGroup;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,41 +24,102 @@ namespace HAPISPACE {
 		ComponentCollider(Sprite &owner);
 		~ComponentCollider() {}
 
-		// Read access to settings for shape collision tests
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Read access to settings for shape collision tests. </summary>
+		///
+		/// <returns>	The collision settings. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const CollisionSettings& GetCollisionSettings() const { return m_collisionSettings; }
 
 		// Functions to chnage settings for this collider component
-		
-		// When a collider has a collection of 'one of' shapes, setting this to true will test those (after normal bounds checks)
-		// A collision is judged to have happened if one of them collides
-		void EnableOneOfTests(bool set) { m_collisionSettings.enableOneOfTests = set; }
 
-		// Mean position and normal of a collision are calculated, requires the collisionLine to be provided (if not doing pixel perfect)
-		void CalculateCollisionData(bool set) { m_collisionSettings.calculateCollisionData = set; }
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// When a collider has a collection of 'one of' shapes, setting this to true will test those
+		/// (after normal bounds checks)
+		/// A collision is judged to have happened if one of them collides.
+		/// </summary>
+		///
+		/// <param name="set">	(Optional) True to set. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void EnableOneOfTests(bool set=true) { m_collisionSettings.enableOneOfTests = set; }
 
-		// Does not use collider shapes but the sprite surface itself (after normal bounds checks)
-		void EnablePixelPerfectCollisions(bool set) { m_collisionSettings.enablePixelPerfectCollisions = set; }
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Means position and normal of a collision are calculated, requires the collisionLine to be
+		/// provided (if not doing pixel perfect)
+		/// </summary>
+		///
+		/// <param name="set">	(Optional) True to set. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void CalculateCollisionData(bool set=true) { m_collisionSettings.calculateCollisionData = set; }
 
-		// Change all settings in one go
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Does not use collider shapes but the sprite surface itself (after normal bounds checks)
+		/// </summary>
+		///
+		/// <param name="set">	(Optional) True to set. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void EnablePixelPerfectCollisions(bool set=true) { m_collisionSettings.enablePixelPerfectCollisions = set; }
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Change all settings in one go. </summary>
+		///
+		/// <param name="newOnes">	The new settings. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeCollisionSettings(CollisionSettings newOnes) { m_collisionSettings = newOnes; }
 
-		// Component type
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Component type. </summary>
+		///
+		/// <returns>	The type of the component. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EComponentType GetType() const override final { return EComponentType::eCollider; }		
 
-		// Determine if this COMP collider collides with other
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Determine if this collider collides with other. </summary>
+		///
+		/// <param name="other">			The other collider. </param>
+		/// <param name="collisionInfo">	[in,out] Information describing the collision. </param>
+		///
+		/// <returns>	True if a collision occurred. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool CheckCollision(const ComponentCollider& other, CollisionInfo &collisionInfo) const;
 
-		// Determine if this COMP collider collides with raw collider group
-		// Optionally return info on the collision
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Determine if this collider collides with a raw collider group. Optionally return info on
+		/// the collision.
+		/// </summary>
+		///
+		/// <param name="collider">				The collider. </param>
+		/// <param name="colliderTransform">	The collider transform. </param>
+		/// <param name="collisionInfo">		[in,out] Information describing the collision. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool CheckCollision(const ColliderGroup& collider, const Transform& colliderTransform, CollisionInfo &collisionInfo) const;
-	
-		// Read access to collider group
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Read access to collider group. </summary>
+		///
+		/// <returns>	The collider group. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const ColliderGroup& GetColliderGroup() const;
 
-		// AA Bounding Rect for current frame
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Axis Aligned Bounding Rectangle for current frame. </summary>
+		///
+		/// <returns>	an axis aligned bounding rectangle. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleI GetAABoundingRect() const;
 
-		// Bounding Circle for current frame
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Bounding Circle for current frame. </summary>
+		///
+		/// <returns>	The bounding circle. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Circle GetBoundingCircle() const;		
 	};
 }

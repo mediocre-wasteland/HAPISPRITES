@@ -9,31 +9,31 @@ namespace HAPISPACE {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Simple POD describing a frame of a spritesheet in term of its area, name and collider.
+	/// Simple POD describing a frame of a SpriteSheet in term of its area, name and collider.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Frame final
 	{
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct from rectangle and name. </summary>
+		/// <summary>	Construct from rectangle and name and optional parameters. </summary>
 		///
 		/// <param name="nameIn">   	The frame name. </param>
 		/// <param name="rectIn">   	The rectangle. </param>
 		/// <param name="setName">  	(Optional) Name of the animation set. </param>
 		/// <param name="animOrder">	(Optional) The animation order. </param>
-		/// <param name="origin">   	(Optional) The origin. </param>
+		/// <param name="origin">   	(Optional) The origin (pivot point). </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Frame(std::string nameIn, RectangleI rectIn, std::string setName = std::string(), int animOrder = 0, VectorF origin=VectorF(0,0)) noexcept :
-			name{ nameIn }, rect{ rectIn }, frameSetName(setName), setOrder(animOrder), collider{ rect.TranslatedToOrigin() } {}
+			name{ nameIn }, rect{ rectIn }, frameSetName(setName), setOrder(animOrder), origin(origin), collider{ rect.TranslatedToOrigin() } {}
 
 		/// <summary>	Name empty, rectangle invalid, no set data. </summary>
 		Frame() noexcept = default;
 
-		/// <summary>	Every frame must have a name and it must be unique in the spritesheet. </summary>
+		/// <summary>	Every frame must have a name and it must be unique in the SpriteSheet. </summary>
 		std::string name;
 
-		/// <summary>	Used for grouping multiple animation sets in one spritesheet. </summary>
+		/// <summary>	Used for grouping multiple animation sets in one SpriteSheet. </summary>
 		std::string frameSetName;
 
 		/// <summary>	The set order (frame number). </summary>
@@ -47,7 +47,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Associated collider, defaults to frame rect and circle around it In frame space wiith top
+		/// Associated collider, defaults to frame rect and circle around it. In frame space with top
 		/// left 0,0.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="surfaceSpace">	The surface space. </param>
 		///
-		/// <returns>	A VectorI. </returns>
+		/// <returns>	Converted point. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorI SurfaceToFrameLocal(VectorI surfaceSpace) const { return surfaceSpace - rect.TopLeft(); }
 
@@ -67,7 +67,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="localSpace">	The local space. </param>
 		///
-		/// <returns>	A VectorI. </returns>
+		/// <returns>	Converted point </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorI FrameLocalToSurface(VectorI localSpace) const { return localSpace + rect.TopLeft(); }
 

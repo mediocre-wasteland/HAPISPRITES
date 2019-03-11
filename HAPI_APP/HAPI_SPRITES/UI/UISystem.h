@@ -8,11 +8,11 @@
 //#define UI_VERBOSE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// namespace: HAPI_UI_SPACE
-// 
-// Simple UI  library providing Windows Buttons(radio and normal)
-// Static and click-able text Text entry Menus Dial Sliders and scroll bars Shape Supports saving to
-// XML along with resolution scaling summary:	Wraps all of the HAPI Sprites UI system. 
+/// namespace: HAPI_UI_SPACE
+/// 
+/// Simple UI  library providing Windows Buttons(radio and normal)
+/// Static and click-able text Text entry Menus Dial Sliders and scroll bars Shape Supports saving
+/// to XML along with resolution scaling summary:	Wraps all of the HAPI Sprites UI system. 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace HAPI_UI_SPACE
 {	
@@ -22,9 +22,9 @@ namespace HAPI_UI_SPACE
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Basic UI.  Simple UI  library providing Windows Buttons(radio and normal)
-	/// Static and click-able text Text entry Menus Dial Sliders and scroll bars Shape Supports
-	/// saving to XML along with resolution scaling summary:	Wraps all of the HAPI Sprites UI system.
+	/// Basic UI.  Simple UI  library providing Windows Buttons (radio and normal), Static and click-
+	/// able text, Text entry, Menus, Dial, Sliders and scroll bars, Supports saving to XML along
+	/// with resolution scaling.
 	/// </summary>
 	///
 	/// <seealso cref="T:IHapiSpritesInputListener"/>
@@ -32,27 +32,17 @@ namespace HAPI_UI_SPACE
 	class UISystem : public IHapiSpritesInputListener
 	{
 	private:
-		/// <summary>	Runtime. </summary>
+		//	Runtime
 		ListenerList m_listeners;
-		/// <summary>	Runtime. </summary>
 		RectangleI m_screenRect;
-		/// <summary>	Runtime. </summary>
 		std::string m_dataDirectory;
-
-		/// <summary>	The last action. </summary>
 		EInputMappingAction m_lastAction{ EInputMappingAction::eUnmapped };
+		bool m_showlasso{ false };
 
-		/// <summary>	Lassoo. </summary>
-		bool m_showLassoo{ false };
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Done as two points to ease growing / shrinking. Point 0 is start, point 1 is end.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Done as two points to ease growing / shrinking. Point 0 is start, point 1 is end.
 		VectorI m_lasoo[2];
-		/// <summary>	The lassoo colour. </summary>
-		Colour255 m_lassooColour{ Colour255::CYAN };
+
+		Colour255 m_lassoColour{ Colour255::CYAN };
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -105,24 +95,21 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		int GetNextWindowOrder() const;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Add listener to get object events You do not need to call this directly as the listener does
-		/// it automatically But do call UI_AddWindowToListenTo for all windows to listen to (Default is
-		/// to gfet main window events only)
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		friend class IHapiSpritesUIListener;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Adds a listener. </summary>
+		/// <summary>
+		/// Adds a listener.  Add listener to get object events. You do not need to call this directly as
+		/// the listener does it automatically. But do call UI_AddWindowToListenTo for all windows to
+		/// listen to (Default is to get main window events only)
+		/// </summary>
 		///
 		/// <param name="newListener">	[in,out] The new listener. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void AddListener(IHapiSpritesUIListener& newListener);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Executes the mouse event action. </summary>
+		/// <summary>	Handle the mouse event action. </summary>
 		///
 		/// <param name="mouseData">	Information describing the mouse state. </param>
 		/// <param name="action">   	The action. </param>
@@ -151,14 +138,13 @@ namespace HAPI_UI_SPACE
 		std::shared_ptr<UICommonDialog_MultiChoice> GetCommonDialog_MultiChoice();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Focus window handle mouse action. </summary>
+		/// <summary>	Focus window handles mouse action. </summary>
 		///
 		/// <param name="mouseData">	Information describing the mouse state. </param>
 		/// <param name="action">   	The action. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void FocusWindowHandleMouseAction(const MouseData& mouseData, EInputMappingAction action);
 
-		/// <summary>	A hapi sprites core. </summary>
 		friend class CHapiSpritesCore;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +156,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// From 0.80 only available internally Render all the active UI objects to the surface.
+		/// Render all the active UI objects to the surface.
 		/// </summary>
 		///
 		/// <param name="renderSurface">	[in,out] The render surface. </param>
@@ -187,16 +173,13 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool SaveSkin(const std::string& skinName, CHapiXMLNode *rootNode) const;
 	public:			
-		// Must be created with screen size
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
+		/// <summary>	Constructor. Must be created with screen size. </summary>
 		///
 		/// <param name="screenWidth"> 	Width of the screen. </param>
 		/// <param name="screenHeight">	Height of the screen. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		UISystem(int screenWidth, int screenHeight);
-		/// <summary>	Destructor. </summary>
 		~UISystem();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,28 +231,28 @@ namespace HAPI_UI_SPACE
 		void RefreshAllWindows();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Lassoo functions. </summary>
+		/// <summary>	Lasso functions. </summary>
 		///
-		/// <param name="rect">  	The rectangle. </param>
+		/// <param name="rect">  	The lasso rectangle. </param>
 		/// <param name="colour">	The colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void ShowLassoo(RectangleI rect, Colour255 colour)
+		void Showlasso(RectangleI rect, Colour255 colour)
 		{
-			m_showLassoo = true;
-			m_lassooColour = colour;
+			m_showlasso = true;
+			m_lassoColour = colour;
 			m_lasoo[0] = rect.TopLeft();
 			m_lasoo[1] = rect.BottomRight();
 		}
 
-		/// <summary>	Hides the lassoo. </summary>
-		void HideLassoo() { m_showLassoo = false; }
+		/// <summary>	Hides the lasso. </summary>
+		void Hidelasso() { m_showlasso = false; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets lassoo rectangle. </summary>
+		/// <summary>	Gets lasso rectangle. </summary>
 		///
-		/// <returns>	The lassoo rectangle. </returns>
+		/// <returns>	The lasso rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		RectangleI GetLassooRect() const {
+		RectangleI GetlassoRect() const {
 			return RectangleI{
 				std::min(m_lasoo[0].x,m_lasoo[1].x),
 				std::max(m_lasoo[0].x,m_lasoo[1].x),
@@ -278,11 +261,11 @@ namespace HAPI_UI_SPACE
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Expand lassoo. </summary>
+		/// <summary>	Expand lasso. </summary>
 		///
 		/// <param name="pnt">	The point. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void ExpandLassoo(const VectorI &pnt)
+		void Expandlasso(const VectorI &pnt)
 		{
 			m_lasoo[1] = pnt;
 		}
@@ -323,10 +306,10 @@ namespace HAPI_UI_SPACE
 		std::string MultiChoiceDialog(const std::vector<std::string>& choices, const std::string& title);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Safe renaming of skin Note: you cannot rename the default skin. </summary>
+		/// <summary>	Safe renaming of skin. Note: you cannot rename the default skin. </summary>
 		///
-		/// <param name="oldSkinName">	Name of the old skin. </param>
-		/// <param name="newSkinName">	Name of the new skin. </param>
+		/// <param name="oldSkinName">	Old name. </param>
+		/// <param name="newSkinName">	New name. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -335,8 +318,8 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Safe renaming of window. </summary>
 		///
-		/// <param name="oldWindowName">	Name of the old window. </param>
-		/// <param name="newWindowName">	Name of the new window. </param>
+		/// <param name="oldWindowName">	Old name. </param>
+		/// <param name="newWindowName">	New name. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -344,8 +327,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Saves skin to file Note you cannot change the filename, it must match the skin name for later
-		/// window loads to work but you can provide the path. If left empty uses current working
+		/// Saves skin to file. Note you cannot change the filename, it must match the skin name for
+		/// later window loads to work, but you can provide the path. If left empty uses current working
 		/// directory.
 		/// </summary>
 		///
@@ -358,18 +341,18 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Loads skin from a file into the UI skin collection Returns skin name or empty string on error.
+		/// Loads skin from a file into the UI skin collection. Returns skin name or empty string on error.
 		/// </summary>
 		///
 		/// <param name="filename">	Filename of the file. </param>
 		///
-		/// <returns>	The skin. </returns>
+		/// <returns>	The skin name or empty string for error. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string LoadSkin(const std::string& filename);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Loads skin from xml tree and inserts in collection. DOES NOT overwrite any with the same name
+		/// Loads skin from xml tree and inserts in collection. DOES NOT overwrite any with the same name.
 		/// Returns skin name or empty string on error.
 		/// </summary>
 		///
@@ -384,11 +367,11 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Make a copy of a skin and adds to collection and returns it Note: the newSkinName must be
+		/// Make a copy of a skin and adds to collection and returns it. Note: the newSkinName must be
 		/// unique, if it is not it will be made unique so check.
 		/// </summary>
 		///
-		/// <param name="nameOfskinToCopy">	The name ofskin to copy. </param>
+		/// <param name="nameOfskinToCopy">	The name of the skin to copy. </param>
 		/// <param name="newSkinName">	   	Name of the new skin. </param>
 		///
 		/// <returns>	A std::shared_ptr&lt;Skin&gt; </returns>
@@ -397,7 +380,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a skin using default skin settings, and adds to collection under 'skinName' If
+		/// Creates a skin using default skin settings, and adds to collection under 'skinName'. If
 		/// already have skin with that name will fail unless overwriteExisting is true.
 		/// </summary>
 		///
@@ -410,7 +393,7 @@ namespace HAPI_UI_SPACE
 		bool CreateSkin(const std::string& skinName, bool overwriteExisting=false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Always have one fixed skin. </summary>
+		/// <summary>	We always have one fixed skin. </summary>
 		///
 		/// <returns>	The default skin name. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -418,7 +401,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Always have one main window that is used for default things It is the size of the screen and
+		/// Always have one main window that is used for default things. It is the size of the screen and
 		/// is behind everything else (order=0)
 		/// </summary>
 		///
@@ -433,9 +416,6 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<Skin> GetDefaultSkin() const { return m_defaultSkin; }
 
-		// Singleton instance
-		//static UISystem& GetInstance() { assert(UISystem::kSingleton); return *UISystem::kSingleton; }
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Get a particular window by name. </summary>
 		///
@@ -447,18 +427,18 @@ namespace HAPI_UI_SPACE
 		std::shared_ptr<UIWindow> GetWindow(const std::string& windowName, bool reportError=true) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	The default. </summary>
+		/// <summary>	The default window - same as main window. </summary>
 		///
 		/// <returns>	The default window. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<UIWindow> GetDefaultWindow() const { return GetWindow(GetDefaultWindowName()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Get the main window (always exists) </summary>
+		/// <summary>	Main window access. Same as default window. </summary>
 		///
 		/// <returns>	A std::shared_ptr&lt;UIWindow&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::shared_ptr<UIWindow> MainWindow() const { return GetWindow(UISystem::GetDefaultWindowName()); }
+		std::shared_ptr<UIWindow> MainWindow() const { return GetWindow(GetDefaultWindowName()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Alters window order. Back is last to get clicks etc. </summary>
@@ -475,14 +455,14 @@ namespace HAPI_UI_SPACE
 		RectangleI GetScreenRect() const { return m_screenRect; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Data directory is norally working directory + //Data. </summary>
+		/// <summary>	Data directory is normally the working directory + //Data. </summary>
 		///
 		/// <returns>	The data directory. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const std::string& GetDataDirectory() const { return m_dataDirectory; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Can change working direction. </summary>
+		/// <summary>	Change the working directory. </summary>
 		///
 		/// <param name="newDir">	The new dir. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -496,7 +476,7 @@ namespace HAPI_UI_SPACE
 		constexpr DWORD GetCursorFlashTime() const noexcept { return 600; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets keypress delay. </summary>
+		/// <summary>	Gets keypress delay - could go in data some time TODO. </summary>
 		///
 		/// <returns>	The keypress delay. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -505,8 +485,8 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Since the UI editor and skin editor are built in, the user could be running with any
-		/// resolution This can mean the editor windows are far too big so need to detect and alter
-		/// accordingly We need a specific skin for the editor windows anyway since user may have changed
+		/// resolution. This can mean the editor windows are far too big so need to detect and alter
+		/// accordingly. We need a specific skin for the editor windows anyway since user may have changed
 		/// the default.
 		/// </summary>
 		///
@@ -517,7 +497,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Open window, can optionally open modally Can also optionally position relative to another
+		/// Open window, can optionally open modally. Can also optionally position relative to another
 		/// window.
 		/// </summary>
 		///
@@ -525,10 +505,10 @@ namespace HAPI_UI_SPACE
 		/// <param name="openModally">	   	(Optional) True to open modally. </param>
 		/// <param name="sendToFront">	   	(Optional) True to send to front. </param>
 		/// <param name="relativeToWindow">	(Optional) The relative to window. </param>
-		/// <param name="dir">			   	(Optional) The dir. </param>
+		/// <param name="dir">			   	(Optional) The direction. </param>
 		/// <param name="inside">		   	(Optional) True to inside. </param>
 		/// <param name="gap">			   	(Optional) The gap. </param>
-		/// <param name="translate">	   	(Optional) The translate. </param>
+		/// <param name="translate">	   	(Optional) The translation. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -593,7 +573,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Add an already created window. </summary>
 		///
-		/// <param name="newWindow">	The new window. </param>
+		/// <param name="newWindow">	The window. </param>
 		///
 		/// <returns>	A std::shared_ptr&lt;UIWindow&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -601,9 +581,9 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Saves a UI window Note: you may also want to save the window's skin if it is not using the
+		/// Saves a UI window. Note: you may also want to save the window's skin if it is not using the
 		/// default, otherwise on load - if the skin does not exist a window will revert to using the
-		/// system skin Can optionally provide user data to be saved alongside.
+		/// system skin. Can optionally provide user data to be saved alongside.
 		/// </summary>
 		///
 		/// <param name="xmlFilename">	   	Filename of the XML file. </param>
@@ -617,9 +597,9 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Loads a UI window If it uses a user skin and that is not already loaded it will attempt to
-		/// load it If scale is true (default) and the resolution is different than what the UI window
-		/// was created to, then it and its skin will be scaled To also load user data must use LoadXML
+		/// Loads a UI window. If it uses a user skin and that is not already loaded it will attempt to
+		/// load it. If scale is true (default) and the resolution is different than what the UI window
+		/// was created to, then it and its skin will be scaled. To also load user data must use LoadXML
 		/// instead of this.
 		/// </summary>
 		///
@@ -633,7 +613,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Load via XML If it uses a user skin and that is not already loaded it will attempt to load it
+		/// Load via XML. If it uses a user skin and that is not already loaded it will attempt to load it.
 		/// Note: the name is fixed but you should provide a path.
 		/// </summary>
 		///
@@ -649,12 +629,12 @@ namespace HAPI_UI_SPACE
 		bool LoadXML(CHapiXML& xml, std::string &loadedWindowName, const std::string& skinPath, CHapiXMLNode **userData = nullptr, bool scale = true);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	As above from a byte stream. </summary>
+		/// <summary>	As LoadXML but from a byte stream. </summary>
 		///
 		/// <param name="byteStream">	   	The byte stream. </param>
 		/// <param name="loadedWindowName">	[in,out] Name of the loaded window. </param>
 		/// <param name="userData">		   	[in,out] (Optional) If non-null, information describing the
-		/// 								user. </param>
+		/// 								user data. </param>
 		/// <param name="scale">		   	(Optional) True to scale. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
@@ -696,7 +676,7 @@ namespace HAPI_UI_SPACE
 		void OnMouseMove(const MouseData& mouseData)  override final;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Called when HAPI detects a controller event, currently not using. </summary>
+		/// <summary>	Called when HAPI detects a controller event. </summary>
 		///
 		/// <param name="controllerId">   	Identifier for the controller. </param>
 		/// <param name="controllerEvent">	The controller event. </param>
@@ -821,6 +801,14 @@ namespace HAPI_UI_SPACE
 		/// <param name="ratio"> 	The ratio. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void TellListener_DialChanged(const UIObject& object, float ratio);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener about an unhandled action. </summary>
+		///
+		/// <param name="window">	 	[in,out] The window. </param>
+		/// <param name="action">	 	The action. </param>
+		/// <param name="lastAction">	The last action. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void TellListener_UnhandledAction(UIWindow& window, EInputMappingAction action,EInputMappingAction lastAction);		
 	};
 }

@@ -9,13 +9,9 @@
 
 namespace HAPISPACE
 {
-	/// <summary>	Form for viewing the user interface skin editor main. </summary>
 	class UISkinEditorMainWindow;
-	/// <summary>	Form for viewing the user interface editor object style. </summary>
 	class UIEditorObjectStyleWindow;
-	/// <summary>	Form for viewing the user interface editor main. </summary>
 	class UIEditorMainWindow;
-	/// <summary>	An iand skin payload data. </summary>
 	class UIandSkinPayloadData;
 }
 
@@ -24,33 +20,32 @@ namespace HAPI_UI_SPACE
 	/// <summary>	Base sizes for this Skin. </summary>
 	struct UiSkinSizes
 	{
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Base text size, can be adjusted via specific style or even per object In pixels high.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary> Base text size, can be adjusted via specific style or even per object In pixels high.</summary>
 		int m_textSize{ 16 };
 		
 		/// <summary>	Used in menu, text entry etc. when positioning. </summary>
 		int m_textHorizontalGap{ 4 };
-		/// <summary>	The text vertical gap. </summary>
+
+		/// <summary>	The vertical gap between text. </summary>
 		int m_textVerticalGap{ 2 };
 
 		/// <summary>	Used when positioning relative to other objects. </summary>
 		int m_objectGapHorizontal{ 10 };
-		/// <summary>	The object gap vertical. </summary>
+
+		/// <summary>	The vertical gap between objects. </summary>
 		int m_objectGapVertical{ 10 };
 
 		/// <summary>	Used when positioniong against window edges as an offset. </summary>
 		int m_margin{ 6 };
 		
-		/// <summary>	Additions. </summary>
+		/// <summary>	Shadow size. </summary>
 		int m_shadowWidth{ 4 };
+
 		/// <summary>	The marker length percentage. </summary>
 		int m_markerLengthPercentage{ 3 };
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an XML. </summary>
+		/// <summary>	Saves to XML. </summary>
 		///
 		/// <param name="parent">	[in,out] If non-null, the parent. </param>
 		///
@@ -59,7 +54,7 @@ namespace HAPI_UI_SPACE
 		bool SaveXML(CHapiXMLNode *parent) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Loads an XML. </summary>
+		/// <summary>	Loads from XML. </summary>
 		///
 		/// <param name="skinSizesNode">	[in,out] If non-null, the skin sizes node. </param>
 		///
@@ -75,6 +70,7 @@ namespace HAPI_UI_SPACE
 		// Master styles
 		/// <summary>	The master text style. </summary>
 		UiTextStyleGroup m_masterTextStyle;
+		
 		/// <summary>	The master window style. </summary>
 		UiWindowStyleGroup m_masterWindowStyle;
 	
@@ -98,7 +94,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Do not call directly, called via Scale or ScaleInst Does the actual scaling work on an
+		/// Do not call directly, called via Scale or ScaleInst. Does the actual scaling work on an
 		/// instance.
 		/// </summary>
 		///
@@ -109,13 +105,10 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool ScaleInst(const VectorF& scaling, UiSkinSizes &inst);		
 
-		/// <summary>	Any additions need addying to constructor that copies. </summary>
+		// Any additions need addying to constructor that copies
 		friend class HAPISPACE::UISkinEditorMainWindow;
-		/// <summary>	Form for viewing the user interface editor object style. </summary>
 		friend class HAPISPACE::UIEditorObjectStyleWindow;
-		/// <summary>	Form for viewing the user interface editor main. </summary>
 		friend class HAPISPACE::UIEditorMainWindow;
-		/// <summary>	An iand skin payload data. </summary>
 		friend class HAPISPACE::UIandSkinPayloadData;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +128,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Unlike the scale in public this does an in-place scale, not using instance data, so alters
-		/// original Returns false if cannot do e.g. font too small or too big.
+		/// original. Returns false if cannot do e.g. font too small or too big.
 		/// </summary>
 		///
 		/// <param name="scaling">	The scaling. </param>
@@ -147,7 +140,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// A call to this should be followed by a refresh / resize of window as will need values
-		/// flushing through Note: this does not include instanced size.
+		/// flushing through. Note: this does not include instanced size.
 		/// </summary>
 		///
 		/// <returns>	The sizes write. </returns>
@@ -156,34 +149,31 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Applies any instance data to the skin sizes and removes it reports if more than one exists!
+		/// Applies any instance data to the skin size. It reports if more than one exists!
 		/// Used by editor on load.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ApplyInstanceData();
 
-		/// <summary>	A system. </summary>
 		friend class UISystem;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Careful with this! Does not change name in map, prefer ui RenameSkin fn. </summary>
+		/// <summary>	Careful with this! Does not change name in map, prefer UI RenameSkin fn. </summary>
 		///
-		/// <param name="newName">	Name of the new. </param>
+		/// <param name="newName">	New name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeName(std::string newName) { m_name = newName; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Replace shader. </summary>
 		///
-		/// <param name="toReplace">	to replace. </param>
-		/// <param name="newName">  	Name of the new. </param>
+		/// <param name="toReplace">	Shader to replace. </param>
+		/// <param name="newName">  	Name of the new shader. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ReplaceShader(const std::string& toReplace, const std::string& newName);
 	public:	
-		// Constructor, sets default skin values
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
+		/// <summary>	Constructor, sets default skin values </summary>
 		///
 		/// <param name="name">	The name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +182,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor from XML. </summary>
 		///
-		/// <param name="xml">	   	[in,out] The XML. </param>
+		/// <param name="xml">	   	[in,out] The XML data. </param>
 		/// <param name="skinNode">	[in,out] If non-null, the skin node. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Skin(CHapiXML &xml, CHapiXMLNode *skinNode);
@@ -201,7 +191,7 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Construct by copying other and using new name. </summary>
 		///
 		/// <param name="toCopy"> 	to copy. </param>
-		/// <param name="newName">	Name of the new. </param>
+		/// <param name="newName">	New name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Skin(const std::shared_ptr<Skin>& toCopy, std::string newName);
 
@@ -223,7 +213,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets text style group. </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which">	Which style. </param>
 		///
 		/// <returns>	The text style group. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,7 +222,7 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets window style group. </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which">	Which style. </param>
 		///
 		/// <returns>	The window style group. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,9 +240,6 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorF GetScalingRatio(int oldWidth,int oldHeight,int newWidth, int newHeight) const;
 
-		// Has light and dark grid
-		//static std::unique_ptr<PatternFill> TransparentShader;
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets the name. </summary>
 		///
@@ -260,11 +247,10 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const std::string& GetName() const { return m_name; }
 
-		/// <summary>	The horrid pink. </summary>
 		static std::shared_ptr<FillShader> kHorridPink;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Saves an XML. </summary>
+		/// <summary>	Save as XML under root node. </summary>
 		///
 		/// <param name="root">	[in,out] If non-null, the root. </param>
 		///
@@ -273,7 +259,7 @@ namespace HAPI_UI_SPACE
 		bool SaveXML(CHapiXMLNode *root) const;		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Adds a shader to palette to 'shader'. </summary>
+		/// <summary>	Adds a shader to palette. </summary>
 		///
 		/// <typeparam name="T">	Generic type parameter. </typeparam>
 		/// <param name="name">  	The name. </param>
@@ -290,21 +276,21 @@ namespace HAPI_UI_SPACE
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Query if 'name' does shader exist. </summary>
+		/// <summary>	Query if 'name' shader exists. </summary>
 		///
 		/// <param name="name">	The name. </param>
 		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
+		/// <returns>	True if it exists, false otherwise. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool DoesShaderExist(const std::string& name) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Retrieves a shader by name If does not exist returns horrid pink and emits error, use above
-		/// to check for existance.
+		/// Retrieves a shader by name. If does not exist returns horrid pink and emits error, use above
+		/// to check for existence.
 		/// </summary>
 		///
-		/// <param name="name">	The name. </param>
+		/// <param name="name">	The shader name. </param>
 		///
 		/// <returns>	Null if it fails, else the shader. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,22 +298,20 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Retrieves a colour shader by name If the shader under than name is not a colour (or does not
-		/// exist)
-		/// returns nullptr and raises an error.
+		/// Retrieves a colour shader by name. If the shader under than name is not a colour (or does not
+		/// exist) returns nullptr and raises an error.
 		/// </summary>
 		///
 		/// <param name="name">	The name. </param>
 		///
-		/// <returns>	Null if it fails, else the colourshader. </returns>
+		/// <returns>	Null if it fails, else the Colour Shader. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		ColourFill* GetColourshader(const std::string &name) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Retrieves a gradient shader by name If the shader under than name is not a gradeint (or does
-		/// not exist)
-		/// returns nullptr and raises an error.
+		/// Retrieves a gradient shader by name. If the shader under than name is not a gradient (or does
+		/// not exist) returns nullptr and raises an error.
 		/// </summary>
 		///
 		/// <param name="name">	The name. </param>
@@ -338,9 +322,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Retrieves a pattern shader by name If the shader under than name is not a pattern (or does
-		/// not exist)
-		/// returns nullptr and raises an error.
+		/// Retrieves a pattern shader by name. If the shader under than name is not a pattern (or does
+		/// not exist) returns nullptr and raises an error.
 		/// </summary>
 		///
 		/// <param name="name">	The name. </param>
@@ -351,9 +334,8 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Retrieves an image shader by name If the shader under than name is not a image (or does not
-		/// exist)
-		/// returns nullptr and raises an error.
+		/// Retrieves an image shader by name. If the shader under than name is not a image (or does not
+		/// exist) returns nullptr and raises an error.
 		/// </summary>
 		///
 		/// <param name="name">	The name. </param>
@@ -374,16 +356,16 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Rename palette shader. </summary>
 		///
-		/// <param name="oldName">	Name of the old. </param>
-		/// <param name="newName">	Name of the new. </param>
+		/// <param name="oldName">	Old name. </param>
+		/// <param name="newName">	New name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void RenamePaletteShader(const std::string &oldName, const std::string &newName);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Duplicate palette shader. </summary>
+		/// <summary>	Duplicate a palette shader. </summary>
 		///
-		/// <param name="toCopyName">	Name of to copy. </param>
-		/// <param name="newCopyame">	The new copyame. </param>
+		/// <param name="toCopyName">	Name of the shader to copy. </param>
+		/// <param name="newCopyame">	The new copied name. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void DuplicatePaletteShader(const std::string &toCopyName, const std::string &newCopyame);
 
@@ -398,22 +380,27 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const UiSkinSizes& GetSizes(const std::string& windowName) const;
 
-		// Create a new instance for this window with supplied sizes
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Create a new instance for this window with supplied sizes. </summary>
+		///
+		/// <param name="windowName">	Name of the window. </param>
+		/// <param name="sizes">	 	The sizes. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void SetSizes(const std::string& windowName, const UiSkinSizes& sizes);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Read access. </summary>
+		/// <summary>	Read access to text styles. </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which">	The skin style. </param>
 		///
 		/// <returns>	The text style group. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const UiTextStyleGroup& GetTextStyleGroup(ESkinStyle which) const { return m_textStyles[(int)which]; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets window style group. </summary>
+		/// <summary>	Read access to a window style group. </summary>
 		///
-		/// <param name="which">	The which. </param>
+		/// <param name="which">	The style. </param>
 		///
 		/// <returns>	The window style group. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -422,8 +409,8 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets text style. </summary>
 		///
-		/// <param name="which">	The which. </param>
-		/// <param name="sub">  	The sub. </param>
+		/// <param name="which">	The style. </param>
+		/// <param name="sub">  	The sub style. </param>
 		///
 		/// <returns>	The text style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,8 +419,8 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets window style. </summary>
 		///
-		/// <param name="which">	The which. </param>
-		/// <param name="sub">  	The sub. </param>
+		/// <param name="which">	The style. </param>
+		/// <param name="sub">  	The sub style. </param>
 		///
 		/// <returns>	The window style. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -441,7 +428,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Creates a scaled skin sizes instance for the window Returns false if cannot do e.g. font too
+		/// Creates a scaled skin sizes instance for the window. Returns false if cannot do e.g. font too
 		/// small or too big.
 		/// </summary>
 		///
@@ -463,8 +450,8 @@ namespace HAPI_UI_SPACE
 		/// <summary>	Gets text baseline as height from top. </summary>
 		///
 		/// <param name="windowName">	Name of the window. </param>
-		/// <param name="which">	 	The which. </param>
-		/// <param name="sub">		 	The sub. </param>
+		/// <param name="which">	 	The style. </param>
+		/// <param name="sub">		 	The sub style. </param>
 		///
 		/// <returns>	The baseline. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,12 +459,12 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Gets largest of all subtypes in terms of bounding rect Note: rect can have non zero left and
+		/// Gets largest of all subtypes in terms of bounding rect. Note: rect can have non zero left and
 		/// top.
 		/// </summary>
 		///
 		/// <param name="windowName">	Name of the window. </param>
-		/// <param name="which">	 	The which. </param>
+		/// <param name="which">	 	The style. </param>
 		/// <param name="text">		 	The text. </param>
 		///
 		/// <returns>	The largest text rectangle. </returns>
@@ -490,7 +477,7 @@ namespace HAPI_UI_SPACE
 		/// </summary>
 		///
 		/// <param name="windowName">	Name of the window. </param>
-		/// <param name="group">	 	The group. </param>
+		/// <param name="group">	 	The style. </param>
 		/// <param name="text">		 	The text. </param>
 		///
 		/// <returns>	The largest text rectangle. </returns>

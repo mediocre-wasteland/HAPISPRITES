@@ -23,7 +23,7 @@ namespace HAPI_UI_SPACE
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Used for mapping input to actions Supports keys but will also support other control inputs.
+	/// Used for mapping input to actions. Supports keys but will also support other control inputs.
 	/// </summary>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	enum class EInputMappingAction
@@ -114,14 +114,14 @@ namespace HAPI_UI_SPACE
 	/// <summary>	Values that represent gaps. </summary>
 	enum class EGap
 	{
-		eUnmapped,		// Uses 0
+		eUnmapped,	// Uses 0
 		eMargin,	// Uses margin size from skin
 		eTight,		// Uses half of skin object gap value
 		eNormal,	// Uses skin object gap value e.g. either horizontalObjectGap or verticalObjectGap	
 		eLoose		// Uses 2 * skin object gap value
 	};
 
-	/// <summary>	Values that represent axis. </summary>
+	/// <summary>	Values that represent an axis. </summary>
 	enum class EAxis
 	{
 		eX,
@@ -208,7 +208,7 @@ namespace HAPI_UI_SPACE
 	}
 
 
-	/// <summary>	Objects can be in one of these three states. </summary>
+	/// <summary>	Objects can be in one of these four states. </summary>
 	enum class EActionState
 	{
 		eDisabled,
@@ -226,10 +226,10 @@ namespace HAPI_UI_SPACE
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// namespace: WindowFeatures
-	// 
-	// Cannot be class as used for bit mask
-	// so wrapped in sub namespace
+	/// namespace: WindowFeatures
+	/// 
+	/// Cannot be class as used for bit mask
+	/// so wrapped in sub namespace
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	namespace WindowFeatures
 	{
@@ -250,7 +250,7 @@ namespace HAPI_UI_SPACE
 		};
 	}
 
-	/// <summary>	Currently just two but could be expanded. </summary>
+	/// <summary>	Button types. </summary>
 	enum class EButtonType
 	{
 		eToggle,		// Does not stay pressed
@@ -321,7 +321,7 @@ namespace HAPI_UI_SPACE
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Skin style to string. </summary>
 	///
-	/// <param name="which">	The which. </param>
+	/// <param name="which">	The skin style. </param>
 	///
 	/// <returns>	A std::string. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -435,7 +435,7 @@ namespace HAPI_UI_SPACE
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Skin sub style to string. </summary>
 	///
-	/// <param name="which">	The which. </param>
+	/// <param name="which">	Which sub style. </param>
 	///
 	/// <returns>	A std::string. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
