@@ -43,11 +43,12 @@ void PlayerEntity::ShootLG()
 
 void PlayerEntity::Update()
 {
+	std::cout << mLastCollidedCollisionInfo.thisLocalPos.ToString() << std::endl;
 	HAPISPACE::VectorF position({ GetPosition() });
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (isColliding == true) // TEMPORARY code makes the "ground" where y = 300
+	if (mLastCollidedCollisionInfo.thisLocalPos.y > 40 && isColliding == true)
 	{
 		mIsOnGround = true;
 		mHasSecondJump = true;
@@ -71,7 +72,11 @@ void PlayerEntity::Update()
 		mIsJumping = true;
 		mHasSecondJump = false;
 	}
-
+	if (mLastCollidedCollisionInfo.thisLocalPos.y == 0 && isColliding == true)
+	{
+		mTimeJumped = mMaxJumpLength;
+		mHasSecondJump = false;
+	}
 	if ((mKeyboardInput.scanCode[HK_CONTROL] || mKeyboardInput.scanCode[HK_LSHIFT]) && mIsOnGround) // checks if either of the dodge keys are pressed and if the player is on the ground and if so they can sneak
 	{
 		mSneaking = true;

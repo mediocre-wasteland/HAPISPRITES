@@ -50,6 +50,8 @@ protected:
 	int mMaxHealth{ 0 };
 	bool isColliding{ false };
 	bool mAlive{false};
+	CollisionInfo mCurrentCollisonInfo;
+	CollisionInfo mLastCollidedCollisionInfo;
 	eSide mSide{ eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };
 
