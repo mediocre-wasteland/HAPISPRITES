@@ -51,6 +51,7 @@ void PlayerEntity::Update()
 	if (mLastCollidedCollisionInfo.thisLocalPos.y > 40 && isColliding == true)
 	{
 		mIsOnGround = true;
+		Velocity.y = 0;
 		mHasSecondJump = true;
 		mTimeFallen = 0;
 	}
@@ -63,6 +64,7 @@ void PlayerEntity::Update()
 	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
 	{
 		sprite->SetAutoAnimate(1, false, "Jump");
+		Velocity.y = -5;
 		mIsJumping = true;
 	}
 
@@ -70,13 +72,16 @@ void PlayerEntity::Update()
 	{
 		// SECOND JUMP START ANIMATION HERE
 		mIsJumping = true;
+		Velocity.y -= 5;
 		mHasSecondJump = false;
 	}
+
 	if (mLastCollidedCollisionInfo.thisLocalPos.y == 0 && isColliding == true)
 	{
 		mTimeJumped = mMaxJumpLength;
 		mHasSecondJump = false;
 	}
+
 	if ((mKeyboardInput.scanCode[HK_CONTROL] || mKeyboardInput.scanCode[HK_LSHIFT]) && mIsOnGround) // checks if either of the dodge keys are pressed and if the player is on the ground and if so they can sneak
 	{
 		mSneaking = true;
@@ -91,29 +96,7 @@ void PlayerEntity::Update()
 		if (!mSneaking)
 		{
 			sprite->SetAutoAnimate(1, false, "Idle");
-			//SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
-
-			constexpr DWORD MoveTime{ 10 };
-			DWORD timeSinceLastMoveTime{ 0 };
-
-			if (HAPI_Sprites.GetTime() - timeSinceLastMoveTime >= MoveTime)
-			{
-				float Acceleration;
-				float Force = 210;
-				float Mass = 70;
-				float OldVelocity{ 0 };
-				float NewVelocity{ 0 };
-				float OldPos;
-				float NewPos;
-
-				Acceleration = Force / Mass;
-				NewVelocity = OldVelocity + (Acceleration / HAPI_Sprites.GetTime());
-				NewPos = OldPos + (NewVelocity * HAPI_Sprites.GetTime());
-
-				SetPosition({ GetPosition().x + NewPos, GetPosition().y });
-
-				timeSinceLastMoveTime = HAPI_Sprites.GetTime();
-			}
+			SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
 		}
 		else
 		{
@@ -185,8 +168,24 @@ void PlayerEntity::Update()
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
 	{
 		// MID JUMP ANIMATION HERE
-		SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength-mTimeJumped)/(0.5f*mMaxJumpLength))*mHSpeed });
+		//SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength-mTimeJumped)/(0.5f*mMaxJumpLength))*mHSpeed });
+
 		mTimeJumped++;
+
+		DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
+		if (deltaTimeMS >= MoveTime)
+		{
+			deltaTimeS = 0.001f * deltaTimeMS;
+			timeSinceLastMove = HAPI_Sprites.GetTime();
+
+			Position += Velocity;
+
+			SetPosition({ Position.x, Position.y });
+
+			timeSinceLastMove = HAPI_Sprites.GetTime();
+
+			OldPosition = Position;
+		}
 	}
 	else
 	{
@@ -197,7 +196,25 @@ void PlayerEntity::Update()
 	if (!mIsOnGround && !mIsJumping) // if the player is not ascending and not on the ground then gravity will be applyed and send them downwards
 	{
 		// FALLING ANIMATION HERE
-		SetPosition({ GetPosition().x , GetPosition().y + mGravity });
+
+		DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
+		if (deltaTimeMS >= MoveTime)
+		{
+			deltaTimeS = 0.001f * deltaTimeMS;
+			timeSinceLastMove = HAPI_Sprites.GetTime();
+
+			Acceleration += Force / Mass;
+			Velocity += (Gravity + Acceleration) * deltaTimeS;
+
+			Position += Velocity;
+
+			SetPosition({ Position.x, Position.y });
+
+			timeSinceLastMove = HAPI_Sprites.GetTime();
+
+			OldPosition = Position;
+		}
+
 		mTimeFallen++;
 	}
 	isColliding = false;

@@ -16,6 +16,21 @@ public:
 	virtual eDirection GetDirection() const override final{ return  mDirection; }
 
 private:
+
+	///Physics
+	VectorF Gravity{ 0, 9.81f };
+	VectorF Velocity{ 0, 0 };
+	float Mass{ 1 };
+	VectorF Position{ GetPosition() };
+	VectorF OldPosition{ Position };
+	VectorF Acceleration{ 0 };
+	VectorF Force{ 0 };
+	float deltaTimeS;
+
+	const DWORD MoveTime{ 20 };
+	DWORD timeSinceLastMove{ HAPI_Sprites.GetTime() - 16 };
+
+
 	///Movement
 	int mMaxJumpLength{ 80 }; // the max amount of updates the player can move vertically from a jump
 	bool mIsJumping{ false }; // whether or not the space bar is held and player has not reached max jump height
