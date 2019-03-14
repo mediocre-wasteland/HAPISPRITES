@@ -96,12 +96,16 @@ void PlayerEntity::Update()
 		if (!mSneaking)
 		{
 			sprite->SetAutoAnimate(1, false, "Idle");
-			SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+			Velocity.x = 5;
+			//SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
+			SetPosition({ Position.x, Position.y });
 		}
 		else
 		{
 			// SNEAK RIGHT ANIMATION HERE
-			SetPosition({ GetPosition().x + mHSpeed/3, GetPosition().y });
+			Velocity.x = 0;
+			//SetPosition({ GetPosition().x + mHSpeed/3, GetPosition().y });
+			SetPosition({ Position.x, Position.y });
 		}
 	}
 
@@ -110,12 +114,16 @@ void PlayerEntity::Update()
 		if (!mSneaking)
 		{
 			sprite->SetAutoAnimate(1, false, "Idle");
-			SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
+			Velocity.x = -5;
+			//SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
+			SetPosition({ Position.x, Position.y });
 		}
 		else
 		{
 			// SNEAK LEFT ANIMATION HERE
-			SetPosition({ GetPosition().x - mHSpeed/3, GetPosition().y });
+			Velocity.x = 0;
+			//SetPosition({ GetPosition().x - mHSpeed/3, GetPosition().y });
+			SetPosition({ Position.x, Position.y });
 		}
 		
 	}
