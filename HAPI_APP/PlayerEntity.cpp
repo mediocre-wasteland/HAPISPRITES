@@ -95,7 +95,7 @@ void PlayerEntity::Update()
 	{
 		if (!mSneaking)
 		{
-			sprite->SetAutoAnimate(1, false, "Idle");
+			sprite->SetAutoAnimate(1, false, "RunRight");
 			Velocity.x = 5;
 			//SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
 			SetPosition({ Position.x, Position.y });
@@ -113,7 +113,7 @@ void PlayerEntity::Update()
 	{
 		if (!mSneaking)
 		{
-			sprite->SetAutoAnimate(1, false, "Idle");
+			sprite->SetAutoAnimate(1, false, "RunLeft");
 			Velocity.x = -5;
 			//SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
 			SetPosition({ Position.x, Position.y });
