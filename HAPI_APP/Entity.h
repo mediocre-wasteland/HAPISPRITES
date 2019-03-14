@@ -30,6 +30,7 @@ public:
 	HAPISPACE::VectorF GetPosition() const{ return mPosition; }
 	std::shared_ptr<Sprite> GetSprite() { return sprite; }
 	void SetPosition(HAPISPACE::VectorF newPosition){ mOldPosition = mPosition;  mPosition = newPosition; }
+	HAPISPACE::VectorF GetOldPosition() const { return mOldPosition; }
 	void SetScaling(float floatx, float floaty);
 	void SetRotation(float rotationF);
 	void Render();

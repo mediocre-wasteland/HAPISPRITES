@@ -32,12 +32,12 @@ void Entity::Render()
 bool Entity::LoadSprite()
 {
 	sprite = HAPI_Sprites.LoadSprite(mSpriteName);
-	constexpr int kMinAlphaForCollision{ 200 };
+	constexpr int kMinAlphaForCollision{ 50};
 	sprite->GetSpritesheet()->SetMinimumAlphaForCollision(kMinAlphaForCollision);
 	sprite->GetSpritesheet()->AutoFitColliders();
-	sprite->GetSpritesheet()->GenerateNormals();
+	//sprite->GetSpritesheet()->GenerateNormals();
 	sprite->GetColliderComp().CalculateCollisionData(true);
-	//sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
+	sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
 
 
 	if (!sprite)
@@ -100,5 +100,6 @@ void Entity::CheckCollision(Entity & Other)
 	//std::cout << "COLLIDING" << std::endl;//debug
 	mLastCollidedCollisionInfo = collision;
 	isColliding = true;
-	sprite->GetTransformComp().SetPosition({ mOldPosition });
+	Other.isColliding = true;
+	//sprite->GetTransformComp().SetPosition({ mOldPosition });
 }

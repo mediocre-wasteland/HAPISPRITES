@@ -24,6 +24,14 @@
 // 
 // SELF NOTE: PRIOR TO FINALISING GENERATE DOXYGEN
 // 
+// Version 0.86 ON Going
+// 
+// BUGFIX: PP Collision code for non scaled and rotated returned wrong local value
+// BUGFIX: Sprite Editor was rendering bounding shapes with the wrong transform
+// BUGFIX: Circle vs Rect collision was erroneously reporting no ray intersection
+// BUGFIX: Auto fit colliders was not working when frames have names
+// 
+// 
 // Version 0.85 10/03/19
 // - BUGFIX: there was a bug in the local position collision info. returned when not doing PP collisions
 // - BUGFIX: while fixing the above discovered a bug when a sprite is scaled. Collision info is now in unscaled local space.

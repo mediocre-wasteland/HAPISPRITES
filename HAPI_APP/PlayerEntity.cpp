@@ -4,7 +4,7 @@ PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 	mSide = eSide::ePlayer;
-	SetPosition({ 0.f, 560.f });
+	SetPosition({ 50.f, 0.f });
 }
 
 PlayerEntity::~PlayerEntity()
@@ -48,19 +48,40 @@ void PlayerEntity::Update()
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
-	if (mLastCollidedCollisionInfo.thisLocalPos.y > 40 && isColliding == true)
+
+	if (isColliding == true && !mIsOnGround && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight()/1.5) // if player is not already on ground and is colliding reacts to floor
 	{
 		mIsOnGround = true;
 		Velocity.y = 0;
+		SetPosition({ GetPosition().x, GetPosition().y });
 		mHasSecondJump = true;
 		mTimeFallen = 0;
 	}
-
-	if (isColliding==false)
+    if  (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() / 4) // if player is colliding and local collider position y  bounces player back down
+	{
+		mIsJumping = false;
+		mHasSecondJump = false;
+		Velocity.y = 1;
+		SetPosition({ GetPosition().x , GetPosition().y + Velocity.y});
+	}
+	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() / 4)// if player is on ground, colliding and local collider position x reacts to left hand obstacle and moves right
+	{
+		Velocity.x = 1;
+		SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
+		mIsJumping = false;
+		mHasSecondJump = false;
+	}
+	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() /1.5)// if player is on ground, colliding and local collider position x reacts to right hand obstacle and moves left
+	{
+		Velocity.x = -1;
+		SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
+		mIsJumping = false;
+		mHasSecondJump = false;
+	}
+	if (isColliding==false)// if not colliding sets off ground
 	{
 		mIsOnGround = false;
 	}
-
 	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
 	{
 		sprite->SetAutoAnimate(1, false, "Jump");
@@ -72,107 +93,40 @@ void PlayerEntity::Update()
 	{
 		// SECOND JUMP START ANIMATION HERE
 		mIsJumping = true;
-		Velocity.y -= 5;
+		Velocity.y = -5;
 		mHasSecondJump = false;
 	}
-
-	if (mLastCollidedCollisionInfo.thisLocalPos.y == 0 && isColliding == true)
-	{
-		mTimeJumped = mMaxJumpLength;
-		mHasSecondJump = false;
-	}
-
-	if ((mKeyboardInput.scanCode[HK_CONTROL] || mKeyboardInput.scanCode[HK_LSHIFT]) && mIsOnGround) // checks if either of the dodge keys are pressed and if the player is on the ground and if so they can sneak
-	{
-		mSneaking = true;
-	}
-	else
-	{
-		mSneaking = false;
-	}
-
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
 	{
-		if (!mSneaking)
+		sprite->SetAutoAnimate(1, false, "RunRight");
+		if (isColliding && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() / 1.5)
 		{
-			sprite->SetAutoAnimate(1, false, "RunRight");
+			Velocity.x = 0;
+			SetPosition({ GetPosition().x, GetPosition().y });
+		}
+		else
+		{
 			Velocity.x = 5;
-			//SetPosition({ GetPosition().x + mHSpeed, GetPosition().y });
-			SetPosition({ Position.x, Position.y });
-		}
-		else
-		{
-			// SNEAK RIGHT ANIMATION HERE
-			Velocity.x = 0;
-			//SetPosition({ GetPosition().x + mHSpeed/3, GetPosition().y });
-			SetPosition({ Position.x, Position.y });
-		}
-	}
-
-	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !mIsDodging) // this checks if the user is inputing to go left but not right
-	{
-		if (!mSneaking)
-		{
-			sprite->SetAutoAnimate(1, false, "RunLeft");
-			Velocity.x = -5;
-			//SetPosition({ GetPosition().x - mHSpeed, GetPosition().y });
-			SetPosition({ Position.x, Position.y });
-		}
-		else
-		{
-			// SNEAK LEFT ANIMATION HERE
-			Velocity.x = 0;
-			//SetPosition({ GetPosition().x - mHSpeed/3, GetPosition().y });
-			SetPosition({ Position.x, Position.y });
+			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
 		}
 		
 	}
 
-	// Dodging code
-	if (mKeyboardInput.scanCode['Q'] && mTimeSinceDodge >= mDodgecooldown) // These two if statements check if the dodge left or dodge right buttons are pressed and if so starts a dodge accordingly
+	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !mIsDodging) // this checks if the user is inputing to go left but not right
 	{
-		mIsDodging = true;
-		mDodgeLastFacingLeft = true;
-		mVunerable = false;
-		mTimeDodged = 0;
-		mTimeSinceDodge = 0;
-	}
-
-	if (mKeyboardInput.scanCode['E'] && mTimeSinceDodge >= mDodgecooldown)
-	{
-		mIsDodging = true;
-		mDodgeLastFacingLeft = false;
-		mVunerable = false;
-		mTimeDodged = 0;
-		mTimeSinceDodge = 0;
-	}
-
-	if (mIsDodging && mTimeDodged < mMaxDodgeLength) // this checks if the player is dodging and if the amount of updates they can dodge for has passed
-	{
-		if (mDodgeLastFacingLeft)
+		sprite->SetAutoAnimate(1, false, "RunLeft");
+		if (isColliding && mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() / 4)
 		{
-			// DODGE LEFT ANIMATION HERE
-			SetPosition({ GetPosition().x - 1.5f * mHSpeed, GetPosition().y }); // they move at 1.5 time speed while dodging
+			Velocity.x = 0;
+			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
 		}
 		else
 		{
-			// DODGE LEFT ANIMATION HERE
-			SetPosition({ GetPosition().x + 1.5f * mHSpeed, GetPosition().y });
+			Velocity.x = -5;
+			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
 		}
-		mTimeDodged++;
+		
 	}
-	else // when they aren't dodging the isDodging bool is updated and they are no longer invunerable
-	{
-		mIsDodging = false;
-		mVunerable = true;
-	}
-
-	if (mTimeSinceDodge < mDodgecooldown) // this ticks up until the player can dodge again
-	{
-		mTimeSinceDodge++;
-	}
-	// Dodging code
-
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
 	{
 		// MID JUMP ANIMATION HERE
@@ -186,13 +140,12 @@ void PlayerEntity::Update()
 			deltaTimeS = 0.001f * deltaTimeMS;
 			timeSinceLastMove = HAPI_Sprites.GetTime();
 
-			Position += Velocity;
+			Acceleration += Force / Mass;
+			Velocity += (Gravity + Acceleration) * deltaTimeS;
 
-			SetPosition({ Position.x, Position.y });
+			SetPosition({ GetPosition() + Velocity });
 
 			timeSinceLastMove = HAPI_Sprites.GetTime();
-
-			OldPosition = Position;
 		}
 	}
 	else
@@ -214,18 +167,20 @@ void PlayerEntity::Update()
 			Acceleration += Force / Mass;
 			Velocity += (Gravity + Acceleration) * deltaTimeS;
 
-			Position += Velocity;
-
-			SetPosition({ Position.x, Position.y });
+			SetPosition({ GetPosition() + Velocity });
 
 			timeSinceLastMove = HAPI_Sprites.GetTime();
-
-			OldPosition = Position;
 		}
 
 		mTimeFallen++;
 	}
+
+	
+
+	
 	isColliding = false;
 	sprite->GetTransformComp().SetPosition(position);
+	
+	
 }
 

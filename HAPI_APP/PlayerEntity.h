@@ -21,8 +21,6 @@ private:
 	VectorF Gravity{ 0, 9.81f };
 	VectorF Velocity{ 0, 0 };
 	float Mass{ 1 };
-	VectorF Position{ GetPosition() };
-	VectorF OldPosition{ Position };
 	VectorF Acceleration{ 0 };
 	VectorF Force{ 0 };
 	float deltaTimeS;

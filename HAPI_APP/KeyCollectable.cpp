@@ -21,6 +21,6 @@ void KeyCollectable::Update()
 	{
 		std::cout << "KEY" << std::endl;
 	}
-
+	isColliding = false;
 	sprite->GetTransformComp().SetPosition(position);
 }
