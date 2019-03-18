@@ -4,7 +4,7 @@ PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 	mSide = eSide::ePlayer;
-	SetPosition({ 50.f, 0.f });
+	SetPosition({ 80.f, 10.f });
 }
 
 PlayerEntity::~PlayerEntity()
@@ -49,137 +49,109 @@ void PlayerEntity::Update()
 	// CHECKING IF PLAYER IS ON THE GROUND
 	// TEMPORARY CODE
 
-	if (isColliding == true && !mIsOnGround && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight()/1.5) // if player is not already on ground and is colliding reacts to floor
+	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.75) // if player is not already on ground and is colliding reacts to floor
 	{
+		Velocity = 0;
 		mIsOnGround = true;
-		Velocity.y = 0;
-		SetPosition({ GetPosition().x, GetPosition().y });
 		mHasSecondJump = true;
 		mTimeFallen = 0;
 	}
-    if  (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() / 4) // if player is colliding and local collider position y  bounces player back down
+	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
 	{
-		mIsJumping = false;
-		mHasSecondJump = false;
-		Velocity.y = 1;
-		SetPosition({ GetPosition().x , GetPosition().y + Velocity.y});
+		Velocity.y = -8;
+		mIsJumping = true;
 	}
-	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() / 4)// if player is on ground, colliding and local collider position x reacts to left hand obstacle and moves right
+	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
 	{
-		Velocity.x = 1;
-		SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
-		mIsJumping = false;
-		mHasSecondJump = false;
+			Velocity.x = 5;
 	}
-	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() /1.5)// if player is on ground, colliding and local collider position x reacts to right hand obstacle and moves left
+	else if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])) // this checks if the user is inputing to go left but not right
 	{
-		Velocity.x = -1;
-		SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
-		mIsJumping = false;
-		mHasSecondJump = false;
+			Velocity.x = -5;
 	}
-	if (isColliding==false)// if not colliding sets off ground
+	else if(!((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) && !((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])))
+	{
+		Velocity.x = 0;
+
+	}
+	if (isColliding) 
+	{
+		if (mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() * 0.75 && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth()* 0.25 &&  mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.25) // if player is colliding and local collider position y  bounces player back down
+		{//TOP COLLISION
+			mIsJumping = false;
+			mHasSecondJump = false;
+			Velocity.y = 5;
+		}
+		if (mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() * 0.45 && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.74 && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.25)// if player is on ground, colliding and local collider position x reacts to left hand obstacle and moves right
+		{//LEFT COLLISION
+			Velocity.x = 5;
+			mIsJumping = false;
+			mHasSecondJump = false;
+		}
+		if (mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() *0.55 && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.74 && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.25)// if player is on ground, colliding and local collider position x reacts to right hand obstacle and moves left
+		{//RIGHT COLLISION
+			Velocity.x = -5;
+			mIsJumping = false;
+			mHasSecondJump = false;
+		}
+	}
+	if (isColliding == false)
 	{
 		mIsOnGround = false;
 	}
-	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
+	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
+	if (deltaTimeMS >= MoveTime)
 	{
-		sprite->SetAutoAnimate(1, false, "Jump");
-		Velocity.y = -5;
-		mIsJumping = true;
-	}
+		deltaTimeS = 0.001f * deltaTimeMS;
+		timeSinceLastMove = HAPI_Sprites.GetTime();
 
-	if (mHasSecondJump && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP]) && mTimeFallen > mFallingCooldown)
-	{
-		// SECOND JUMP START ANIMATION HERE
-		mIsJumping = true;
-		Velocity.y = -5;
-		mHasSecondJump = false;
-	}
-	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !mIsDodging) // this checks if the user is inputing to go right but not left
-	{
-		sprite->SetAutoAnimate(1, false, "RunRight");
-		if (isColliding && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() / 1.5)
+		Velocity += (Gravity)* deltaTimeS;
+
+		if (mIsOnGround && !(mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP]))
 		{
-			Velocity.x = 0;
-			SetPosition({ GetPosition().x, GetPosition().y });
+			Velocity.y = 0;
 		}
-		else
-		{
-			Velocity.x = 5;
-			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
-		}
+		sprite->GetTransformComp().Translate(Velocity);
+		SetPosition(position + Velocity);
 		
+
+		timeSinceLastMove = HAPI_Sprites.GetTime();
 	}
-
-	if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !mIsDodging) // this checks if the user is inputing to go left but not right
+	if (Velocity.x > 0)
 	{
-		sprite->SetAutoAnimate(1, false, "RunLeft");
-		if (isColliding && mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() / 4)
+		if (sprite->GetFrameSetName() != "RunRight")
 		{
-			Velocity.x = 0;
-			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
-		}
-		else
-		{
-			Velocity.x = -5;
-			SetPosition({ GetPosition().x + Velocity.x, GetPosition().y });
-		}
-		
-	}
-	if (mIsJumping && mTimeJumped <= mMaxJumpLength) // this checks if the player is holding the jump button and the time they've been jumping is not above a certain limit (prevents infinite jumping)
-	{
-		// MID JUMP ANIMATION HERE
-		//SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength-mTimeJumped)/(0.5f*mMaxJumpLength))*mHSpeed });
-
-		mTimeJumped++;
-
-		DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
-		if (deltaTimeMS >= MoveTime)
-		{
-			deltaTimeS = 0.001f * deltaTimeMS;
-			timeSinceLastMove = HAPI_Sprites.GetTime();
-
-			Acceleration += Force / Mass;
-			Velocity += (Gravity + Acceleration) * deltaTimeS;
-
-			SetPosition({ GetPosition() + Velocity });
-
-			timeSinceLastMove = HAPI_Sprites.GetTime();
+			sprite->SetAutoAnimate(10, true, "RunRight");
 		}
 	}
-	else
+	if (Velocity.x < 0)
 	{
-		mIsJumping = false;
-		mTimeJumped = 0;
-	}
-
-	if (!mIsOnGround && !mIsJumping) // if the player is not ascending and not on the ground then gravity will be applyed and send them downwards
-	{
-		// FALLING ANIMATION HERE
-
-		DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
-		if (deltaTimeMS >= MoveTime)
+		if (sprite->GetFrameSetName() != "RunLeft")
 		{
-			deltaTimeS = 0.001f * deltaTimeMS;
-			timeSinceLastMove = HAPI_Sprites.GetTime();
-
-			Acceleration += Force / Mass;
-			Velocity += (Gravity + Acceleration) * deltaTimeS;
-
-			SetPosition({ GetPosition() + Velocity });
-
-			timeSinceLastMove = HAPI_Sprites.GetTime();
+			sprite->SetAutoAnimate(10, true, "RunLeft");
 		}
-
-		mTimeFallen++;
+	}
+	if (Velocity.x == 0)
+	{
+		if (sprite->GetFrameSetName() != "Idle")
+		{
+			sprite->SetAutoAnimate(10, true, "Idle");
+		}
+	}
+	if (Velocity.y != 0)
+	{
+		if (sprite->GetFrameSetName() != "Idle")
+		{
+			sprite->SetAutoAnimate(10, true, "Idle");
+		}
 	}
 
 	
 
 	
 	isColliding = false;
-	sprite->GetTransformComp().SetPosition(position);
+	
+	
 	
 	
 }

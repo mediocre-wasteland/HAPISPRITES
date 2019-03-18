@@ -43,6 +43,7 @@ public:
 	virtual ~Entity();
 	virtual eDirection GetDirection() const = 0;
 
+
 protected:
 	std::shared_ptr<Sprite> sprite{ nullptr };
 	std::string mSpriteName;

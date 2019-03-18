@@ -97,9 +97,11 @@ void Entity::CheckCollision(Entity & Other)
 		mCurrentCollisonInfo = collision;
 		return;
 	}
-	//std::cout << "COLLIDING" << std::endl;//debug
-	mLastCollidedCollisionInfo = collision;
-	isColliding = true;
-	Other.isColliding = true;
-	//sprite->GetTransformComp().SetPosition({ mOldPosition });
+	
+		//std::cout << "COLLIDING" << std::endl;//debug
+		mLastCollidedCollisionInfo = collision;
+		isColliding = true;
+		Other.isColliding = true;
+	
+
 }

@@ -20,6 +20,7 @@ void KeyCollectable::Update()
 	if (isColliding == true)
 	{
 		std::cout << "KEY" << std::endl;
+		mAlive = false;
 	}
 	isColliding = false;
 	sprite->GetTransformComp().SetPosition(position);
