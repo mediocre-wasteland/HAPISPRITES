@@ -8,22 +8,28 @@ class EnemyEntity :
 public:
 	EnemyEntity(std::string &filename);
 	~EnemyEntity();
-
 	void Update()override final;
-
 	eSide GetSide() const override final { return mSide; }
 	eDirection GetDirection() const override final { return mDirection; }
+
 protected:
 
 private:
+	int mTimeJumped{ 0 };
+	int mTimeFallen{ 0 };
 	int screenWidth = 1280;
-	int screenHeight= 832;
-	int mMovementSpeed = 1;
-	HAPISPACE::VectorF mEnemyPosition{ 500,550 };
-
-	void AIMovement();
-	void ChangeDirection(eDirection newDirection);
+	int screenHeight = 832;
+	int mMaxJumpLength{ 80 };
+	int mFallingCooldown{ 25 };
 	bool bPatrolLevel();
 	bool bChasePlayer();
+	bool mIsJumping{ false };
+	bool mIsOnGround{ false };
+	bool mHasSecondJump{ false };
+	float mHSpeed{ 2 };
+	float mGravity{ 1.5f };
+	float mJumpSpeed{ 1.5f };
+	void ChangeDirection(eDirection newDirection);
+	void AIMovement(HAPISPACE::VectorF mEnemyPosition);
 };
 
