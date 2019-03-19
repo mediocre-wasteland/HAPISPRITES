@@ -2,8 +2,11 @@
 
 
 
-MoneyCollectable::MoneyCollectable()
+MoneyCollectable::MoneyCollectable(std::string &filename) : Entity(filename)
 {
+	mAlive = true;
+	mSide = eSide::eCollectable;
+	SetPosition({ 250 , 450 });
 }
 
 
@@ -11,7 +14,17 @@ MoneyCollectable::~MoneyCollectable()
 {
 }
 
-void MoneyCollectable::mBePickedUp(PlayerEntity player)
+void MoneyCollectable::Update(PlayerEntity* player)
 {
-	player.AddMoney(mValue);
+	HAPISPACE::VectorF position({ GetPosition() });
+
+	if (isColliding == true)
+	{
+		player->AddMoney(mValue);
+
+	}
+	std::cout << player->GetMoneyAmount() << std::endl;
+
+	sprite->GetTransformComp().SetPosition(position);
+	isColliding = false;
 }

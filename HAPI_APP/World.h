@@ -9,6 +9,8 @@
 #include "Map.h"
 #include "Camera.h"
 #include "KeyCollectable.h"
+#include "MoneyCollectable.h"
+#include "AmmoCollectable.h"
 
 using namespace HAPISPACE;
 

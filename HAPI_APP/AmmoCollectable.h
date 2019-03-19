@@ -2,14 +2,17 @@
 #include "Collectables.h"
 #include "PlayerEntity.h"
 class AmmoCollectable
-	: public Collectables
+	: public Entity
 {
 public:
-	AmmoCollectable();
+	AmmoCollectable(std::string &filename);
 	~AmmoCollectable();
-	void mBePickedUp(PlayerEntity player) { player.AddLGAmmo(mAmount); }
+	void Update() override { return; }// not used
+	void Update(PlayerEntity* player);
+	virtual eSide GetSide() const override final { return mSide; }
+	virtual eDirection GetDirection() const override final { return  mDirection; }
 private:
-	int mAmount;
+	int mAmount{ 12 };
 
 };
 

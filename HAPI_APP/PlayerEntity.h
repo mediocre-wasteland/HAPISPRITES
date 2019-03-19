@@ -11,6 +11,8 @@ public:
 	void AddMoney(int amount); // Increases or decreases money amount
 	void AddLGAmmo(int amount); // Increases Love Gun(tm) ammo but not beyond the maximum amount
 	void ShootLG(); // UNFINISHED code to shoot the Love Gun 
+	int GetMoneyAmount() { return mMoneyAmount; }
+	int GetAmmoAmount() { return mLGAmmo; }
 
 	virtual eSide GetSide() const override final{ return mSide; } 
 	virtual eDirection GetDirection() const override final{ return  mDirection; }
@@ -37,10 +39,10 @@ private:
 
 
 	///Collectables
-	int mMoneyAmount; // the amount of money the player has. a sort of "health system" as a player loses some as they get "hit"
+	int mMoneyAmount{ 0 }; // the amount of money the player has. a sort of "health system" as a player loses some as they get "hit"
 	bool mBankrupt{ false }; // whether or not the player has lost all money and thus the game
-	int mLGAmmo; // the amount of love gun ammo the player currently has
-	int mLGMaxAmmo; // the maximum ammount of love gun ammo the player can hold
+	int mLGAmmo{ 0 }; // the amount of love gun ammo the player currently has
+	int mLGMaxAmmo{ 96 }; // the maximum ammount of love gun ammo the player can hold
 	bool mHasKey{ false }; // Check if the player has a key
 };
 

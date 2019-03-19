@@ -82,6 +82,17 @@ bool World::LoadSprites()
 		return false;
 	}
 
+	if (!entityMap.at("Money")->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+		return false;
+	}
+
+	if (!entityMap.at("Ammo")->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+		return false;
+	}
 
 	return true;
 }
@@ -91,6 +102,8 @@ bool World::LoadEntities()
 	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
 	entityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
 	entityMap["Key"] = new KeyCollectable((std::string) "Data\\KeyPlaceholder.xml");
+	entityMap["Money"] = new MoneyCollectable((std::string) "Data\\MoneyPlaceholder.xml");
+	entityMap["Ammo"] = new AmmoCollectable((std::string) "Data\\LoveGunAmmoPlaceholder.xml");
 	return true;
 }
 
@@ -115,6 +128,8 @@ void World::Update()
 		entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 		entityMap.at("Enemy")->Update();
 		entityMap.at("Key")->Update();
+		((MoneyCollectable*)entityMap.at("Money"))->Update((PlayerEntity*)entityMap.at("Player"));
+		((AmmoCollectable*)entityMap.at("Ammo"))->Update((PlayerEntity*)entityMap.at("Player"));
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
