@@ -12,7 +12,7 @@ public:
 	virtual eSide GetSide() const override final { return mSide; }
 	virtual eDirection GetDirection() const override final { return  mDirection; }
 private:
-	int mAmount{ 12 };
+	int mAmount{ 12 }; // the amount of ammo this collectable will grant if collided with
 
 };
 
