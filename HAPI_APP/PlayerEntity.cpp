@@ -43,62 +43,66 @@ void PlayerEntity::ShootLG()
 
 void PlayerEntity::Update()
 {
-	std::cout << mLastCollidedCollisionInfo.thisLocalPos.ToString() << std::endl;
 	HAPISPACE::VectorF position({ GetPosition() });
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
-	// CHECKING IF PLAYER IS ON THE GROUND
-	// TEMPORARY CODE
 
-	if (isColliding == true && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.75) // if player is not already on ground and is colliding reacts to floor
+	//JUMP
+	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP]))
 	{
-		Velocity = 0;
-		mIsOnGround = true;
-		mHasSecondJump = true;
-		mTimeFallen = 0;
-	}
-	if (mIsOnGround && (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])) // this checks if a jump is being initiated from the ground 
-	{
-		Velocity.y = -8;
+		Velocity.y = -10;
 		mIsJumping = true;
 	}
-	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
+
+	//MOVE LEFT / RIGHT
+	if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
 	{
-		Velocity.x = 5;
+		Velocity.x = 4;
 	}
-	else if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])) // this checks if the user is inputing to go left but not right
+	else if (mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])
 	{
-		Velocity.x = -5;
+		Velocity.x = -4;
 	}
-	else if (!((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) && !((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])))
+	else
 	{
 		Velocity.x = 0;
-
 	}
+
+	//COLLISION CHECKS
 	if (isColliding)
 	{
-		if (mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() * 0.75 && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth()* 0.25 &&  mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.25) // if player is colliding and local collider position y  bounces player back down
-		{//TOP COLLISION
-			mIsJumping = false;
-			mHasSecondJump = false;
+		//BOT COLLISION
+		if (mLastCollidedCollisionInfo.thisLocalPos.y > mLastCollidedCollisionInfo.otherLocalPos.y)
+		{
+			mIsOnGround = true;
+		}
+
+		//TOP COLLISION
+		if (mLastCollidedCollisionInfo.thisLocalPos.y < mLastCollidedCollisionInfo.otherLocalPos.y)
+		{
 			Velocity.y = 5;
-		}
-		if (mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() * 0.45 && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.74 && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.25)// if player is on ground, colliding and local collider position x reacts to left hand obstacle and moves right
-		{//LEFT COLLISION
-			Velocity.x = 5;
 			mIsJumping = false;
-			mHasSecondJump = false;
 		}
-		if (mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth() *0.55 && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.74 && mLastCollidedCollisionInfo.thisLocalPos.y > sprite->FrameHeight() * 0.25)// if player is on ground, colliding and local collider position x reacts to right hand obstacle and moves left
-		{//RIGHT COLLISION
-			Velocity.x = -5;
+
+		//LEFT COLLISION 
+		if (mLastCollidedCollisionInfo.thisLocalPos.x < mLastCollidedCollisionInfo.otherLocalPos.x && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() - 8)
+		{
+			Velocity.x = 8;
 			mIsJumping = false;
-			mHasSecondJump = false;
+		}
+
+		//RIGHT COLLISION
+		if (mLastCollidedCollisionInfo.thisLocalPos.x > mLastCollidedCollisionInfo.otherLocalPos.x && mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() - 8)
+		{
+			Velocity.x = -8;
+			mIsJumping = false;
 		}
 	}
-	if (isColliding == false)
+	else
 	{
 		mIsOnGround = false;
 	}
+
+	//PHYSICS LOOP
 	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
 	if (deltaTimeMS >= MoveTime)
 	{
@@ -117,6 +121,8 @@ void PlayerEntity::Update()
 
 		timeSinceLastMove = HAPI_Sprites.GetTime();
 	}
+
+	//ANIMATION
 	if (Velocity.x > 0)
 	{
 		if (sprite->GetFrameSetName() != "RunRight")
@@ -124,6 +130,7 @@ void PlayerEntity::Update()
 			sprite->SetAutoAnimate(10, true, "RunRight");
 		}
 	}
+
 	if (Velocity.x < 0)
 	{
 		if (sprite->GetFrameSetName() != "RunLeft")
@@ -131,6 +138,7 @@ void PlayerEntity::Update()
 			sprite->SetAutoAnimate(10, true, "RunLeft");
 		}
 	}
+
 	if (Velocity.x == 0)
 	{
 		if (sprite->GetFrameSetName() != "Idle")
@@ -138,6 +146,7 @@ void PlayerEntity::Update()
 			sprite->SetAutoAnimate(10, true, "Idle");
 		}
 	}
+
 	if (Velocity.y != 0)
 	{
 		if (sprite->GetFrameSetName() != "Idle")
