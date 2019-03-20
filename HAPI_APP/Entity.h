@@ -1,9 +1,12 @@
 #pragma once
+
 #include <HAPISprites_Lib.h>
+using namespace HAPISPACE;
+#include <HAPISprites_UI.h>
+using namespace HAPI_UI_SPACE;
+
 #include <iostream>
 #include "HAPI_SPRITES/Shapes/Vector.h"
-
-using namespace HAPISPACE;
 
 enum class eSide
 {

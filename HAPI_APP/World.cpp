@@ -16,7 +16,7 @@ World::~World()
 //Public
 bool World::Initialise()
 {
-	if (!HAPI_Sprites.Initialise(screenDimensions.x, screenDimensions.y, "Mediocre Wasteland Game Jam"))
+	if (!HAPI_Sprites.Initialise(screenDimensions.x, screenDimensions.y, "Mediocre Wasteland Game Jam", eHSEnableUI))
 	{
 		HAPI_Sprites.UserMessage("Failed to Initialise", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
@@ -185,19 +185,19 @@ void World::UpdateCamera()
 {
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	if (entityMap["Player"]->GetPosition().x < 512 )
+	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x < 512 )
 	{
 		gameCamera.MoveCamera(eDirection::eRight, gameMap, entityMap);	
 	}
-	if (entityMap["Player"]->GetPosition().y < 832)
+	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 832)
 	{
 		//gameCamera.MoveCamera(eDirection::eUp, gameMap);
 	}
-	if (entityMap["Player"]->GetPosition().y < 0)
+	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 0)
 	{
 		//gameCamera.MoveCamera(eDirection::eDown, gameMap);
 	}
-	if (entityMap["Player"]->GetPosition().x > 768)
+	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x > 768)
 	{
 		gameCamera.MoveCamera(eDirection::eLeft, gameMap, entityMap);
 	}

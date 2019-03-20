@@ -15,13 +15,10 @@ KeyCollectable::~KeyCollectable()
 
 void KeyCollectable::Update()
 {
-	HAPISPACE::VectorF position({ GetPosition() });
-
 	if (isColliding == true)
 	{
 		std::cout << "KEY" << std::endl;
 		mAlive = false;
 	}
 	isColliding = false;
-	sprite->GetTransformComp().SetPosition(position);
 }

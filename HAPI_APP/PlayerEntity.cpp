@@ -63,18 +63,18 @@ void PlayerEntity::Update()
 	}
 	if ((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT]) && !(mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) // this checks if the user is inputing to go right but not left
 	{
-			Velocity.x = 5;
+		Velocity.x = 5;
 	}
 	else if ((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT]) && !(mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])) // this checks if the user is inputing to go left but not right
 	{
-			Velocity.x = -5;
+		Velocity.x = -5;
 	}
-	else if(!((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) && !((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])))
+	else if (!((mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])) && !((mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])))
 	{
 		Velocity.x = 0;
 
 	}
-	if (isColliding) 
+	if (isColliding)
 	{
 		if (mLastCollidedCollisionInfo.thisLocalPos.x < sprite->FrameWidth() * 0.75 && mLastCollidedCollisionInfo.thisLocalPos.x > sprite->FrameWidth()* 0.25 &&  mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() * 0.25) // if player is colliding and local collider position y  bounces player back down
 		{//TOP COLLISION
@@ -113,7 +113,7 @@ void PlayerEntity::Update()
 		}
 		sprite->GetTransformComp().Translate(Velocity);
 		SetPosition(position + Velocity);
-		
+
 
 		timeSinceLastMove = HAPI_Sprites.GetTime();
 	}
@@ -146,13 +146,15 @@ void PlayerEntity::Update()
 		}
 	}
 
-	
 
-	
 	isColliding = false;
-	
-	
-	
+
+
+	HAPI_Sprites.RenderText({50, 40}, Colour255::BLACK, "Money : " + mMoneyAmount);
+
+	HAPI_Sprites.RenderText(0, 60, Colour255::BLACK, "Ammo : " + mLGAmmo + '/' + mLGMaxAmmo);
+
+	HAPI_Sprites.RenderText(0, 80, Colour255::BLACK, "Key : " + mHasKey);
 	
 }
 

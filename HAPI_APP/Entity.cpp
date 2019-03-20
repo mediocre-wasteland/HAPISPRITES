@@ -26,7 +26,10 @@ void Entity::SetRotation(float rotationF)
 
 void Entity::Render()
 {
-	sprite->Render(SCREEN_SURFACE);
+	if (mAlive)
+	{
+		sprite->Render(SCREEN_SURFACE);
+	}
 }
 
 bool Entity::LoadSprite()
@@ -38,6 +41,7 @@ bool Entity::LoadSprite()
 	//sprite->GetSpritesheet()->GenerateNormals();
 	sprite->GetColliderComp().CalculateCollisionData(true);
 	sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
+	sprite->GetTransformComp().SetPosition(mPosition);
 
 
 	if (!sprite)

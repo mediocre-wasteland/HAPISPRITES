@@ -27,6 +27,7 @@ public:
 
 private:
 	int currentLevel = 1;
+
 	std::unordered_map <std::string, Entity*> backgroundMap;
 	std::unordered_map <std::string, Entity*> obstacleMap;
 };

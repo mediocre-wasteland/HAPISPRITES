@@ -21,7 +21,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 
 			for (auto &p : entityMapIn)
 			{
-				p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
+				p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x - 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 			}
 
 			mPosition.x += 2;
@@ -34,7 +34,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 			
 			for (auto &p : entityMapIn)
 			{
-				p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
+				p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x + 2,  p.second->GetSprite()->GetTransformComp().GetPosition().y });
 			}
 
 			mPosition.x -= 2;

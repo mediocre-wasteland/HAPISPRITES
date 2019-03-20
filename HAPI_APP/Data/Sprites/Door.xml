@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TextureAtlas imagePath="Door_surface.png">
+	<SubTexture name="Frame0" x="0" y="0" width="32" height="64">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="32" top="0" bottom="64" />
+			<Circle name="BoundingCircle" type="0" radius="35.777088" y="32.000000" x="16.000000" />
+		</Collider>
+	</SubTexture>
+</TextureAtlas>

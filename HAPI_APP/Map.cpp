@@ -96,11 +96,11 @@ void Map::CreateLevel()
 				float x = 64 * j;
 				float y = 64 * i;
 
-				if (line == 'S')
+				if (line == 'W')
 				{
 					std::string key = "BG" + std::to_string(i) + std::to_string(j);
 
-					backgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\Sky.xml");
+					backgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\Water.xml");
 
 					backgroundMap[key]->SetPosition({ x,y });
 
@@ -124,7 +124,38 @@ void Map::CreateLevel()
 						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 					}
 				}
+
+
+				if (line == 'C')
+				{
+					std::string key = "OB" + std::to_string(i) + std::to_string(j);
+
+					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Cloud.xml");
+
+					obstacleMap[key]->SetPosition({ x,y });
+
+					if (!obstacleMap[key]->LoadSprite())
+					{
+						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+					}
+				}
+
+
+				if (line == 'D')
+				{
+					std::string key = "OB" + std::to_string(i) + std::to_string(j);
+
+					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Door.xml");
+
+					obstacleMap[key]->SetPosition({ x,y });
+
+					if (!obstacleMap[key]->LoadSprite())
+					{
+						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+					}
+				}
 			}
+
 			myFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 
