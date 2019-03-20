@@ -13,11 +13,11 @@ KeyCollectable::~KeyCollectable()
 
 }
 
-void KeyCollectable::Update()
+void KeyCollectable::Update(PlayerEntity* player)
 {
 	if (isColliding == true)
 	{
-		std::cout << "KEY" << std::endl;
+		player->mHasKey = true;
 		mAlive = false;
 	}
 	isColliding = false;

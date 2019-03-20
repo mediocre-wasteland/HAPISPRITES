@@ -148,13 +148,19 @@ void PlayerEntity::Update()
 
 
 	isColliding = false;
-
-
-	HAPI_Sprites.RenderText({50, 40}, Colour255::BLACK, "Money : " + mMoneyAmount);
-
-	HAPI_Sprites.RenderText(0, 60, Colour255::BLACK, "Ammo : " + mLGAmmo + '/' + mLGMaxAmmo);
-
-	HAPI_Sprites.RenderText(0, 80, Colour255::BLACK, "Key : " + mHasKey);
 	
+}
+
+void PlayerEntity::Render()
+{
+	if (mAlive)
+	{
+		sprite->Render(SCREEN_SURFACE);
+	}
+	HAPI_Sprites.RenderText({ 10, 40 }, Colour255::BLACK, "Money : " + std::to_string(mMoneyAmount));
+
+	HAPI_Sprites.RenderText(10, 60, Colour255::BLACK, "Ammo : " + std::to_string(mLGAmmo));
+
+	HAPI_Sprites.RenderText(10, 80, Colour255::BLACK, "Key : " + std::to_string(mHasKey));
 }
 

@@ -8,6 +8,7 @@ public:
 	~PlayerEntity();
 
 	virtual void Update() override;
+	virtual void Render() override;
 	void AddMoney(int amount); // Increases or decreases money amount
 	void AddLGAmmo(int amount); // Increases Love Gun(tm) ammo but not beyond the maximum amount
 	void ShootLG(); // UNFINISHED code to shoot the Love Gun 
@@ -43,6 +44,7 @@ private:
 	bool mBankrupt{ false }; // whether or not the player has lost all money and thus the game
 	int mLGAmmo{ 0 }; // the amount of love gun ammo the player currently has
 	int mLGMaxAmmo{ 96 }; // the maximum ammount of love gun ammo the player can hold
+public:
 	bool mHasKey{ false }; // Check if the player has a key
 };
 

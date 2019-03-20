@@ -16,6 +16,7 @@ World::~World()
 //Public
 bool World::Initialise()
 {
+
 	if (!HAPI_Sprites.Initialise(screenDimensions.x, screenDimensions.y, "Mediocre Wasteland Game Jam", eHSEnableUI))
 	{
 		HAPI_Sprites.UserMessage("Failed to Initialise", "ERROR", HAPI_ButtonType::eButtonTypeOk);
@@ -117,7 +118,7 @@ bool World::LoadWorld()
 
 void World::Update()
 {	
-
+	Render();
 
 	if (HAPI_Sprites.GetTime() - timeSinceLastWorldTick >= worldTickTime)
 	{
@@ -127,7 +128,7 @@ void World::Update()
 		entityMap.at("Player")->Update();
 		entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 		entityMap.at("Enemy")->Update();
-		entityMap.at("Key")->Update();
+		((KeyCollectable*)entityMap.at("Key"))->Update((PlayerEntity*)entityMap.at("Player"));
 		((MoneyCollectable*)entityMap.at("Money"))->Update((PlayerEntity*)entityMap.at("Player"));
 		((AmmoCollectable*)entityMap.at("Ammo"))->Update((PlayerEntity*)entityMap.at("Player"));
 
@@ -146,7 +147,7 @@ void World::Update()
 
 		timeSinceLastWorldTick = HAPI_Sprites.GetTime();
 	}
-	Render();
+	
 }
 
 void World::Render()

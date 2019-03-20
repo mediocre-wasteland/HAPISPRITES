@@ -36,7 +36,7 @@ public:
 	HAPISPACE::VectorF GetOldPosition() const { return mOldPosition; }
 	void SetScaling(float floatx, float floaty);
 	void SetRotation(float rotationF);
-	void Render();
+	virtual void Render();
 	bool LoadSprite();
 	bool CanCollide(Entity& other);
 	void CheckCollision(Entity& Other);
