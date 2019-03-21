@@ -5,7 +5,7 @@ class ObstacleEntity :
 {
 public:
 
-	ObstacleEntity(std::string &filename);
+	ObstacleEntity(std::string &fileName);
 	~ObstacleEntity();
 	void Update()override final;
 	eSide GetSide() const override final{return mSide; }

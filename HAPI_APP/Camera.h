@@ -13,8 +13,7 @@ public:
 	Camera(int height, int width);
 	~Camera();
 
-	float GetLeft() { return mPosition.x; };
-	float GetRight() { return mPosition.x + mWidth; };
+	void Reset() { mPosition = { 0,0 }; };
 	void MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn);
 
 private:
@@ -23,7 +22,5 @@ private:
 	int mWidth{ 0 };
 
 	VectorF mPosition{0,0};
-
-
 };
 

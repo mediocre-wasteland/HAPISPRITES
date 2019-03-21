@@ -7,7 +7,7 @@ World::World()
 
 World::~World()
 {
-	for (auto p : entityMap)
+	for (auto p : mEntityMap)
 	{
 		delete p.second;
 	}
@@ -65,31 +65,13 @@ bool World::Play()
 //Private
 bool World::LoadSprites()
 {
-	if (!entityMap.at("Player")->LoadSprite())
+	if (!mEntityMap.at("Player")->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
 	}
 
-	if (!entityMap.at("Enemy")->LoadSprite())
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-		return false;
-	}
-
-	if (!entityMap.at("Key")->LoadSprite())
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-		return false;
-	}
-
-	if (!entityMap.at("Money")->LoadSprite())
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-		return false;
-	}
-
-	if (!entityMap.at("Ammo")->LoadSprite())
+	if (!mEntityMap.at("Enemy")->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
@@ -100,18 +82,17 @@ bool World::LoadSprites()
 
 bool World::LoadEntities()
 {
-	entityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
-	entityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
-	entityMap["Key"] = new KeyCollectable((std::string) "Data\\KeyPlaceholder.xml");
-	entityMap["Money"] = new MoneyCollectable((std::string) "Data\\MoneyPlaceholder.xml");
-	entityMap["Ammo"] = new AmmoCollectable((std::string) "Data\\LoveGunAmmoPlaceholder.xml");
+	mEntityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
+	mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
+	
+
 	return true;
 }
 
 bool World::LoadWorld()
 {
-	gameMap.Initialise();
-	gameMap.CreateLevel();
+	mGameMap.Initialise();
+	mGameMap.CreateLevel();
 
 	return true;
 }
@@ -125,12 +106,20 @@ void World::Update()
 		CheckCollision();
 		UpdateCamera();
 
-		entityMap.at("Player")->Update();
-		entityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
-		entityMap.at("Enemy")->Update();
-		((KeyCollectable*)entityMap.at("Key"))->Update((PlayerEntity*)entityMap.at("Player"));
-		((MoneyCollectable*)entityMap.at("Money"))->Update((PlayerEntity*)entityMap.at("Player"));
-		((AmmoCollectable*)entityMap.at("Ammo"))->Update((PlayerEntity*)entityMap.at("Player"));
+		mEntityMap.at("Player")->Update();
+		mEntityMap.at("Enemy")->Update();
+		mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
+
+		for (auto &p : mEntityMap)
+		{
+			p.second->Update();
+		}
+
+		for (auto &p : mGameMap.GetCollectables())
+		{
+			((KeyCollectable*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"));
+		}
+
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
@@ -141,22 +130,23 @@ void World::Update()
 
 		if (levelComplete)
 		{
-			gameMap.NextLevel();
+			mEntityMap["Player"]->SetPosition({ 80,576 }); //TODO Fix This
+			mGameCamera.Reset();
+			mGameMap.NextLevel();
 			levelComplete = false;
 		}
 
 		timeSinceLastWorldTick = HAPI_Sprites.GetTime();
 	}
-	
 }
 
 void World::Render()
 {
 	SCREEN_SURFACE->Clear(HAPISPACE::Colour255(12, 223, 235));
 
-	gameMap.Render();
+	mGameMap.Render();
 
-	for (auto &p : entityMap)
+	for (auto &p : mEntityMap)
 	{
 		p.second->Render();
 	}
@@ -164,43 +154,47 @@ void World::Render()
 
 void World::CheckCollision()
 {
-	for (auto &p : entityMap)
+	for (auto &p : mEntityMap)
 	{
-		for (auto &s : entityMap)
+		for (auto &s : mEntityMap)
 		{
 			p.second->CheckCollision(*s.second);
 		}
 	}
 
-	for (auto &p : entityMap)
+	for (auto &p : mEntityMap)
 	{
-		for (auto &s : gameMap.GetObstacles())
+		for (auto &s : mGameMap.GetObstacles())
 		{
 			p.second->CheckCollision(*s.second);
 		}
 	}
 	
+	for (auto &p : mGameMap.GetCollectables())
+	{
+		mEntityMap.at("Player")->CheckCollision(*p.second);
+	}
 }
 
 void World::UpdateCamera()
 {
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x < 512 )
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x < 512 )
 	{
-		gameCamera.MoveCamera(eDirection::eRight, gameMap, entityMap);	
+		mGameCamera.MoveCamera(eDirection::eRight, mGameMap, mEntityMap);	
 	}
-	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 832)
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 832)
 	{
-		//gameCamera.MoveCamera(eDirection::eUp, gameMap);
+		//mGameCamera.MoveCamera(eDirection::eUp, mGameMap);
 	}
-	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 0)
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 0)
 	{
-		//gameCamera.MoveCamera(eDirection::eDown, gameMap);
+		//mGameCamera.MoveCamera(eDirection::eDown, mGameMap);
 	}
-	if (entityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x > 768)
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x > 768)
 	{
-		gameCamera.MoveCamera(eDirection::eLeft, gameMap, entityMap);
+		mGameCamera.MoveCamera(eDirection::eLeft, mGameMap, mEntityMap);
 	}
 }
 

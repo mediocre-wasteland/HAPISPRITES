@@ -1,5 +1,5 @@
 #include "ObstacleEntity.h"
-ObstacleEntity::ObstacleEntity(std::string &filename) : Entity(filename)
+ObstacleEntity::ObstacleEntity(std::string &fileName) : Entity(fileName)
 
 {
 	mAlive = true;

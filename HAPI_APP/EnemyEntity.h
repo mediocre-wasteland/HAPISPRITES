@@ -6,7 +6,7 @@ class EnemyEntity :
 	public Entity
 {
 public:
-	EnemyEntity(std::string &filename);
+	EnemyEntity(std::string &fileName);
 	~EnemyEntity();
 	void Update()override final;
 	eSide GetSide() const override final { return mSide; }

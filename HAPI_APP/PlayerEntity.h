@@ -4,7 +4,7 @@ class PlayerEntity :
 	public Entity
 {
 public:
-	PlayerEntity(std::string &filename);
+	PlayerEntity(std::string &fileName);
 	~PlayerEntity();
 
 	virtual void Update() override;

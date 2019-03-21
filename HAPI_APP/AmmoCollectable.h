@@ -1,16 +1,16 @@
 #pragma once
+
 #include "Collectables.h"
 #include "PlayerEntity.h"
-class AmmoCollectable
-	: public Entity
+
+class AmmoCollectable : public Collectables
 {
 public:
-	AmmoCollectable(std::string &filename);
+	AmmoCollectable(std::string &fileName);
 	~AmmoCollectable();
-	void Update() override { return; }// not used
-	void Update(PlayerEntity* player);
-	virtual eSide GetSide() const override final { return mSide; }
-	virtual eDirection GetDirection() const override final { return  mDirection; }
+
+	void Update(PlayerEntity* player) override;
+
 private:
 	int mAmount{ 12 }; // the amount of ammo this collectable will grant if collided with
 

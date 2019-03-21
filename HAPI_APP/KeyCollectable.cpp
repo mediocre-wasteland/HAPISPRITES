@@ -1,6 +1,6 @@
 #include "KeyCollectable.h"
 
-KeyCollectable::KeyCollectable(std::string &filename) : Entity(filename)
+KeyCollectable::KeyCollectable(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;

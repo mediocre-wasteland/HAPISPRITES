@@ -29,10 +29,10 @@ enum class eDirection
 class Entity
 {
 public:
-	Entity(std::string &filename);
+	Entity(std::string &fileName);
 	HAPISPACE::VectorF GetPosition() const{ return mPosition; }
 	std::shared_ptr<Sprite> GetSprite() { return sprite; }
-	void SetPosition(HAPISPACE::VectorF newPosition){ mOldPosition = mPosition;  mPosition = newPosition; }
+	void SetPosition(HAPISPACE::VectorF newPosition) { mOldPosition = mPosition;  mPosition = newPosition; }
 	HAPISPACE::VectorF GetOldPosition() const { return mOldPosition; }
 	void SetScaling(float floatx, float floaty);
 	void SetRotation(float rotationF);

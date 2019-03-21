@@ -2,7 +2,7 @@
 
 
 
-MoneyCollectable::MoneyCollectable(std::string &filename) : Entity(filename)
+MoneyCollectable::MoneyCollectable(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;
@@ -21,7 +21,6 @@ void MoneyCollectable::Update(PlayerEntity* player) // updates every gameloop ne
 		player->AddMoney(mValue);// increases the mMoneyAmount variable in PlayerEntity by the mValue amount of this class  
 		mAlive = false;
 	}
-	std::cout << player->GetMoneyAmount() << std::endl;// returns to console players current money DEBUG FUNCTION
 
 	isColliding = false; // resets the collision status of the object at the end of update
 }

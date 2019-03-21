@@ -1,28 +1,23 @@
 #pragma once
 
 #include <HAPISprites_Lib.h>
-#include <iostream>
-#include "HAPI_SPRITES/Shapes/Vector.h"
+#include "PlayerEntity.h"
 
 using namespace HAPISPACE;
 
-class Collectables
+class Collectables : public Entity
 {
 public:
-	Collectables();
+	Collectables(std::string &fileName);
 	~Collectables();
-	virtual void mBePickedUp() = 0; // inherited pickups add what happens when picked up here
-	HAPISPACE::VectorF GetPosition() const { return mPosition; } // returns position of pickup
-	void SetPosition(HAPISPACE::VectorF newPosition) { mPosition = newPosition; } // sets the position to a new one
-	void SetScaling(float floatx, float floaty); // sets scale of sprite
-	void SetRotation(float rotationF); // sets rotation of sprite
-	void Render(); // renders sprite
-	bool LoadSprite(); // loads sprite
-protected:
-	std::shared_ptr<Sprite> sprite{ nullptr }; // pointer to the sprite data
-	std::string mSpriteName; // name of the sprite
-private:
-	HAPISPACE::VectorF mPosition; // position of the pickup
+
+	void Update() override final { sprite->GetTransformComp().SetPosition(GetPosition()); }// not used
+
+	virtual void Update(PlayerEntity* player) = 0;// main update used to check if the collectable is collected
+
+	eSide GetSide() const override final { return eSide::eCollectable; };
+	eDirection GetDirection() const override final { return mDirection; };
+
 
 };
 

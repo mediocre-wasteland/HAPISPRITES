@@ -1,6 +1,6 @@
 #include "BackGroundEntity.h"
 
-BackGroundEntity::BackGroundEntity(std::string &filename) : Entity(filename)
+BackGroundEntity::BackGroundEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eNeutral;

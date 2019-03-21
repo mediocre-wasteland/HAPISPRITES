@@ -1,10 +1,10 @@
 #include "PlayerEntity.h"
 
-PlayerEntity::PlayerEntity(std::string &filename) : Entity(filename)
+PlayerEntity::PlayerEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = true;
 	mSide = eSide::ePlayer;
-	SetPosition({ 80.f, 10.f });
+	SetPosition({ 80.f, 576.f });
 }
 
 PlayerEntity::~PlayerEntity()

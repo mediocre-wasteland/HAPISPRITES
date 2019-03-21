@@ -4,9 +4,20 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
+
 #include "Entity.h"
 #include "BackGroundEntity.h"
 #include "ObstacleEntity.h"
+#include "KeyCollectable.h"
+#include  "AmmoCollectable.h"
+#include "MoneyCollectable.h"
+
+enum eColType
+{
+	Key,
+	Ammo,
+	Money
+};
 
 class Map
 {
@@ -19,16 +30,23 @@ public:
 	void CreateLevel();
 	void Render();
 
-	void NextLevel() { currentLevel++;  CreateLevel(); }
+	void NextLevel() { mCurrentLevel++;  CreateLevel(); }
 	void MoveMap(eDirection moveDirection);
 
-	std::unordered_map <std::string, Entity*> GetObstacles() { return obstacleMap; }
+	std::unordered_map <std::string, Entity*> GetObstacles() { return mObstacleMap; }
+	std::unordered_map <std::string, Entity*> GetCollectables() { return mCollectableMap; }
 
 
 private:
-	int currentLevel = 1;
+	int mCurrentLevel = 1;
 
-	std::unordered_map <std::string, Entity*> backgroundMap;
-	std::unordered_map <std::string, Entity*> obstacleMap;
+	std::unordered_map <std::string, Entity*> mBackgroundMap;
+	std::unordered_map <std::string, Entity*> mCollectableMap;
+	std::unordered_map <std::string, Entity*> mObstacleMap;
+
+	void AddBackground(std::string fileName, float x, float y);
+	void AddCollectable(std::string fileName, float x, float y, eColType type);
+	void AddObstacle(std::string fileName, float x, float y);
+
 };
 

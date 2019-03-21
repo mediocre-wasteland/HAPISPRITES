@@ -2,7 +2,7 @@
 
 
 
-Entity::Entity(std::string &filename) : mSpriteName(filename)
+Entity::Entity(std::string &fileName) : mSpriteName(fileName)
 {
 
 

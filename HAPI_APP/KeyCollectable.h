@@ -1,17 +1,15 @@
 #pragma once
-#include "Entity.h"
+
+#include "Collectables.h"
 #include "PlayerEntity.h"
 
-class KeyCollectable : public Entity
+class KeyCollectable : public Collectables
 {
 public:
-	KeyCollectable(std::string &filename);
+	KeyCollectable(std::string &fileName);
 	~KeyCollectable();
 
-	virtual void Update() { return; }
-	void Update(PlayerEntity* player);
-	virtual eSide GetSide() const override final { return mSide; }
-	virtual eDirection GetDirection() const override final { return  mDirection; }
+	void Update(PlayerEntity* player) override;
 
 private:
 

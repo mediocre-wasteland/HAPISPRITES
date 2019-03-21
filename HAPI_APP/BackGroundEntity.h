@@ -4,7 +4,7 @@ class BackGroundEntity :
 	public Entity
 {
 public:
-	BackGroundEntity(std::string &filename);
+	BackGroundEntity(std::string &fileName);
 	~BackGroundEntity();
 	void Update()override final;
 	eSide GetSide() const override final { return mSide; }

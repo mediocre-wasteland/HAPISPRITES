@@ -9,12 +9,17 @@ Map::Map()
 
 Map::~Map()
 {
-	for (auto &p : backgroundMap)
+	for (auto &p : mBackgroundMap)
 	{
 		delete p.second;
 	}
 
-	for (auto &p : obstacleMap)
+	for (auto &p : mObstacleMap)
+	{
+		delete p.second;
+	}
+
+	for (auto &p : mCollectableMap)
 	{
 		delete p.second;
 	}
@@ -43,11 +48,12 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
-	obstacleMap.clear();
-	backgroundMap.clear();
+	mObstacleMap.clear();
+	mBackgroundMap.clear();
+	mCollectableMap.clear();
 
 	char line;
-	std::string fileName = "Data\\Levels\\Level" + std::to_string(currentLevel) + ".txt";
+	std::string fileName = "Data\\Levels\\Level" + std::to_string(mCurrentLevel) + ".txt";
 
 	std::fstream myFile(fileName);
 
@@ -96,63 +102,31 @@ void Map::CreateLevel()
 				float x = 64 * j;
 				float y = 64 * i;
 
-				if (line == 'W')
+				switch (line)
 				{
-					std::string key = "BG" + std::to_string(i) + std::to_string(j);
-
-					backgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\Water.xml");
-
-					backgroundMap[key]->SetPosition({ x,y });
-
-					if (!backgroundMap[key]->LoadSprite())
-					{
-						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-					}
-
-				}
-
-				if (line == 'B')
-				{
-					std::string key = "OB" + std::to_string(i) + std::to_string(j);
-
-					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Brick.xml");
-
-					obstacleMap[key]->SetPosition({ x,y });
-
-					if (!obstacleMap[key]->LoadSprite())
-					{
-						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-					}
-				}
-
-
-				if (line == 'C')
-				{
-					std::string key = "OB" + std::to_string(i) + std::to_string(j);
-
-					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Cloud.xml");
-
-					obstacleMap[key]->SetPosition({ x,y });
-
-					if (!obstacleMap[key]->LoadSprite())
-					{
-						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-					}
-				}
-
-
-				if (line == 'D')
-				{
-					std::string key = "OB" + std::to_string(i) + std::to_string(j);
-
-					obstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\Door.xml");
-
-					obstacleMap[key]->SetPosition({ x,y });
-
-					if (!obstacleMap[key]->LoadSprite())
-					{
-						HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-					}
+				case 'W':
+					AddBackground("Water", x, y);
+					break;
+				case 'B':
+					AddObstacle("Brick", x, y);
+					break;
+				case 'C':
+					AddObstacle("Cloud", x, y);
+					break;
+				case 'D':
+					AddObstacle("Door", x, y);
+					break;
+				case 'K':
+					AddCollectable("KeyPlaceholder", x, y, Key);
+					break;
+				case 'A':
+					AddCollectable("LoveGunAmmoPlaceholder", x, y, Ammo);
+					break;
+				case 'M':
+					AddCollectable("MoneyPlaceholder", x, y, Money);
+					break;
+				default:
+					break;
 				}
 			}
 
@@ -170,13 +144,19 @@ void Map::CreateLevel()
 
 void Map::Render()
 {
-	for (auto &p : obstacleMap)
+	for (auto &p : mObstacleMap)
 	{
 		p.second->Update();
 		p.second->Render();
 	}
 
-	for (auto &p : backgroundMap)
+	for (auto &p : mBackgroundMap)
+	{
+		p.second->Update();
+		p.second->Render();
+	}
+
+	for (auto &p : mCollectableMap)
 	{
 		p.second->Update();
 		p.second->Render();
@@ -188,46 +168,115 @@ void Map::MoveMap(eDirection moveDirection)
 	switch (moveDirection)
 	{
 	case eDirection::eLeft:
-		for (auto &p : obstacleMap)
+		for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
 		}
-		for (auto &p : backgroundMap)
+		for (auto &p : mBackgroundMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
+		}
+		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eRight:
-		for (auto &p : obstacleMap)
+		for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
 		}
-		for (auto &p : backgroundMap)
+		for (auto &p : mBackgroundMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
+		}
+		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
 		}
 		break;
 	case eDirection::eUp:
-		for (auto &p : obstacleMap)
+		for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 		}
-		for (auto &p : backgroundMap)
+		for (auto &p : mBackgroundMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
+		}
+		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 		}
 		break;
 	case eDirection::eDown:
-		for (auto &p : obstacleMap)
+		for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 		}
-		for (auto &p : backgroundMap)
+		for (auto &p : mBackgroundMap)
+		{
+			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
+		}
+		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 		}
 		break;
 	default:
 		break;
+	}
+}
+
+void Map::AddBackground(std::string fileName, float x, float y)
+{
+	std::string key = "BG" + std::to_string(y) + std::to_string(x);
+
+	mBackgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
+
+	mBackgroundMap[key]->SetPosition({ x,y });
+
+	if (!mBackgroundMap[key]->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
+	}
+}
+
+void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
+{
+	std::string key = "CL" + std::to_string(y) + std::to_string(x);
+
+	switch (type)
+	{
+	case Key:
+		mCollectableMap[key] = new KeyCollectable((std::string)"Data\\Sprites\\" + fileName + ".xml");
+		break;
+	case Ammo:
+		mCollectableMap[key] = new AmmoCollectable((std::string)"Data\\Sprites\\" + fileName + ".xml");
+		break;
+	case Money:
+		mCollectableMap[key] = new MoneyCollectable((std::string)"Data\\Sprites\\" + fileName + ".xml");
+		break;
+	}
+
+	mCollectableMap[key]->SetPosition({ x,y });
+
+	if (!mCollectableMap[key]->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName , "ERROR");
+	}
+}
+
+void Map::AddObstacle(std::string fileName, float x, float y)
+{
+	std::string key = "OB" + std::to_string(y) + std::to_string(x);
+
+	mObstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
+
+	mObstacleMap[key]->SetPosition({ x,y });
+
+	if (!mObstacleMap[key]->LoadSprite())
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
 }

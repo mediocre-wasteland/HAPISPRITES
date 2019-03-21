@@ -2,7 +2,7 @@
 
 
 
-AmmoCollectable::AmmoCollectable(std::string &filename) : Entity(filename)
+AmmoCollectable::AmmoCollectable(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;
@@ -21,7 +21,6 @@ void AmmoCollectable::Update(PlayerEntity* player)
 		player->AddLGAmmo(mAmount);// increases the mLGAmmo variable in PlayerEntity by the mAmount amount of this class
 		mAlive = false;
 	}
-	std::cout << player->GetAmmoAmount() << std::endl;// returns to console players current ammo DEBUG FUNCTION
 
 	isColliding = false; // resets the collision status of the object at the end of update
 }

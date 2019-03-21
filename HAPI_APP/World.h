@@ -26,14 +26,13 @@ public:
 private:
 
 	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 832);
-	std::unordered_map <std::string, Entity*> entityMap;
-	Map gameMap;
-	Camera gameCamera {832, 1280};
+	std::unordered_map <std::string, Entity*> mEntityMap;
+	Map mGameMap;
+	Camera mGameCamera {832, 1280};
 	bool levelComplete = false;
 
 	const DWORD worldTickTime{ 10 };
 	DWORD timeSinceLastWorldTick{ 0 };
-
 
 	bool LoadSprites();
 	bool LoadEntities();

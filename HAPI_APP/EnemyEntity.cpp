@@ -1,6 +1,6 @@
 #include "EnemyEntity.h"
 
-EnemyEntity::EnemyEntity(std::string &filename) : Entity(filename)
+EnemyEntity::EnemyEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = true;
 	mHasSecondJump = true;
@@ -77,14 +77,16 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 	}
 
 	// Checks To Make Sure It Doesnt Go Off The Sides Of The Screen
-	if (mEnemyPosition.x <= 0)
+	/*if (mEnemyPosition.x <= 0)
 	{
 		ChangeDirection(eDirection::eRight);
 	}
 	if (mEnemyPosition.x >= 1025)
 	{
 		ChangeDirection(eDirection::eLeft);
-	}
+	}*/
+
+
 	// Prevents Going Off The Top Of The Screen
 	if (mEnemyPosition.y <= 0)
 	{
