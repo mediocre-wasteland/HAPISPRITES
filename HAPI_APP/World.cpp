@@ -130,7 +130,7 @@ void World::Update()
 
 		if (levelComplete)
 		{
-			mEntityMap["Player"]->SetPosition({ 80,576 }); //TODO Fix This
+			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition({ 80,576 });
 			mGameCamera.Reset();
 			mGameMap.NextLevel();
 			levelComplete = false;
@@ -186,11 +186,11 @@ void World::UpdateCamera()
 	}
 	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 832)
 	{
-		//mGameCamera.MoveCamera(eDirection::eUp, mGameMap);
+		mGameCamera.MoveCamera(eDirection::eUp, mGameMap, mEntityMap);
 	}
 	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 0)
 	{
-		//mGameCamera.MoveCamera(eDirection::eDown, mGameMap);
+		mGameCamera.MoveCamera(eDirection::eDown, mGameMap, mEntityMap);
 	}
 	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x > 768)
 	{

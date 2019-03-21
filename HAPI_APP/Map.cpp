@@ -27,7 +27,7 @@ Map::~Map()
 
 bool Map::Initialise()
 {
-	for (int i = 1; i < 11; i++)
+	for (int i = 1; i < 6; i++)
 	{
 		std::string fileName = "Data\\Levels\\Level" + std::to_string(i) + ".txt";
 
@@ -62,7 +62,7 @@ void Map::CreateLevel()
 
 	if (myFile.is_open())
 	{
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 2000; i++)
 		{
 			char hLine;
 			myFile >> std::skipws >> hLine;
@@ -71,6 +71,7 @@ void Map::CreateLevel()
 			{
 				width = i;
 				bWidth = true;
+				mLevelWidth = width;
 			}
 
 			if (hLine == 'N')
@@ -81,6 +82,7 @@ void Map::CreateLevel()
 			if (myFile.eof())
 			{
 				height--;
+				mLevelHeight = height;
 				break;
 			}
 		}
@@ -122,6 +124,9 @@ void Map::CreateLevel()
 				case 'A':
 					AddCollectable("LoveGunAmmoPlaceholder", x, y, Ammo);
 					break;
+				case 'G':
+					AddCollectable("Lighthouse", x, y + 64, Ammo); // Goal
+					break;
 				case 'M':
 					AddCollectable("MoneyPlaceholder", x, y, Money);
 					break;
@@ -160,6 +165,18 @@ void Map::Render()
 	{
 		p.second->Update();
 		p.second->Render();
+	}
+}
+
+eOrientation Map::GetOrientation()
+{
+	if (mLevelHeight > mLevelWidth)
+	{
+		return Vertical;
+	}
+	else
+	{
+		return Horizontal;
 	}
 }
 

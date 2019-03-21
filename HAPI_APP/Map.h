@@ -19,6 +19,12 @@ enum eColType
 	Money
 };
 
+enum eOrientation
+{
+	Horizontal,
+	Vertical
+};
+
 class Map
 {
 public:
@@ -30,6 +36,10 @@ public:
 	void CreateLevel();
 	void Render();
 
+	int GetHeight() { return mLevelHeight; };
+	int GetWidth() { return mLevelWidth; };
+	eOrientation GetOrientation();
+
 	void NextLevel() { mCurrentLevel++;  CreateLevel(); }
 	void MoveMap(eDirection moveDirection);
 
@@ -39,6 +49,8 @@ public:
 
 private:
 	int mCurrentLevel = 1;
+	int mLevelHeight;
+	int mLevelWidth;
 
 	std::unordered_map <std::string, Entity*> mBackgroundMap;
 	std::unordered_map <std::string, Entity*> mCollectableMap;

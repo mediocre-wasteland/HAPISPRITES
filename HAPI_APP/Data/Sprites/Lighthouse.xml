@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TextureAtlas imagePath="Lighthouse_surface.png">
+	<SubTexture name="Frame0" x="2" y="0" width="60" height="196" pivotX="30.000000" pivotY="196.000000">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="60" top="0" bottom="196" />
+			<Circle name="BoundingCircle" type="0" radius="102.489021" y="98.000000" x="30.000000" />
+		</Collider>
+	</SubTexture>
+</TextureAtlas>
