@@ -1,10 +1,10 @@
 #pragma once
 #include <HAPISprites_Lib.h>
 using namespace HAPISPACE;
-// ^ Include + Use First
 #include <HAPISprites_UI.h>
 using namespace HAPI_UI_SPACE;
 // ^ Include + Use Second
+#include "Map.h"
 
 class MainMenuUi : public IHapiSpritesUIListener
 {
@@ -12,7 +12,7 @@ public:
 	MainMenuUi();
 	~MainMenuUi();
 	bool Run();
-	bool Initialise();
+	bool Initialise(Map* gameMap);
 	void Update();
 	bool Play();
 	void UI_ButtonPressed(UIWindow& window, const std::string& buttonName, int* userId) override; // Checks if Button has been pressed.
@@ -22,7 +22,8 @@ private:
 	int screenWidth{ 1280 };
 	int screenHeight{ 832 };
 	RectangleI screenRect;
-
+	Map* mapMainMenu;
+	bool play{ false };
 
 	std::string mainMenuName; // Main Menu
 	std::string optionsMenuName; // Options Menu

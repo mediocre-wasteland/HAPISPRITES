@@ -9,15 +9,15 @@ MainMenuUi::~MainMenuUi()
 
 }
 
-bool MainMenuUi::Initialise()
+bool MainMenuUi::Initialise(Map* gameMap)
 {
-
-	HAPI_Sprites.SetShowFPS(true);
+	mapMainMenu = gameMap;
 
 	if (!Run())
 	{
 		return false;
 	}
+
 	return true;
 }
 bool MainMenuUi::Run()
@@ -26,12 +26,15 @@ bool MainMenuUi::Run()
 	UI.Load("Data\\UserInterface\\MainMenu.xml", mainMenuName, false);
 	UI.Load("Data\\UserInterface\\CreditsMenu.xml", creditsMenuName, false);
 	UI.Load("Data\\UserInterface\\OptionsMenu.xml", optionsMenuName, false);
+
 	UI.OpenWindow(mainMenuName); 	// Open the main menu
+
 	this->UI_AddWindowToListenTo(mainMenuName); //Register Button Clicks
 
 	Play();
 	return true;
 }
+
 void MainMenuUi::Update()
 {
 	SCREEN_SURFACE->Clear(HAPISPACE::Colour255(12, 223, 235));	 // Clear to Aqua Colour
@@ -39,7 +42,7 @@ void MainMenuUi::Update()
 
 bool MainMenuUi::Play()
 {
-	while (HAPI_Sprites.Update())
+	while (HAPI_Sprites.Update() && !play)
 	{
 		Update();
 	}
@@ -72,7 +75,9 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	}
 	if (buttonName == "PlayButton")
 	{
-		std::cout << "Hello World" << std::endl;
+		play = true;
+		mapMainMenu->NextLevel();
+		UI.CloseWindow(mainMenuName);
 	}
 	/*
 	*Options Menu
