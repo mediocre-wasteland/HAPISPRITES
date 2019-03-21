@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<UiLayout Version="0.1" CreationScreenSizeW="1280" CreationScreenSizeH="832">
+	<UIWindow Name="MainMenu_2_2" SkinName="SYS_Default_Skin">
+		<WinScreenRect left="20" right="320" top="20" bottom="420" />
+		<Button name="CreditsButton" type="0" text="Credits">
+			<Common ActionState="1" Visible="1">
+				<Position X="93" Y="169" />
+				<Bounds left="0" right="106" top="0" bottom="26" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Button">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Button">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader="ObjectBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader="ObjectDisabledBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader="ObjectFocusBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader="ObjectPressedBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Button>
+		<Button name="ExitButton" type="0" text="Exit">
+			<Common ActionState="1" Visible="1">
+				<Position X="92" Y="209" />
+				<Bounds left="0" right="106" top="0" bottom="26" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Button">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Button">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader="ObjectBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader="ObjectDisabledBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader="ObjectFocusBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader="ObjectPressedBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Button>
+		<Adornments>
+			<Common ActionState="1" Visible="1">
+				<Position X="0" Y="0" />
+				<Bounds left="0" right="300" top="0" bottom="400" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Window">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Window">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader="WindowBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader="WindowBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="Pen" borderShader_Inherited="1" backgroundShader="WindowBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="Pen" borderShader_Inherited="1" backgroundShader="ObjectPressedBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+			<Features flags="130" titleText="Main Menu" />
+		</Adornments>
+		<Button name="OptionsButton" type="0" text="Options">
+			<Common ActionState="1" Visible="1">
+				<Position X="94" Y="126" />
+				<Bounds left="0" right="106" top="0" bottom="26" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Button">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Button">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader="ObjectBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader="ObjectDisabledBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader="ObjectFocusBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader="ObjectPressedBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Button>
+		<Button name="PlayButton" type="0" text="Play">
+			<Common ActionState="1" Visible="1">
+				<Position X="93" Y="82" />
+				<Bounds left="0" right="106" top="0" bottom="27" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Button">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Button">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader="ObjectBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader="ObjectDisabledBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader="ObjectFocusBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="1" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader="ObjectPressedBackground" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="2" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Button>
+	</UIWindow>
+	<UserData>
+		<SpritesEditorData Last="ExitButton" nTex="1" nBut="5" nCan="1" nDia="1" nLis="1" nMen="1" nSli="1" nEnt="1" nSha="1" />
+	</UserData>
+</UiLayout>
