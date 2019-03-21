@@ -48,7 +48,7 @@ public:
 
 
 private:
-	int mCurrentLevel = 1;
+	int mCurrentLevel = 0;
 	int mLevelHeight;
 	int mLevelWidth;
 

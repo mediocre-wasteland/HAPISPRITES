@@ -43,6 +43,9 @@ bool World::Initialise()
 
 	HAPI_Sprites.SetShowFPS(true);
 
+	MainMenuUi mainmenu;
+	mainmenu.Initialise(&mGameMap);
+
 	if (!Play())
 	{
 		return false;
