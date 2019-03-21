@@ -34,6 +34,9 @@
       <Filter>Entity\Collectables</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="MainMenuUi.cpp">
+      <Filter>UserInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -68,6 +71,9 @@
       <Filter>Entity\Collectables</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="MainMenuUi.h">
+      <Filter>UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">
@@ -78,6 +84,9 @@
     </Filter>
     <Filter Include="Entity\Collectables">
       <UniqueIdentifier>{9be1a52a-ef8f-418c-8ca8-234b56085550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserInterface">
+      <UniqueIdentifier>{73f26837-8f5f-46c7-8d3b-2ac2637dee19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
