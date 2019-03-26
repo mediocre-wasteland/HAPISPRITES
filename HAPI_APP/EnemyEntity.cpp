@@ -153,3 +153,9 @@ bool EnemyEntity::bChasePlayer()
 
 	return false;
 }
+
+void EnemyEntity::TakeDamage()
+{
+	mIsHit = true;
+	std::cout << "Enemy Hit" << std::endl;
+}

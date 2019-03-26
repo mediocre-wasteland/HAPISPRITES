@@ -74,6 +74,10 @@ bool Entity::CanCollide(Entity & other)
 	{
 		return false;
 	}
+	if ((xEntity == eSide::eBullet && yEntity != eSide::eEnemy) || (xEntity != eSide::eEnemy && yEntity == eSide::eBullet))
+	{
+		return false;
+	}
 	else 
 	{
 		return true;
@@ -107,5 +111,23 @@ void Entity::CheckCollision(Entity & Other)
 		isColliding = true;
 		Other.isColliding = true;
 	
+
+}
+
+bool Entity::isCollidingWith(Entity &Other, eSide checkingSide)
+{
+	if (Other.GetSide() != checkingSide) // if the other object is not on the side we're checking for return false
+	{
+		return false;
+	}
+	CollisionInfo collision;
+
+	if (!sprite->CheckCollision(*Other.GetSprite(), &collision))//checks if not colliding
+	{
+		mCurrentCollisonInfo = collision;
+		return false;
+	}
+	mLastCollidedCollisionInfo = collision;
+	return true;
 
 }

@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCollectable.cpp" />
     <ClCompile Include="BackGroundEntity.cpp" />
+    <ClCompile Include="BulletEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collectables.cpp" />
     <ClCompile Include="EnemyEntity.cpp" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <ClInclude Include="AmmoCollectable.h" />
     <ClInclude Include="BackGroundEntity.h" />
+    <ClInclude Include="BulletEntity.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collectables.h" />
     <ClInclude Include="EnemyEntity.h" />

@@ -37,6 +37,7 @@
     <ClCompile Include="MainMenuUi.cpp">
       <Filter>UserInterface</Filter>
     </ClCompile>
+    <ClCompile Include="BulletEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -74,6 +75,7 @@
     <ClInclude Include="MainMenuUi.h">
       <Filter>UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="BulletEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

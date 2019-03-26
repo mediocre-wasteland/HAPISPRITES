@@ -15,7 +15,8 @@ enum class eSide
 	eObstacle,
 	eNeutral,
 	eCradle,
-	eCollectable
+	eCollectable,
+	eBullet
 };
 
 enum class eDirection
@@ -45,6 +46,7 @@ public:
 	virtual void Update() = 0;
 	virtual ~Entity();
 	virtual eDirection GetDirection() const = 0;
+	bool isCollidingWith(Entity &Other, eSide checkingSide);
 
 
 protected:

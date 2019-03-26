@@ -11,6 +11,7 @@ public:
 	void Update()override final;
 	eSide GetSide() const override final { return mSide; }
 	eDirection GetDirection() const override final { return mDirection; }
+	void TakeDamage();
 
 protected:
 
@@ -31,5 +32,6 @@ private:
 	float mJumpSpeed{ 1.5f };
 	void ChangeDirection(eDirection newDirection);
 	void AIMovement(HAPISPACE::VectorF mEnemyPosition);
+	bool mIsHit{ false };
 };
 
