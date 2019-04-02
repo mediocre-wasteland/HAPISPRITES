@@ -5,8 +5,6 @@ EnemyEntity::EnemyEntity(std::string &fileName) : Entity(fileName)
 	mAlive = true;
 	mHasSecondJump = true;
 	mSide = eSide::eEnemy;
-	// Position For Enemy To Be On Creation (550 = Floor)
-	SetPosition({ 500.0f, 550.0f });
 }
 
 EnemyEntity::~EnemyEntity()
@@ -16,11 +14,11 @@ EnemyEntity::~EnemyEntity()
 
 void EnemyEntity::Update()
 {
-	HAPISPACE::VectorF mEnemyPosition{ GetPosition() };
+	HAPISPACE::VectorF mEnemyPosition{ sprite->GetTransformComp().GetPosition() };
 	// Movement Checks
 	AIMovement(mEnemyPosition);
 	// Setting Position At The End Of Each Update
-	sprite->GetTransformComp().SetPosition(GetPosition());
+	//sprite->GetTransformComp().SetPosition(GetPosition());
 }
 
 void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
@@ -55,14 +53,14 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 		{
 			mEnemyPosition.x += mHSpeed;
 			mIsJumping = false;
-			SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
+			//SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
 		}
 		break;
 		case eDirection::eLeft:
 		{
 			mEnemyPosition.x -= mHSpeed;
 			mIsJumping = false;
-			SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
+			//SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
 		}
 		break;
 		default:
@@ -107,7 +105,7 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 	{
 		mIsOnGround = false;
 		// Applies Jump Force To The AI
-		SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength - mTimeJumped) / (0.5f*mMaxJumpLength))*mHSpeed });
+		//SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength - mTimeJumped) / (0.5f*mMaxJumpLength))*mHSpeed });
 		mTimeJumped++;
 	}
 	else
@@ -122,7 +120,7 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 	if (!mIsOnGround && !mIsJumping)
 	{
 		// Applies Gravity
-		SetPosition({ GetPosition().x , GetPosition().y + mGravity });
+		//SetPosition({ GetPosition().x , GetPosition().y + mGravity });
 		mTimeFallen++;
 	}
 }

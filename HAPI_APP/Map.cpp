@@ -186,38 +186,39 @@ eOrientation Map::GetOrientation()
 
 void Map::MoveMap(eDirection moveDirection)
 {
+
 	switch (moveDirection)
 	{
 	case eDirection::eLeft:
 		for (auto &p : mObstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x - 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		for (auto &p : mBackgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x - 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		for (auto &p : mCollectableMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x - 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x - 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		break;
 	case eDirection::eRight:
 		for (auto &p : mObstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x + 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		for (auto &p : mBackgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x + 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		for (auto &p : mCollectableMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x + 2, p.second->GetPosition().y });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x + 2, p.second->GetSprite()->GetTransformComp().GetPosition().y });
 		}
 		break;
 	case eDirection::eUp:
-		for (auto &p : mObstacleMap)
+		/*for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 		}
@@ -228,10 +229,10 @@ void Map::MoveMap(eDirection moveDirection)
 		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
-		}
+		}*/
 		break;
 	case eDirection::eDown:
-		for (auto &p : mObstacleMap)
+		/*for (auto &p : mObstacleMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 		}
@@ -242,7 +243,7 @@ void Map::MoveMap(eDirection moveDirection)
 		for (auto &p : mCollectableMap)
 		{
 			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
-		}
+		}*/
 		break;
 	default:
 		break;
@@ -255,12 +256,12 @@ void Map::AddBackground(std::string fileName, float x, float y)
 
 	mBackgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
 
-	mBackgroundMap[key]->SetPosition({ x,y });
-
 	if (!mBackgroundMap[key]->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
+
+	mBackgroundMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
 }
 
 void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
@@ -283,12 +284,12 @@ void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
 		break;
 	}
 
-	mCollectableMap[key]->SetPosition({ x,y });
-
 	if (!mCollectableMap[key]->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName , "ERROR");
 	}
+
+	mCollectableMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
 }
 
 void Map::AddObstacle(std::string fileName, float x, float y)
@@ -297,12 +298,12 @@ void Map::AddObstacle(std::string fileName, float x, float y)
 
 	mObstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
 
-	mObstacleMap[key]->SetPosition({ x,y });
-
 	if (!mObstacleMap[key]->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
+
+	mObstacleMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
 }
 
 void Map::KillLevel()

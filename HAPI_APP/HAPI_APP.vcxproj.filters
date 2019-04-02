@@ -38,6 +38,10 @@
       <Filter>UserInterface</Filter>
     </ClCompile>
     <ClCompile Include="BulletEntity.cpp" />
+    <ClCompile Include="DoorEntity.cpp" />
+    <ClCompile Include="LightHouseGoal.cpp">
+      <Filter>Entity\Collectables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -76,6 +80,10 @@
       <Filter>UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="BulletEntity.h" />
+    <ClInclude Include="DoorEntity.h" />
+    <ClInclude Include="LightHouseGoal.h">
+      <Filter>Entity\Collectables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entity">

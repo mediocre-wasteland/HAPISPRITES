@@ -151,24 +151,31 @@ void World::CheckCollision()
 {
 	for (auto &p : mEntityMap)
 	{
-		for (auto &s : mEntityMap)
-		{
-			p.second->CheckCollision(*s.second);
-		}
+		p.second->CheckCollision(mGameMap.GetCollectables());
+		p.second->CheckCollision(mEntityMap);
+		p.second->CheckCollision(mGameMap.GetObstacles());
 	}
 
-	for (auto &p : mEntityMap)
-	{
-		for (auto &s : mGameMap.GetObstacles())
-		{
-			p.second->CheckCollision(*s.second);
-		}
-	}
-	
-	for (auto &p : mGameMap.GetCollectables())
-	{
-		mEntityMap.at("Player")->CheckCollision(*p.second);
-	}
+	//for (auto &p : mEntityMap)
+	//{
+	//	for (auto &s : mEntityMap)
+	//	{
+	//		p.second->CheckCollision(*s.second);
+	//	}
+	//}
+
+	//for (auto &p : mEntityMap)
+	//{
+	//	for (auto &s : mGameMap.GetObstacles())
+	//	{
+	//		p.second->CheckCollision(*s.second);
+	//	}
+	//}
+	//
+	//for (auto &p : mGameMap.GetCollectables())
+	//{
+	//	mEntityMap.at("Player")->CheckCollision(*p.second);
+	//}
 }
 
 void World::UpdateCamera()
@@ -192,17 +199,3 @@ void World::UpdateCamera()
 		mGameCamera.MoveCamera(eDirection::eLeft, mGameMap, mEntityMap);
 	}
 }
-
-
-///tick timer
-/*
-constexpr DWORD worldTickTime{ 25 };
-DWORD timeSinceLastWorldTick{ 0 };
-
-if (HAPI.GetTime() - timeSinceLastWorldTick >= worldTickTime)
-{
-
-	timeSinceLastWorldTick = HAPI.GetTime();
-
-}
-*/

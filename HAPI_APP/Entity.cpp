@@ -1,11 +1,7 @@
 #include "Entity.h"
 
-
-
 Entity::Entity(std::string &fileName) : mSpriteName(fileName)
 {
-
-
 }
 
 
@@ -38,7 +34,7 @@ bool Entity::LoadSprite()
 	constexpr int kMinAlphaForCollision{ 50};
 	sprite->GetSpritesheet()->SetMinimumAlphaForCollision(kMinAlphaForCollision);
 	sprite->GetSpritesheet()->AutoFitColliders();
-	//sprite->GetSpritesheet()->GenerateNormals();
+	sprite->GetSpritesheet()->GenerateNormals();
 	sprite->GetColliderComp().CalculateCollisionData(true);
 	sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
 	sprite->GetTransformComp().SetPosition(mPosition);
@@ -66,14 +62,17 @@ bool Entity::CanCollide(Entity & other)
 	{
 		return false;
 	}
+
 	if ((xEntity == eSide::eNeutral) || (yEntity == eSide::eNeutral))
 	{
 		return false;
 	}
+
 	if (xEntity == eSide::eEnemy || yEntity == eSide::eEnemy)
 	{
 		return false;
 	}
+
 	if ((xEntity == eSide::eBullet && yEntity != eSide::eEnemy) || (xEntity != eSide::eEnemy && yEntity == eSide::eBullet))
 	{
 		return false;
@@ -86,48 +85,181 @@ bool Entity::CanCollide(Entity & other)
 	
 }
 
-void Entity::CheckCollision(Entity & Other)
+void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMap)
 {
-	if (!IsAlive() || !Other.IsAlive())
+	myMap = otherMap;
+
+	for (auto &Other : myMap)
 	{
-		return;
-	}
-	if (!CanCollide(Other)) // checks to see if the sides of the entities are the same
-	{
-		return;
+
+		//Check if both sprites are alive
+		if (!IsAlive() || !Other.second->IsAlive())
+		{
+			return;
+		}
+
+		//Check if both sides can collide (e.g. can collide if not on the same side)
+		if (!CanCollide(*Other.second))
+		{
+			return;
+		}
+
+		if (sprite->CheckCollision(*Other.second->GetSprite(), &collision))
+		{
+			isColliding = true;
+			Other.second->isColliding = true;
+
+			return;
+		}
 	}
 
-	CollisionInfo collision;
-
-	if (!sprite->CheckCollision(*Other.GetSprite(), &collision))
-	{
-		//std::cout << "NOT COLLIDING" << std::endl; //debug
-		mCurrentCollisonInfo = collision;
-		return;
-	}
-	
-		//std::cout << "COLLIDING" << std::endl;//debug
-		mLastCollidedCollisionInfo = collision;
-		isColliding = true;
-		Other.isColliding = true;
-	
-
+	return;
 }
 
-bool Entity::isCollidingWith(Entity &Other, eSide checkingSide)
+void Entity::MovementCollision()
 {
-	if (Other.GetSide() != checkingSide) // if the other object is not on the side we're checking for return false
-	{
-		return false;
-	}
-	CollisionInfo collision;
+	mPosition = sprite->GetTransformComp().GetPosition();
 
-	if (!sprite->CheckCollision(*Other.GetSprite(), &collision))//checks if not colliding
-	{
-		mCurrentCollisonInfo = collision;
-		return false;
-	}
-	mLastCollidedCollisionInfo = collision;
-	return true;
+	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
+	//PHYSICS LOOP
+	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
+	if (deltaTimeMS >= MoveTime)
+	{
+		deltaTimeS = 0.001f * deltaTimeMS;
+		timeSinceLastMove = HAPI_Sprites.GetTime();
+
+
+		if (!mIsOnGround)
+		{
+			Velocity.x = Velocity.x;
+		}
+		else
+		{
+			//JUMP IF ON GROUND
+			if (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])
+			{
+				Velocity.y -= 10;
+				mIsOnGround = false;
+			}
+
+			//MOVE LEFT / RIGHT
+			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
+			{
+				Velocity.x = 4;
+			}
+			else if (mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])
+			{
+				Velocity.x = -4;
+			}
+			else
+			{
+				Velocity.x = 0;
+			}
+		}
+
+		VectorF newPosition{ mPosition + Velocity };
+
+		acceleration += force / mass;
+
+		if (!mIsOnGround)
+		{
+			Velocity += (Gravity + acceleration) * deltaTimeS;
+		}
+		else
+		{
+			Velocity += acceleration * deltaTimeS;
+		}
+
+		//ANIMATION
+		if (Velocity.x > 0)
+		{
+			if (sprite->GetFrameSetName() != "RunRight")
+			{
+				sprite->SetAutoAnimate(10, true, "RunRight");
+			}
+		}
+
+		if (Velocity.x < 0)
+		{
+			if (sprite->GetFrameSetName() != "RunLeft")
+			{
+				sprite->SetAutoAnimate(10, true, "RunLeft");
+			}
+		}
+
+		if (Velocity.x == 0)
+		{
+			if (sprite->GetFrameSetName() != "Idle")
+			{
+				sprite->SetAutoAnimate(10, true, "Idle");
+			}
+		}
+
+		if (Velocity.y != 0)
+		{
+			if (sprite->GetFrameSetName() != "Idle")
+			{
+				sprite->SetAutoAnimate(10, true, "Idle");
+			}
+		}
+
+		VectorF dir{ newPosition - mOldPosition };
+		dir.Normalize();
+
+		bool done{ false };
+		VectorF beforeCollisionPosition{ mOldPosition };
+
+		if (!dir.IsZero())
+		{
+			beforeCollisionPosition = mPosition;
+			mPosition += dir;
+		}
+
+		while (!done && !dir.IsZero())
+		{
+			mIsOnGround = false;
+
+			sprite->GetTransformComp().SetPosition(mPosition);
+
+			this->CheckCollision(myMap);
+
+			if (this->isColliding)
+			{
+				Velocity = 0;
+				mPosition = beforeCollisionPosition + collision.normal;
+
+				mIsOnGround = true;
+
+				if (collision.normal.y > 0)
+				{
+					mIsOnGround = false;
+				}
+
+				mLastCollidedCollisionInfo = collision;
+
+				done = true;
+			}
+			else
+			{
+				float test = (mPosition - newPosition).LengthSquared();
+				if (test < 72.0f)
+				{
+					mPosition = newPosition;
+					done = true;
+				}
+				else
+				{
+					beforeCollisionPosition = mPosition;
+					mPosition += dir;
+				}
+			}
+		}
+
+		sprite->GetTransformComp().SetPosition(mPosition);
+
+		mOldPosition = mPosition;
+	}
+
+	isColliding = false;
 }

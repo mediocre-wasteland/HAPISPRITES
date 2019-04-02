@@ -6,7 +6,6 @@ MoneyCollectable::MoneyCollectable(std::string &fileName) : Collectables(fileNam
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;
-	SetPosition({ 250 , 450 }); //position of object on screen
 }
 
 
@@ -18,6 +17,7 @@ void MoneyCollectable::Update(PlayerEntity* player, Map& gameMap) // updates eve
 {
 	if (isColliding == true) // checks whether the collectable is colliding
 	{
+		std::cout << "Money Collision" << std::endl;
 		player->AddMoney(mValue);// increases the mMoneyAmount variable in PlayerEntity by the mValue amount of this class  
 		mAlive = false;
 	}

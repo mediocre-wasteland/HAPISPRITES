@@ -13,6 +13,6 @@ ObstacleEntity::~ObstacleEntity()
 
 void ObstacleEntity::Update()
 {
-	sprite->GetTransformComp().SetPosition(GetPosition());
+	//sprite->GetTransformComp().SetPosition(GetPosition());
 	
 }

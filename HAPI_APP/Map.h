@@ -48,7 +48,7 @@ public:
 	void MoveMap(eDirection moveDirection);
 
 	std::unordered_map <std::string, Entity*> GetObstacles() { return mObstacleMap; }
-	std::unordered_map <std::string, Collectables*> GetCollectables() { return mCollectableMap; }
+	std::unordered_map <std::string, Entity*> GetCollectables() { return mCollectableMap; }
 
 
 private:
@@ -58,7 +58,7 @@ private:
 	HAPISPACE::VectorF spawnPos { 0,0 };
 
 	std::unordered_map <std::string, Entity*> mBackgroundMap;
-	std::unordered_map <std::string, Collectables*> mCollectableMap;
+	std::unordered_map <std::string, Entity*> mCollectableMap;
 	std::unordered_map <std::string, Entity*> mObstacleMap;
 
 	void AddBackground(std::string fileName, float x, float y);

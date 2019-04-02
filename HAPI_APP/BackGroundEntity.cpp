@@ -13,5 +13,4 @@ BackGroundEntity::~BackGroundEntity()
 
 void BackGroundEntity::Update()
 {
-	sprite->GetTransformComp().SetPosition(GetPosition());
 }

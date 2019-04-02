@@ -6,7 +6,6 @@ LightHouseGoal::LightHouseGoal(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;
-	SetPosition({ 150 , 450 }); //position of object on screen
 }
 
 
@@ -18,6 +17,7 @@ void LightHouseGoal::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)
 	{
+		std::cout << "Lighthouse Collision" << std::endl;
 		gameMap.NextLevel();
 	}
 

@@ -1,10 +1,8 @@
 #include "Camera.h"
 
-
 Camera::Camera(int height, int width) : mHeight(height), mWidth(width)
 {
 }
-
 
 Camera::~Camera()
 {
@@ -17,6 +15,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 		currentLevel = mapIn.GetLevel();
 		mPosition = { 0,0 };
 	}
+
 	if (mapIn.GetOrientation() == Horizontal)
 	{
 		switch (moveDirection)
@@ -61,7 +60,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 				mapIn.MoveMap(eDirection::eUp);
 				for (auto &p : entityMapIn)
 				{
-					p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
+					//p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
 				}
 				mPosition.y -= 2;
 			}
@@ -72,7 +71,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 				mapIn.MoveMap(eDirection::eDown);
 				for (auto &p : entityMapIn)
 				{
-					p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
+					//p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
 				}
 				mPosition.y += 2;
 			}
