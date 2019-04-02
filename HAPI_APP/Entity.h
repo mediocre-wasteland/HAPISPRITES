@@ -42,6 +42,7 @@ public:
 	bool CanCollide(Entity& other);
 	void CheckCollision(Entity& Other);
 	bool IsAlive() { return mAlive; }
+	void SetAlive(bool alive) { mAlive = alive; }
 	virtual eSide GetSide() const = 0;
 	virtual void Update() = 0;
 	virtual ~Entity();
