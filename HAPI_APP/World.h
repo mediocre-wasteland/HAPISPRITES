@@ -12,6 +12,7 @@
 #include "MoneyCollectable.h"
 #include "AmmoCollectable.h"
 #include "MainMenuUi.h"
+
 using namespace HAPISPACE;
 
 class World
@@ -29,7 +30,7 @@ private:
 	std::unordered_map <std::string, Entity*> mEntityMap;
 	Map mGameMap;
 	Camera mGameCamera {832, 1280};
-	bool levelComplete = false;
+	int currentLevel{ 0 };
 
 	const DWORD worldTickTime{ 10 };
 	DWORD timeSinceLastWorldTick{ 0 };

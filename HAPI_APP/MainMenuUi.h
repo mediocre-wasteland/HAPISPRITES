@@ -15,6 +15,7 @@ public:
 	bool Initialise(Map* gameMap);
 	void Update();
 	bool Play();
+	bool GetPlay() { return play; };
 	void UI_ButtonPressed(UIWindow& window, const std::string& buttonName, int* userId) override; // Checks if Button has been pressed.
 
 private:

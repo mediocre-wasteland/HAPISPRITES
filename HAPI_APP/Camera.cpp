@@ -12,6 +12,11 @@ Camera::~Camera()
 
 void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn)
 {
+	if (currentLevel != mapIn.GetLevel())
+	{
+		currentLevel = mapIn.GetLevel();
+		mPosition = { 0,0 };
+	}
 	if (mapIn.GetOrientation() == Horizontal)
 	{
 		switch (moveDirection)

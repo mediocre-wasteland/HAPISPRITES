@@ -4,15 +4,12 @@
 #include "PlayerEntity.h"
 #include "Map.h"
 
-class KeyCollectable : public Collectables
+class LightHouseGoal : public Collectables
 {
 public:
-	KeyCollectable(std::string &fileName);
-	~KeyCollectable();
+	LightHouseGoal(std::string &fileName);
+	~LightHouseGoal();
 
 	void Update(PlayerEntity* player, Map& gameMap) override;
-
-private:
-
 };
 

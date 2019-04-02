@@ -46,9 +46,12 @@ bool World::Initialise()
 	MainMenuUi mainmenu;
 	mainmenu.Initialise(&mGameMap);
 
-	if (!Play())
+	if (mainmenu.GetPlay())
 	{
-		return false;
+		if (!Play())
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -87,7 +90,6 @@ bool World::LoadEntities()
 {
 	mEntityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
 	mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
-	
 
 	return true;
 }
@@ -102,15 +104,11 @@ bool World::LoadWorld()
 
 void World::Update()
 {	
-	Render();
-
 	if (HAPI_Sprites.GetTime() - timeSinceLastWorldTick >= worldTickTime)
 	{
 		CheckCollision();
 		UpdateCamera();
 
-		mEntityMap.at("Player")->Update();
-		mEntityMap.at("Enemy")->Update();
 		mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 
 		for (auto &p : mEntityMap)
@@ -120,27 +118,21 @@ void World::Update()
 
 		for (auto &p : mGameMap.GetCollectables())
 		{
-			((KeyCollectable*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"));
+			((Collectables*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"), mGameMap);
 		}
-
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-		if (mKeyboardInput.scanCode['P'])
+		if (currentLevel != mGameMap.GetLevel())
 		{
-			levelComplete = true;
-		}
-
-		if (levelComplete)
-		{
-			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition({ 80,576 });
-			mGameCamera.Reset();
-			mGameMap.NextLevel();
-			levelComplete = false;
+			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
+			currentLevel = mGameMap.GetLevel();
 		}
 
 		timeSinceLastWorldTick = HAPI_Sprites.GetTime();
 	}
+
+	Render();
 }
 
 void World::Render()

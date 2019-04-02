@@ -14,7 +14,7 @@ MoneyCollectable::~MoneyCollectable()
 {
 }
 
-void MoneyCollectable::Update(PlayerEntity* player) // updates every gameloop needs the pointer to the player to affect it
+void MoneyCollectable::Update(PlayerEntity* player, Map& gameMap) // updates every gameloop needs the pointer to the player to affect it
 {
 	if (isColliding == true) // checks whether the collectable is colliding
 	{

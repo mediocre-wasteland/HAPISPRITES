@@ -13,16 +13,19 @@ Map::~Map()
 	{
 		delete p.second;
 	}
+	mBackgroundMap.clear();
 
 	for (auto &p : mObstacleMap)
 	{
 		delete p.second;
 	}
+	mObstacleMap.clear();
 
 	for (auto &p : mCollectableMap)
 	{
 		delete p.second;
 	}
+	mCollectableMap.clear();
 }
 
 bool Map::Initialise()
@@ -48,9 +51,7 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
-	mObstacleMap.clear();
-	mBackgroundMap.clear();
-	mCollectableMap.clear();
+	KillLevel();
 
 	char line;
 	std::string fileName = "Data\\Levels\\Level" + std::to_string(mCurrentLevel) + ".txt";
@@ -125,10 +126,13 @@ void Map::CreateLevel()
 					AddCollectable("LoveGunAmmoPlaceholder", x, y, Ammo);
 					break;
 				case 'G':
-					AddCollectable("Lighthouse", x, y + 64, Ammo); // Goal
+					AddCollectable("Lighthouse", x, y + 64, Lighthouse); // Goal
 					break;
 				case 'M':
 					AddCollectable("MoneyPlaceholder", x, y, Money);
+					break;
+				case 'I':
+					spawnPos = {x,y};
 					break;
 				default:
 					break;
@@ -274,6 +278,9 @@ void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
 	case Money:
 		mCollectableMap[key] = new MoneyCollectable((std::string)"Data\\Sprites\\" + fileName + ".xml");
 		break;
+	case Lighthouse:
+		mCollectableMap[key] = new LightHouseGoal((std::string)"Data\\Sprites\\" + fileName + ".xml");
+		break;
 	}
 
 	mCollectableMap[key]->SetPosition({ x,y });
@@ -296,4 +303,21 @@ void Map::AddObstacle(std::string fileName, float x, float y)
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
+}
+
+void Map::KillLevel()
+{
+	for (auto &p : mBackgroundMap)
+	{
+		delete p.second;
+	}
+
+	for (auto &p : mObstacleMap)
+	{
+		delete p.second;
+	}
+
+	mBackgroundMap.clear();
+	mObstacleMap.clear();
+	mCollectableMap.clear();
 }

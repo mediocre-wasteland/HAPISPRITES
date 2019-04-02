@@ -4,7 +4,7 @@ PlayerEntity::PlayerEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = true;
 	mSide = eSide::ePlayer;
-	SetPosition({ 80.f, 576.f });
+	SetPosition({ 80.f, 500.f });
 }
 
 PlayerEntity::~PlayerEntity()

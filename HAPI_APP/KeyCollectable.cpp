@@ -13,7 +13,7 @@ KeyCollectable::~KeyCollectable()
 
 }
 
-void KeyCollectable::Update(PlayerEntity* player)
+void KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)
 	{

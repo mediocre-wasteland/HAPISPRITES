@@ -14,7 +14,7 @@ AmmoCollectable::~AmmoCollectable()
 {
 }
 
-void AmmoCollectable::Update(PlayerEntity* player)
+void AmmoCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)// checks whether the collectable is colliding
 	{

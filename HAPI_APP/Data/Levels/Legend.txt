@@ -1,8 +1,8 @@
 B - Brick
 S - Sky
 W - Water
-L - Lava
 C - Cloud
 D - Door
 G - Goal/Checkpoint
 K - Key
+I - Spawn
