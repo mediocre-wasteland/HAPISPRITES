@@ -37,12 +37,35 @@ void PlayerEntity::ShootLG()
 {
 	// SHOOTING ANIMATION HERE
 	// PROJECTILE SHOOTING HERE
-	AddLGAmmo(-1);
+	bool bulletSpawned = false;
+	for (int i = 0; i < 10 && bulletSpawned == false; i++)
+	{
+		if (!mBullets[i]->IsAlive())
+		{
+			mBullets[i]->SetAliveStatus(true);
+			mBullets[i]->setPosition((VectorF(sprite->GetTransformComp().GetPosition().x + 5, sprite->GetTransformComp().GetPosition().y)));
+
+			mBullets[i]->SetDirection(GetDirection());
+			AddLGAmmo(-1);
+			bulletSpawned = true;
+		}
+	}
 }
 
 void PlayerEntity::Update()
 {
+	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 	MovementCollision();
+	//SHOOT
+	if (mKeyboardInput.scanCode['F'] && mLGAmmo > 0 && updatesSinceLGlastFired >= LGCooldownUpdates)// Couldn't come up with a key so press f to shoot respect
+	{
+		ShootLG();
+		updatesSinceLGlastFired = 0;
+	}
+	if (updatesSinceLGlastFired < LGCooldownUpdates)
+	{
+		updatesSinceLGlastFired++;
+	}
 }
 
 void PlayerEntity::Render()

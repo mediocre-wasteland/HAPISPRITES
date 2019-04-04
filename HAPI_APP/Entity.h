@@ -8,6 +8,7 @@ using namespace HAPI_UI_SPACE;
 #include <iostream>
 #include "HAPI_SPRITES/Shapes/Vector.h"
 
+
 enum class eSide
 {
 	ePlayer,

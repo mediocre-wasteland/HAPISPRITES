@@ -83,6 +83,17 @@ bool World::LoadSprites()
 		return false;
 	}
 
+	for (int i{ 0 }; i < 10; i++)
+	{
+		std::string name = "Bullet" + std::to_string(i);
+		if (!mEntityMap.at((name))->LoadSprite())
+		{
+
+			HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
+			return false;
+		}
+	}
+
 	return true;
 }
 
@@ -90,6 +101,12 @@ bool World::LoadEntities()
 {
 	mEntityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
 	mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
+
+	for (int i = 0; i < 10; i++)
+	{
+		std::string name = "Bullet" + std::to_string(i);
+		mEntityMap[name] = new BulletEntity((std::string)"Data\\BulletPlaceholder.xml");
+	}
 
 	return true;
 }
@@ -108,13 +125,22 @@ void World::Update()
 	{
 		CheckCollision();
 		UpdateCamera();
+		mEnemies.clear();
+		mEnemies.push_back((EnemyEntity*)mEntityMap.at("Enemy"));
+		((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorClear();
 
+		for (int i = 0; i < 10; i++)
+		{
+			std::string name = "Bullet" + std::to_string(i);
+			((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorPushBack((BulletEntity*)mEntityMap.at(name));
+			((BulletEntity*)mEntityMap.at(name))->Update(mEnemies);
+		}
 		mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
-
 		for (auto &p : mEntityMap)
 		{
 			p.second->Update();
 		}
+
 
 		for (auto &p : mGameMap.GetCollectables())
 		{

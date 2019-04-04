@@ -44,5 +44,7 @@ private:
 
 	void CheckCollision();
 	void UpdateCamera();
+
+	std::vector<EnemyEntity*> mEnemies;
 };
 
