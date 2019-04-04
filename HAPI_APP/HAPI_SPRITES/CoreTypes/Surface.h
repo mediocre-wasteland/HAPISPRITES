@@ -52,6 +52,7 @@ namespace HAPISPACE {
 		friend class FillShader;
 		friend class Sprite;
 		friend class Stencil;
+		friend class SpriteSheet;
 
 		void SetAreaOfFill(const RectangleF &newArea);
 		void ClearAreaOfFill();
@@ -758,7 +759,7 @@ namespace HAPISPACE {
 		/// Optionally can specify just an area to save.
 		/// </summary>
 		///
-		/// <param name="filename">	Filename of the file. </param>
+		/// <param name="filename">	Filename. </param>
 		/// <param name="area">	   	(Optional) The area. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>

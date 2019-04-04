@@ -27,7 +27,9 @@ namespace HAPISPACE {
 		eDefaults = 0,
 		eFullscreen = 1 << 0,
 		eReserved1 = 1 << 1,
-		eReserved2 = 1 << 2
+		eReserved2 = 1 << 2,
+		eVSync = 1 << 3,		// Enable Vertical Sync (limit to monitor rate) Added V0.87 (HS) must be here to match HS flags
+		eReserved3 = 1 << 4
 	};
 
 	/**

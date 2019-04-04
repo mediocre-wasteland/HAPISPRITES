@@ -11,8 +11,7 @@ namespace HAPISPACE {
 
 	/// <summary>	For optimisation uses results are cached in this pod. </summary>
 	struct CachedResults
-	{
-		bool dirty{ true };	
+	{			
 		Transform transform;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +24,7 @@ namespace HAPISPACE {
 		RectangleCollider *boundingRect{ nullptr };
 		CircleCollider* boundingCircle{ nullptr };
 		RectangleI boundingRectAABR;
+		bool dirty{ true };
 
 		void Clear() { dirty = true; }
 		bool CacheHit(const Transform &trans) const {
@@ -51,14 +51,18 @@ namespace HAPISPACE {
 		/// <summary>	Carries out collision tests between shapes of the specified type. </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool CheckCollisionsForType(const CollisionSettings &settings, const ColliderGroup& other,
-			EColliderType typeToCheck, bool allMustPass,
-			CollisionInfo& collisionInfo) const;
+			EColliderType typeToCheck,	CollisionInfo* collisionInfo=nullptr) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Calculates the collision information. </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool CalculateCollisionInfo(const CollisionSettings &settings, const std::shared_ptr<Collider>& thisCollider, 
-			const std::shared_ptr<Collider>& otherCollider,
+		//bool CalculateCollisionInfo(const CollisionSettings &settings, const std::shared_ptr<Collider>& thisCollider, 
+		//	const std::shared_ptr<Collider>& otherCollider,
+		//	CollisionInfo& collisionInfo) const;
+
+		bool CalculateCollisionInfo(const CollisionSettings &settings, 
+			const Collider* const thisCollider,
+			const Collider* const otherCollider,
 			CollisionInfo& collisionInfo) const;
 
 		friend class SpriteSheet;
@@ -83,7 +87,13 @@ namespace HAPISPACE {
 
 		// Transform all collider shapes.
 		void TransformShapes(const Transform &thisTransform) const;
-		bool CheckColliderCollision(const CollisionSettings &settings, const std::shared_ptr<Collider>& thisCollider, const std::shared_ptr<Collider>& otherCollider, CollisionInfo& collisionInfo) const;
+		//bool CheckColliderCollision(const CollisionSettings &settings, const std::shared_ptr<Collider>& thisCollider, const std::shared_ptr<Collider>& otherCollider, CollisionInfo& collisionInfo) const;
+		bool CheckColliderCollision(const CollisionSettings &settings, const Collider& thisCollider, const Collider& otherCollider, CollisionInfo* collisionInfo) const;
+		
+		// Specifically for rect on rect
+		bool CheckColliderCollision(const CollisionSettings &settings, const RectangleCollider* const thisRct, const RectangleCollider* const otherRect, CollisionInfo* collisionInfo) const;
+		// Specifically for circle on circle
+		bool CheckColliderCollision(const CollisionSettings &settings, const CircleCollider* const thisCir, const CircleCollider* const otherCir,  CollisionInfo* collisionInfo) const;
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -318,16 +328,16 @@ namespace HAPISPACE {
 		bool Delete(const std::string &colliderName);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Axis aligned bounding rectangle. </summary>
+		/// <summary>	Get Axis aligned bounding rectangle. </summary>
 		///
 		/// <param name="transform">	The transform. </param>
 		///
 		/// <returns>	The bounding rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		const RectangleI& GetBoundingAABR(const Transform& transform) const;
+		RectangleI GetBoundingAABR(const Transform& transform) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Oriented bounding rect. </summary>
+		/// <summary>	Get Oriented bounding rect. </summary>
 		///
 		/// <param name="transform">	The transform. </param>
 		///
@@ -336,7 +346,7 @@ namespace HAPISPACE {
 		RectangleOrientedF GetBoundingOBR(const Transform& transform) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Bounding circle. </summary>
+		/// <summary>	Get Bounding circle. </summary>
 		///
 		/// <param name="transform">	The transform. </param>
 		///
@@ -347,16 +357,16 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// This is the one collision function. How it behaves is controlled by the passed in settings.
-		/// Information about the collision is returned in collisionInfo.
+		/// Information about the collision is returned in collisionInfo. if provided
 		/// </summary>
 		///
 		/// <param name="settings">			Options for controlling the operation. </param>
 		/// <param name="other">			The other. </param>
-		/// <param name="collisionInfo">	[in,out] Information describing the collision. </param>
+		/// <param name="collisionInfo">	[out] Information describing the collision. </param>
 		///
 		/// <returns>	True if there is a collision. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool CheckCollision(const CollisionSettings &settings, const ColliderGroup& other,CollisionInfo& collisionInfo) const;
+		bool CheckCollision(const CollisionSettings &settings, const ColliderGroup& other,CollisionInfo* collisionInfo=nullptr) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -381,7 +391,7 @@ namespace HAPISPACE {
 		/// <param name="pnt"> 	The point. </param>
 		/// <param name="type">	The type. </param>
 		///
-		/// <returns>	Collider name or empty string </returns>
+		/// <returns>	Collider name or empty string if not found.</returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string PointInsideLocalSpace(const VectorF &pnt, EColliderType type) const;
 
@@ -470,21 +480,22 @@ namespace HAPISPACE {
 		/// <param name="transform">		The transform. </param>
 		/// <param name="boundsColour"> 	(Optional) The bounds colour. </param>
 		/// <param name="oneOfColour">  	(Optional) The one of colour. </param>
-		/// <param name="markerColou">  	(Optional) The marker colour. </param>
+		/// <param name="markerColour">  	(Optional) The marker colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void RenderRects(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& boundsColour = Colour255::WHITE,
 			const Colour255& oneOfColour = Colour255::WHITE, const Colour255& markerColour = Colour255::RED) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// As RenderCircles but for all collider types, with colours provided for each type else default to white.
+		/// As RenderCircles but for all collider types, with colours provided for each type else default
+		/// to white.
 		/// </summary>
 		///
 		/// <param name="renderSurface">	[in,out] The render surface. </param>
 		/// <param name="transform">		The transform. </param>
 		/// <param name="boundsColour"> 	(Optional) The bounds colour. </param>
 		/// <param name="oneOfColour">  	(Optional) The one of colour. </param>
-		/// <param name="markerColou">  	(Optional) The marker colour. </param>
+		/// <param name="markerColour"> 	(Optional) The marker colour. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void RenderCircles(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& boundsColour = Colour255::WHITE,
 			const Colour255& oneOfColour = Colour255::WHITE, const Colour255& markerColour = Colour255::RED) const;

@@ -298,7 +298,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Stream insertion operator. </summary>
 		///
-		/// <param name="os"> 	[in,out] The output stream. </param>
+		/// <param name="os"> 	The output stream. </param>
 		/// <param name="col">	The colour. </param>
 		///
 		/// <returns>	The output stream. </returns>

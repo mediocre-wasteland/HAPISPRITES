@@ -6,6 +6,52 @@ The recent version changes are in the HAPI_Sprites_Lib.h file with just the olde
 
 Older Version History
 
+ Version 0.85 10/03/19
+ - BUGFIX: there was a bug in the local position collision info. returned when not doing PP collisions
+ - BUGFIX: while fixing the above discovered a bug when a sprite is scaled. Collision info is now in unscaled local space.
+ - BUGFIX: correct normal returned from raw shape colliders
+ - NEW: Added a GetFrameSetName function
+ - NEW: Collision with raw rectangle shape collider now used oriented rectangle if required
+ - DOC - much improved Doxygen comments
+ - OPT - small optimisations
+ 
+ Version 0.84 - 25/02/19
+ - BUGFIX: There was an error in pixel perfect collisions when not using rotation or scaling
+ - NEW : Added origin(pivot point) to frame, now used when rendering as origin
+ - NEW : Added support for loading pivot point from XML
+ - NEW : UI Editor : Added pivot values to Toolbox and a show toggle radio button
+ - NEW : UI Editor : Added Position Pivots menu option
+ - NEW : UI: MultiChoiceDialog addition
+ - NEW : Added functions to the vector to convert to and from isometric view
+ - BUGFIX : UI Editor alignment radio buttons were resetting to 'min - to - min'
+ - BUGFIX : A number of small fixes to the UI
+ - DOC: Further improved some auto documentation
+
+ Version 0.83 - 17/02/19
+  - NEW: Delete key in sprite editor now deletes currently selected item
+  - NEW: added a 'next collider' button to toolbox for easy scrolling through available colliders
+	- NEW: added an auto fit collider option via RMB for just that frame
+	- NEW: added undo support to sprite editor
+	- NEW: CTRL-Z now undoes last action in all editors (if possible)
+	- NEW: Sprite Editor: File/Save option. Save now saves without asking for a filename.
+	- NEW: Sprite Editor: File/Save SpriteSheet As option. Save As now renames surface to something more sensible!
+	- NEW: Sprite Editor: New menu option 'Grid Frames' to apply a regular grid of frames
+  - NEW: Solved the issue with the editor data not being in the re-distributable, it is now in the HAPI_SPRITES folder
+		- This does mean the re-distributable will not have the editors enabled but that is probably correct anyway
+  - BUGFIX: Fixed a button issue in Skin Editor
+  - BUGFIX: Fixed a complicated file naming issue in the sprite editor when saving a spriteSheet (the logic was confused)
+  - BUGFIX: Crash after closing animation viewer
+	- BUGFIX: bounding circle would sometimes shrink when selected for edit
+	- BUGFIX: Creating very large sprite sheets could lead to a memory issue
+	- TWEAK: text entry now left justifies when not being edited
+	- TWEAK: sprite viewer now sizes to first frame of animation
+	- TWEAK: minimised windows now all have the same width so stack better
+	- CODE: SimulateButtonPress added to window
+	- CODE: SpriteSheet::SaveToByteStream + constructor taking a byte stream
+	- CODE: SpriteSheet::GridFrames to apply a regular grid of frames
+	- CODE: Stability improvements to editors
+	- DOC: Improved some documentation
+
  Version 0.82 - 12/02/19
  - SpriteEditor: BUG: changing the animation set was not saving
  - Massively reduced the debug library size 

@@ -69,7 +69,7 @@ namespace HAPISPACE {
 		float Length() const { return sqrt(LengthSquared()); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Returns the direction of the line from p1 to p2. </summary>
+		/// <summary>	Returns the normalized direction of the line from p1 to p2. </summary>
 		///
 		/// <returns>	A direction Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////

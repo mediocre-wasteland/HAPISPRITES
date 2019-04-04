@@ -106,6 +106,25 @@ namespace HAPISPACE {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Query if poly1 contains poly2. For convex only. </summary>
+	///
+	/// <param name="poly1">	The const Polygon&amp; to test for containment. </param>
+	/// <param name="poly2">	The second polygon. </param>
+	///
+	/// <returns>	True if the object is in this collection, false if not. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline bool Contains(const Polygon &poly1, const Polygon &poly2)
+	{
+		for (const auto & p : poly2.points)
+		{
+			if (!PointInPolygon(poly1, p))
+				return false;
+		}
+
+		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	convex polygon test. </summary>
 	///
 	/// <param name="poly1">	The first polygon. </param>
@@ -119,7 +138,7 @@ namespace HAPISPACE {
 		// Note: could be sped up for rectangle case - see Tristan answer
 		// https://stackoverflow.com/questions/115426/algorithm-to-detect-intersection-of-two-rectangles
 
-		// Have to handle the situation where one poly is completely within another
+		// Have to handle the situation where one poly is completely within another first
 		bool inside{ true };
 		for (const auto& p : poly1.points)
 		{
@@ -203,7 +222,7 @@ namespace HAPISPACE {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Query if this object intersects the given r1. </summary>
+	/// <summary>	Rectangle collision test. </summary>
 	///
 	/// <typeparam name="T">	Generic type parameter. </typeparam>
 	/// <param name="r1">	The first RectangleOriented&lt;T&gt; </param>
@@ -342,7 +361,7 @@ namespace HAPISPACE {
 			return true;
 
 		// Now the more complex part which is if a point on the line is within the circle
-		std::vector<Line<T>> lines = Polygon(rect.GetOutline()).GetLines();
+		std::vector<Line<T>> lines{ Polygon(rect.GetOutline()).GetLines() };
 
 		for (const auto& l : lines)
 		{
@@ -353,8 +372,9 @@ namespace HAPISPACE {
 		return false;
 	}
 
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Query if this object intersects the given c1. </summary>
+	/// <summary>	Query if this object intersects the given circle. </summary>
 	///
 	/// <param name="c1">	The first Circle. </param>
 	/// <param name="c2">	The second Circle. </param>
@@ -363,8 +383,6 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool Intersects(const Circle &c1,const Circle &c2)
 	{
-		//return (c1.centre.DistanceBetweenSquared(c2.centre) <= 
-			//(c1.radius + c2.radius) * (c1.radius + c2.radius));
 		return (c1.centre.DistanceBetween(c2.centre) <= (c1.radius + c2.radius));
 	}
 
@@ -435,13 +453,13 @@ namespace HAPISPACE {
 		T p3_x = line2.p2.x;
 		T p3_y = line2.p2.y;
 
-		float s1_x, s1_y, s2_x, s2_y;
-		s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-		s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+		float s1_x = p1_x - p0_x;     
+		float s1_y = p1_y - p0_y;
+		float s2_x = p3_x - p2_x; 
+		float s2_y = p3_y - p2_y;
 
-		float s, t;
-		s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-		t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+		float s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+		float t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
 
 		if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
 		{
@@ -504,8 +522,6 @@ namespace HAPISPACE {
 		// Origin is in unscaled space
 		if (trans.IsScaled())
 			ret = (VectorF)v - (trans.origin * trans.scale);
-
-
 
 		// T
 		ret -= trans.position;
@@ -625,20 +641,46 @@ namespace HAPISPACE {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	// Transforms oriented rectangle. Scaling & rotation is around the origin in the transform
-	RectangleOriented<T> TransformRectangleOriented(const RectangleOriented<T> v, const Transform& trans)
+	// Pass by value to avoid creating copy
+	RectangleOriented<T> TransformRectangleOriented(RectangleOriented<T> v, const Transform& trans)
 	{
-		RectangleOriented<T> ret{ v };
+		// Since this fn called so much, preferring not to call other fns but inline it:
+		// ret.Translate(-trans.origin); :
+		v.corners[0] -= trans.origin;
+		v.corners[1] -= trans.origin;
+		v.corners[2] -= trans.origin;
+		v.corners[3] -= trans.origin;			
 		
 		// S
-		ret.Scale(trans.scale,trans.origin);
+		// v.Scale(trans.scale);
+		v.corners[0] *= trans.scale;
+		v.corners[1] *= trans.scale;
+		v.corners[2] *= trans.scale;
+		v.corners[3] *= trans.scale;
 
 		// R
-		ret.Rotate(trans.rotation, trans.origin);
+		//v.Rotate(trans.rotation);
+		if (trans.rotation)
+		{
+			float cosine{ cos(trans.rotation) };
+			float sine{ sin(trans.rotation) };
+
+			v.corners[0] = VectorF{ v.corners[0].x * cosine - v.corners[0].y* sine,v.corners[0].y * cosine + v.corners[0].x * sine };
+			v.corners[1] = VectorF{ v.corners[1].x * cosine - v.corners[1].y* sine,v.corners[1].y * cosine + v.corners[1].x * sine };
+			v.corners[2] = VectorF{ v.corners[2].x * cosine - v.corners[2].y* sine,v.corners[2].y * cosine + v.corners[2].x * sine };
+			v.corners[3] = VectorF{ v.corners[3].x * cosine - v.corners[3].y* sine,v.corners[3].y * cosine + v.corners[3].x * sine };
+		}
 
 		// T
-		ret.Translate(trans.position);
+		//v.Translate(trans.origin + trans.position);
+		const VectorF sum{ trans.origin + trans.position };
 
-		return ret;
+		v.corners[0] += sum;
+		v.corners[1] += sum;
+		v.corners[2] += sum;
+		v.corners[3] += sum;
+
+		return v;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -669,27 +711,89 @@ namespace HAPISPACE {
 	///
 	/// <returns>	A transformed circle. </returns>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline Circle TransformCircle(const Circle c, const Transform& trans)
+	inline Circle TransformCircle(Circle c, const Transform& trans)
 	{
-		Circle ret{ c };
-
-		ret.Translate(-trans.origin);
+		c.Translate(-trans.origin);
 
 		// S		
-		ret.radius *= std::max(trans.scale.x, trans.scale.y);
+		c.radius *= std::max(trans.scale.x, trans.scale.y);
 
 		// Also scale centre point
-		ret.centre *= trans.scale;
+		c.centre *= trans.scale;
 		
 		// R
 		// Do need to rotate centre as if entity rotates and circle not on centre of rotation it would be wrong
-		ret.centre.Rotate(trans.rotation);
+		if (trans.rotation)
+			c.centre.Rotate(trans.rotation);
 
 		// T
-		ret.Translate(trans.position);
+		c.Translate(trans.position + trans.origin);
 
-		ret.Translate(trans.origin);
+		return c;
+	}
 
-		return ret;
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Distance to line from a point. </summary>
+	///
+	/// <param name="line_start">	The line start. </param>
+	/// <param name="line_end">  	The line end. </param>
+	/// <param name="point">	 	The point. </param>
+	///
+	/// <returns>	The distance. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline float DistanceToLine(const VectorF line_start, VectorF line_end, VectorF point)
+	{
+		line_end -= line_start;
+		point -= line_start;
+
+		float area = point.Cross(line_end);
+		return (area / line_end.Length());
+		
+		// Another method, also works but a lot more CPU needed so sticking with the above
+		//float lengthSq{ line_start.DistanceBetweenSquared(line_end) };
+		//if (lengthSq == 0)
+		//	return point.DistanceBetween(line_start); // when line_start == line_end
+
+		//const float t{ std::max(0.0f,std::min(1.0f, 
+		//	VectorF(point - line_start).Dot(VectorF(line_end - line_start)) / lengthSq)) };
+		//const VectorF projection = line_start + t * (line_end - line_start);
+		//return point.DistanceBetween(projection);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Absolute distance to line from a point. </summary>
+	///
+	/// <param name="line_start">	The line start. </param>
+	/// <param name="line_end">  	The line end. </param>
+	/// <param name="point">	 	The point. </param>
+	///
+	/// <returns>	The abs distance. </returns>
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	inline float AbsDistanceToLine(const VectorF line_start, VectorF line_end, VectorF point)
+	{
+		return fabs(DistanceToLine(line_start, line_end, point));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// With floating point errors it is better just to calculate the distance and see if it is
+	/// within an error.
+	/// </summary>
+	///
+	/// <param name="line">		   	The line. </param>
+	/// <param name="pnt">		   	The point. </param>
+	/// <param name="allowedError">	The allowed error. </param>
+	///
+	/// <returns>	True if point on line, false if not. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline bool IsPointOnLine(const LineF& line, VectorF pnt, float allowedError)
+	{
+
+	//	std::cout << AbsDistanceToLine(line.p1, line.p2, pnt) << std::endl;
+
+		if (AbsDistanceToLine(line.p1, line.p2, pnt) <= allowedError)
+			return true;
+
+		return false;
 	}
 }

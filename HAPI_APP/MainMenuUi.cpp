@@ -86,7 +86,6 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "ReturnButtonOptionsMenu")
 	{
 		UI.CloseWindow(optionsMenuName);
-		UI.RefreshAllWindows();
 		UI.OpenWindow(mainMenuName);
 		this->UI_AddWindowToListenTo(mainMenuName);
 	}
@@ -97,7 +96,6 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "ReturnCreditsMenu")
 	{
 		UI.CloseWindow(creditsMenuName);
-		UI.RefreshAllWindows();
 		UI.OpenWindow(mainMenuName);
 		this->UI_AddWindowToListenTo(mainMenuName);
 	}

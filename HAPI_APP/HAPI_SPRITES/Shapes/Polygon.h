@@ -75,9 +75,7 @@ namespace HAPISPACE {
 		{
 			assert(which < GetNumLines());
 			if (which == GetNumLines() - 1)
-			{
 				return Line<float>(points[which], points[0]);
-			}
 
 			return Line<float>(points[which], points[which + 1]);
 		}

@@ -21,10 +21,12 @@ namespace HAPISPACE {
 		std::vector<Frame> m_frames;
 		std::shared_ptr<Surface> m_surface;
 
-		/// <summary>	Key is an x,y position within the surface, value is the normal. </summary>
-		std::map<VectorI, VectorF> m_normals;
+		//std::map<VectorI, VectorF> m_normals;
+		
+		// From 0.86 switched to using a 2D array for the normals for performance reasons
+		std::unique_ptr<VectorF[]> m_normals;
 
-		/// <summary>	Used for PP collisions and also normal generation. </summary>
+		// Used for PP collisions and also normal generation
 		BYTE m_minAlphaForCollision{ 255 };
 
 		// Editor internal access
@@ -34,7 +36,7 @@ namespace HAPISPACE {
 		friend class SpriteEditorCopyWindow;
 		friend class SpriteEditorToolboxWindow;
 
-		/// <summary>	Potentially slow. Returns null if none. </summary>
+		// Potentially slow. Returns null if none
 		Frame* GetFrameAtPoint(VectorI pnt) ;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +124,6 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::vector<VectorI> GetNeighbours(VectorI pnt, int w, int h);
 
-		/// <summary>	Filename of the file when saved. </summary>
 		mutable std::string m_filename{ "noname.xml" };
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,8 +233,10 @@ namespace HAPISPACE {
 		/// <summary>
 		/// Generate normals. Can be slow. Note: uses current value of m_minAlphaForCollision.
 		/// </summary>
+		///
+		/// <param name="smoothingAmount">	(Optional) The smoothing amount. Defaults to not doing smoothing. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void GenerateNormals();
+		void GenerateNormals(int smoothingAmount=0);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets a normal, if generated, otherwise returns Zero vector. </summary>
@@ -423,7 +426,7 @@ namespace HAPISPACE {
 		/// (in the same directory)
 		/// </summary>
 		///
-		/// <param name="filename">   	Filename of the file. </param>
+		/// <param name="filename">   	Filename. </param>
 		/// <param name="saveSurface">	(Optional) True to save surface. </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>

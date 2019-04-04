@@ -94,21 +94,14 @@ namespace HAPI_UI_SPACE
 		friend class UIWindow;
 
 		/// <summary>	USed when resizing. </summary>
-		RectangleI GetOriginalBounds() const { assert(m_originalBounds.IsValid()); return m_originalBounds; }
+		RectangleI GetOriginalBounds() const { return m_originalBounds; }
 
 		/// <summary>	Gets original position. </summary>
 		VectorI GetOriginalPosition() const { return m_originalPosition; }
 
 		friend class HAPISPACE::UIandSkinPayloadData;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Resizes.Attempt to resize. May not be possible or there may be a minimum allowed However if
-		/// force flag is true they must use it Passing by value to avoid aliasing issues when called
-		/// with m_bounds.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void Resize(RectangleI newSize, bool forceSize = false, bool setAsOriginal=true);
+
 
 		/// <summary>	Gets largest of all subtypes in terms of bounding rect. </summary>
 		RectangleI GetTextRect(const std::string &text) const;
@@ -140,13 +133,6 @@ namespace HAPI_UI_SPACE
 		{ 
 			m_position = newPos; 
 			if (setAsOriginal) m_originalPosition = newPos; 
-			if (newPos.x != 0 || newPos.y != 0)
-			{
-				// trying to catch a bug that changed an adornments position (it should always be at 0,0 in window space)
-				// Note: think I have found it. Last occurrence 28/10/18
-				// No: happened again! TODO.
-				assert(GetType() != EObjectType::eAdornment);
-			}
 		}
 
 		/// <summary>	Writes a base XML. </summary>
@@ -420,6 +406,15 @@ namespace HAPI_UI_SPACE
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual bool ShouldObayWindowLayoutRules() const { return true; }
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Resizes.Attempt to resize. May not be possible or there may be a minimum allowed. However if
+		/// force flag is true they must use it. Passing by value to avoid aliasing issues when called
+		/// with m_bounds.
+		/// </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void Resize(RectangleI newSize, bool forceSize = false, bool setAsOriginal = true);
 private:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>

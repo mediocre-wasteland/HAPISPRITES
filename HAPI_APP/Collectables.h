@@ -17,7 +17,7 @@ public:
 
 	virtual void Update(PlayerEntity* player, Map& gameMap) = 0;// main update used to check if the collectable is collected
 
-	eSide GetSide() const override final { return eSide::eCollectable; };
+	eSide GetSide() const override final { return mSide; };
 	eDirection GetDirection() const override final { return mDirection; };
 
 };

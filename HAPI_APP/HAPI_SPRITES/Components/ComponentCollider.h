@@ -81,25 +81,25 @@ namespace HAPISPACE {
 		/// <summary>	Determine if this collider collides with other. </summary>
 		///
 		/// <param name="other">			The other collider. </param>
-		/// <param name="collisionInfo">	[in,out] Information describing the collision. </param>
+		/// <param name="collisionInfo">	Optional returned collision info. </param>
 		///
 		/// <returns>	True if a collision occurred. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool CheckCollision(const ComponentCollider& other, CollisionInfo &collisionInfo) const;
+		bool CheckCollision(const ComponentCollider& other, CollisionInfo *collisionInfo=nullptr) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Determine if this collider collides with a raw collider group. Optionally return info on
-		/// the collision.
+		/// Determine if this collider collides with a raw collider group. Optionally return info on the
+		/// collision.
 		/// </summary>
 		///
 		/// <param name="collider">				The collider. </param>
 		/// <param name="colliderTransform">	The collider transform. </param>
-		/// <param name="collisionInfo">		[in,out] Information describing the collision. </param>
+		/// <param name="collisionInfo">		ptional returned collision info.  </param>
 		///
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool CheckCollision(const ColliderGroup& collider, const Transform& colliderTransform, CollisionInfo &collisionInfo) const;
+		bool CheckCollision(const ColliderGroup& collider, const Transform& colliderTransform, CollisionInfo *collisionInfo=nullptr) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Read access to collider group. </summary>
@@ -113,13 +113,13 @@ namespace HAPISPACE {
 		///
 		/// <returns>	an axis aligned bounding rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		const RectangleI GetAABoundingRect() const;
+		RectangleI GetAABoundingRect() const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Bounding Circle for current frame. </summary>
 		///
 		/// <returns>	The bounding circle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		const Circle GetBoundingCircle() const;		
+		Circle GetBoundingCircle() const;		
 	};
 }

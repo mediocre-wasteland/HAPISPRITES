@@ -19,12 +19,10 @@ namespace HAPISPACE {
 	class Vector final
 	{
 	public:
-		/// <summary>	A T to process. </summary>
 		T x{ 0 };
-		/// <summary>	A T to process. </summary>
 		T y{ 0 };
 
-		/// <summary>	Construct x and y values. </summary>
+		/// <summary>	Default construct with x and y 0. </summary>
 		Vector() noexcept {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,14 +195,14 @@ namespace HAPISPACE {
 		///
 		/// <returns>	A float. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		float LengthSquared() { return (float)(x*x + y*y); }
+		T LengthSquared() const { return (x*x + y*y); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Gets the length. </summary>
 		///
 		/// <returns>	A float. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		float Length() { return sqrt((float)(x*x + y*y)); }
+		T Length() const { return (T)sqrt((float)(x*x + y*y)); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Scale this so vector length is newLength. </summary>
@@ -228,7 +226,7 @@ namespace HAPISPACE {
 		///
 		/// <returns>	A Vector&lt;T&gt; </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		Vector<T> ScaledToLength(T newLength)
+		Vector<T> ScaledToLength(T newLength) const
 		{
 			Vector<T> ret{ *this };
 			ret.ScaledToLength(newLength);
@@ -279,9 +277,9 @@ namespace HAPISPACE {
 		///
 		/// <returns>	A Vector. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		Vector Rotated(float angle) const
+		Vector<T> Rotated(float angle) const
 		{
-			Vector ret;
+			Vector<T> ret;
 
 			ret.x = x * cos(angle) - y * sin(angle);
 			ret.y = y * cos(angle) + x * sin(angle);
@@ -294,7 +292,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="angle">	The angle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void Rotate(float angle)
+		void Rotate(T angle)
 		{
 			T oldX{ x };
 			x = x * cos(angle) - y * sin(angle);
@@ -307,7 +305,7 @@ namespace HAPISPACE {
 		/// <param name="radians">	The radians. </param>
 		/// <param name="origin"> 	The origin. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void Rotate(float radians, const Vector<T>& origin)
+		void Rotate(T radians, const Vector<T>& origin)
 		{
 			x -= origin.x; y -= origin.y;
 			Rotate(radians);
@@ -350,7 +348,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		static Vector RandomDirection()
 		{
-			Vector res{ (rand() % 100)-50.0f, (rand() % 100)-50.0f };
+			Vector res{ (rand() % 101)-50.0f, (rand() % 101)-50.0f };
 			res.Normalize();
 			return res;
 		};
@@ -416,6 +414,23 @@ namespace HAPISPACE {
 
 		// No need for assignment operator or copy or move since default bitwise ones work fine (its just 8 bytes normally)
 	};
+
+	template <typename T>
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Roughly equals. </summary>
+	///
+	/// <param name="v1">   	The first value. </param>
+	/// <param name="v2">   	The second value. </param>
+	/// <param name="range">	The range. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline bool RoughlyEquals(const Vector<T> &v1, const Vector<T> &v2, T range)
+	{
+		return (v2 - v1).LengthSquared() <= range * range;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Can be used with cout to output values to output pane and log. </summary>
@@ -549,9 +564,8 @@ namespace HAPISPACE {
 		return lhs /= (T)s;
 	}
 
-	/// <summary>	Helpers. </summary>
-	using VectorI = Vector<int>;
-	/// <summary>	The vector f. </summary>
+	// Helpers
+	using VectorI = Vector<int>;	
 	using VectorF = Vector<float>;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

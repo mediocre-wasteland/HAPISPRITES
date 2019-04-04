@@ -117,7 +117,7 @@ namespace HAPISPACE {
 		///
 		/// <returns>	True if the other is completely contained, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool Contains(const Rectangle& other) const { return (other.left >= left && other.right < right && other.top >= top && other.bottom < bottom); }
+		bool Contains(const Rectangle& other) const noexcept { return (other.left >= left && other.right < right && other.top >= top && other.bottom < bottom); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Does this rectangle completely contain the point. </summary>
@@ -126,7 +126,7 @@ namespace HAPISPACE {
 		///
 		/// <returns>	True if the other is completely contained, false if not. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool Contains(Vector<T> other) const { return !(other.x < left || other.x > right || other.y < top || other.y > bottom); }
+		bool Contains(Vector<T> other) const noexcept { return !(other.x < left || other.x > right || other.y < top || other.y > bottom); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Is this rectangle completely outside of the other? </summary>
@@ -135,7 +135,7 @@ namespace HAPISPACE {
 		///
 		/// <returns>	True if it is outside. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool OutsideOf(const Rectangle& other) const { return (right < other.left || bottom < other.top || left >= other.right || top >= other.bottom); }
+		bool OutsideOf(const Rectangle& other) const noexcept { return (right < other.left || bottom < other.top || left >= other.right || top >= other.bottom); }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Translate this rectangle. </summary>
@@ -482,6 +482,9 @@ namespace HAPISPACE {
 			if (pos.y >= bottom-1)
 				return VectorF(0, 1);
 
+			/*
+				If we get here pos must not actually be on an edge
+			*/
 			return VectorF::Zero();
 		}
 
@@ -652,7 +655,7 @@ namespace HAPISPACE {
 	class RectangleOriented final
 	{
 	public:
-		/// <summary>	The corners[ 4]. Cannot describe as left, top etc. as may not be. </summary>
+		/// <summary>	The corners. Always 4 but cannot describe as left, top etc. as may not be. </summary>
 		Vector<T> corners[4];
 
 		/// <summary>	Default constructor. </summary>
@@ -666,10 +669,10 @@ namespace HAPISPACE {
 		/// <param name="c3">	The third Vector&lt;T&gt; </param>
 		/// <param name="c4">	The fourth Vector&lt;T&gt; </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		RectangleOriented(Vector<T> c1, Vector<T> c2, Vector<T> c3, Vector<T> c4)
+		RectangleOriented(Vector<T> c1, Vector<T> c2, Vector<T> c3, Vector<T> c4) noexcept : corners
 		{
-			corners[0] = c1;  corners[1] = c2, corners[2] = c3, corners[3] = c4;
-		}
+			{c1,c2,c3,c4}
+		} {}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Construct from aligned rect. </summary>
@@ -678,12 +681,22 @@ namespace HAPISPACE {
 		/// <param name="rect">	The aligned rectangle. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename U>
-		RectangleOriented(const Rectangle<U> &rect) : corners
+		RectangleOriented(const Rectangle<U> &rect) noexcept : corners
 		{
 			{ (T)rect.left, (T)rect.top },{ (T)rect.right, (T)rect.top } ,
 			{ (T)rect.right, (T)rect.bottom },{ (T)rect.left, (T)rect.bottom }
-		/// <summary>	. </summary>
 		} {}
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Scales as is. </summary>
+		///
+		/// <param name="scale">	The scale amount. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void Scale(const VectorF& scale)
+		{
+			for (int i = 0; i < 4; i++)
+				corners[i] = Vector<T>(corners[i] * scale);
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Scales around origin. </summary>
@@ -730,9 +743,6 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Rotate(float radians)
 		{
-			if (radians == 0)
-				return;
-
 			Rotate(cos(radians), sin(radians));
 		}		
 

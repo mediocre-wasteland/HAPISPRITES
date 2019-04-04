@@ -10,9 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// namespace: HAPI_UI_SPACE
 /// 
-/// Simple UI  library providing Windows Buttons(radio and normal)
-/// Static and click-able text Text entry Menus Dial Sliders and scroll bars Shape Supports saving
-/// to XML along with resolution scaling summary:	Wraps all of the HAPI Sprites UI system. 
+/// Simple UI  library providing Windows Buttons (radio and normal),
+/// Static and click-able text, Text entry, Menus, Dial, Sliders, scroll bars and shapes. Supports saving
+/// to XML along with resolution scaling. summary:	Wraps all of the HAPI Sprites UI system. 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace HAPI_UI_SPACE
 {	
@@ -46,15 +46,17 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Hard coded skin, cannot be edited Must be shared as used in multiple places.
+		/// Hard coded skin, cannot be edited. Must be shared as used in multiple places.
 		/// </summary>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<Skin> m_defaultSkin;
 
 		/// <summary>	helper - created on demand so dont access directly. </summary>
 		std::shared_ptr<UICommonDialog_MessageBox> m_commonDialog_messageBox;		
+	
 		/// <summary>	The common dialog sprite viewer. </summary>
 		std::shared_ptr<UICommonDialog_SpriteViewer> m_commonDialog_spriteViewer;
+		
 		/// <summary>	The common dialog multi choice dialog. </summary>
 		std::shared_ptr<UICommonDialog_MultiChoice> m_commonDialog_multiChoice;
 
@@ -172,6 +174,155 @@ namespace HAPI_UI_SPACE
 		/// <returns>	True if it succeeds, false if it fails. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool SaveSkin(const std::string& skinName, CHapiXMLNode *rootNode) const;
+
+		// TODO: need to use another system e.g. facade
+		friend class UIObjectAdornments;
+		friend class UIObjectButton;
+		friend class UIObjectCanvas;
+		friend class UIObjectDial;
+		friend class UIObjectListBox;
+		friend class UIObjectMenu;
+		friend class UIObjectShape;
+		friend class UIObjectSlider;
+		friend class UIObjectText;
+		friend class UIObjectTextEntry;
+		friend class UIWindow;
+		friend class Skin;
+		friend class UIEditorMainWindow;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	These handle calls to IHapiSpritesUIListener and map to each function. </summary>
+		///
+		/// <param name="object">	The object. </param>
+		/// <param name="item">  	The item. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_MenuItemClicked(const UIObject& object, const std::string& item);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener button pressed. </summary>
+		///
+		/// <param name="object">	The object. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_ButtonPressed(const UIObject& object);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener slider value changed. </summary>
+		///
+		/// <param name="object">  	The object. </param>
+		/// <param name="newValue">	The new value. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_SliderValueChanged(const UIObject& object, float newValue);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener list box item pressed. </summary>
+		///
+		/// <param name="object">   	The object. </param>
+		/// <param name="itemIndex">	Zero-based index of the item. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_ListBoxItemPressed(const UIObject& object, int itemIndex);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener radio button change state. </summary>
+		///
+		/// <param name="object"> 	The object. </param>
+		/// <param name="pressed">	True if pressed. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_RadioButtonChangeState(const UIObject& object, bool pressed);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener text clicked. </summary>
+		///
+		/// <param name="object">	The object. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		bool TellListener_TextClicked(const UIObject& object);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener canvas clicked. </summary>
+		///
+		/// <param name="object">  	The object. </param>
+		/// <param name="mousePos">	The mouse position. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		bool TellListener_CanvasClicked(const UIObject& object, VectorI mousePos);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener text entry changed. </summary>
+		///
+		/// <param name="object">	  	The object. </param>
+		/// <param name="newText">	  	The new text. </param>
+		/// <param name="beingEdited">	True if being edited. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_TextEntryChanged(const UIObject& object, const std::string& newText, bool beingEdited);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener window change state. </summary>
+		///
+		/// <param name="window">  	[in,out] The window. </param>
+		/// <param name="newState">	New state. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_WindowChangeState(UIWindow& window, EWindowState newState);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener window dragged sized. </summary>
+		///
+		/// <param name="window">	   	[in,out] The window. </param>
+		/// <param name="beingDragged">	True if being dragged. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_WindowDraggedSized(UIWindow& window, bool beingDragged);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener mouse clicked on object. </summary>
+		///
+		/// <param name="window">	 	[in,out] The window. </param>
+		/// <param name="objectName">	Name of the object. </param>
+		/// <param name="which">	 	The which. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_MouseClickedOnObject(UIWindow& window, const std::string& objectName, EMouseButton which);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener render. </summary>
+		///
+		/// <param name="window">			[in,out] The window. </param>
+		/// <param name="renderSurface">	[in,out] The render surface. </param>
+		/// <param name="callerName">   	Name of the caller. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_Render(UIWindow& window, std::shared_ptr<Surface> &renderSurface, const std::string& callerName);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener dial changed. </summary>
+		///
+		/// <param name="object">	The object. </param>
+		/// <param name="ratio"> 	The ratio. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_DialChanged(const UIObject& object, float ratio);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Tell listener about an unhandled action. </summary>
+		///
+		/// <param name="window">	 	[in,out] The window. </param>
+		/// <param name="action">	 	The action. </param>
+		/// <param name="lastAction">	The last action. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void TellListener_UnhandledAction(UIWindow& window, EInputMappingAction action, EInputMappingAction lastAction);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Change focus window and object, leave object blank to use old one. </summary>
+		///
+		/// <param name="windowName">	 	Name of the window. </param>
+		/// <param name="newFocusObject">	(Optional) The new focus object. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void ChangeFocus(const std::string &windowName, const std::string &newFocusObject = std::string());
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// A refresh causes all styles to cascade plus a recreation of all object graphics. So slow.
+		/// </summary>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void RefreshAllWindows();
+
 	public:			
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. Must be created with screen size. </summary>
@@ -202,7 +353,7 @@ namespace HAPI_UI_SPACE
 		std::shared_ptr<Skin> GetSkin(const std::string& name) const;		
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Provides direct access to latest mouse data. </summary>
+		/// <summary>	Provides direct access to mouse data. </summary>
 		///
 		/// <returns>	The mouse data. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,21 +365,6 @@ namespace HAPI_UI_SPACE
 		/// <returns>	The mouse position. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorI GetMousePosition() const { return VectorI(m_mouseData.x, m_mouseData.y); }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Change focus window and object, leave object blank to use old one. </summary>
-		///
-		/// <param name="windowName">	 	Name of the window. </param>
-		/// <param name="newFocusObject">	(Optional) The new focus object. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void ChangeFocus(const std::string &windowName, const std::string &newFocusObject=std::string());
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// A refresh causes all styles to cascade plus a recreation of all object graphics.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void RefreshAllWindows();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Lasso functions. </summary>
@@ -248,7 +384,7 @@ namespace HAPI_UI_SPACE
 		void Hidelasso() { m_showlasso = false; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets lasso rectangle. </summary>
+		/// <summary>	Gets the lasso rectangle. </summary>
 		///
 		/// <returns>	The lasso rectangle. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,8 +412,8 @@ namespace HAPI_UI_SPACE
 		/// info on button pressed via userResponse.
 		/// </summary>
 		///
-		/// <param name="text">		   	The text. </param>
-		/// <param name="title">	   	The title. </param>
+		/// <param name="text">		   	The text int he dialog. </param>
+		/// <param name="title">	   	The title of the dialog. </param>
 		/// <param name="buttonType">  	(Optional) Type of the button. </param>
 		/// <param name="userResponse">	[in,out] (Optional) If non-null, the user response. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -286,7 +422,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Allows the viewing of a sprite and animation etc. TODO: add to documentation.
+		/// Allows the viewing of a sprite and animation etc.
 		/// </summary>
 		///
 		/// <param name="sprite">	 	The sprite. </param>
@@ -344,7 +480,7 @@ namespace HAPI_UI_SPACE
 		/// Loads skin from a file into the UI skin collection. Returns skin name or empty string on error.
 		/// </summary>
 		///
-		/// <param name="filename">	Filename of the file. </param>
+		/// <param name="filename">	Filename. </param>
 		///
 		/// <returns>	The skin name or empty string for error. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -422,7 +558,7 @@ namespace HAPI_UI_SPACE
 		/// <param name="windowName"> 	Name of the window. </param>
 		/// <param name="reportError">	(Optional) True to report error. </param>
 		///
-		/// <returns>	The window. </returns>
+		/// <returns>	The window or nullptr if does not exist. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::shared_ptr<UIWindow> GetWindow(const std::string& windowName, bool reportError=true) const;
 
@@ -497,7 +633,7 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Open window, can optionally open modally. Can also optionally position relative to another
+		/// Opens a window, can optionally open modally. Can also optionally position relative to another
 		/// window.
 		/// </summary>
 		///
@@ -600,7 +736,7 @@ namespace HAPI_UI_SPACE
 		/// Loads a UI window. If it uses a user skin and that is not already loaded it will attempt to
 		/// load it. If scale is true (default) and the resolution is different than what the UI window
 		/// was created to, then it and its skin will be scaled. To also load user data must use LoadXML
-		/// instead of this.
+		/// instead of this. The loaded window name is returned in loadedWindowName.
 		/// </summary>
 		///
 		/// <param name="xmlFilename">	   	Filename of the XML file. </param>
@@ -613,8 +749,9 @@ namespace HAPI_UI_SPACE
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Load via XML. If it uses a user skin and that is not already loaded it will attempt to load it.
-		/// Note: the name is fixed but you should provide a path.
+		/// Load via XML. If it uses a user skin and that is not already loaded it will attempt to load
+		/// it. Note: the name is fixed but you should provide a path.The loaded window name is returned
+		/// in loadedWindowName.
 		/// </summary>
 		///
 		/// <param name="xml">			   	[in,out] The XML. </param>
@@ -629,7 +766,7 @@ namespace HAPI_UI_SPACE
 		bool LoadXML(CHapiXML& xml, std::string &loadedWindowName, const std::string& skinPath, CHapiXMLNode **userData = nullptr, bool scale = true);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	As LoadXML but from a byte stream. </summary>
+		/// <summary>	As LoadXML but from a byte stream. The loaded window name is returned in loadedWindowName.</summary>
 		///
 		/// <param name="byteStream">	   	The byte stream. </param>
 		/// <param name="loadedWindowName">	[in,out] Name of the loaded window. </param>
@@ -693,122 +830,6 @@ namespace HAPI_UI_SPACE
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void OnTextEntered(char enteredText) override final;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	These handle calls to IHapiSpritesUIListener and map to each function. </summary>
-		///
-		/// <param name="object">	The object. </param>
-		/// <param name="item">  	The item. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_MenuItemClicked(const UIObject& object, const std::string& item);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener button pressed. </summary>
-		///
-		/// <param name="object">	The object. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_ButtonPressed(const UIObject& object);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener slider value changed. </summary>
-		///
-		/// <param name="object">  	The object. </param>
-		/// <param name="newValue">	The new value. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_SliderValueChanged(const UIObject& object, float newValue);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener list box item pressed. </summary>
-		///
-		/// <param name="object">   	The object. </param>
-		/// <param name="itemIndex">	Zero-based index of the item. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_ListBoxItemPressed(const UIObject& object,int itemIndex);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener radio button change state. </summary>
-		///
-		/// <param name="object"> 	The object. </param>
-		/// <param name="pressed">	True if pressed. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_RadioButtonChangeState(const UIObject& object, bool pressed);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener text clicked. </summary>
-		///
-		/// <param name="object">	The object. </param>
-		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool TellListener_TextClicked(const UIObject& object);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener canvas clicked. </summary>
-		///
-		/// <param name="object">  	The object. </param>
-		/// <param name="mousePos">	The mouse position. </param>
-		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool TellListener_CanvasClicked(const UIObject& object, VectorI mousePos);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener text entry changed. </summary>
-		///
-		/// <param name="object">	  	The object. </param>
-		/// <param name="newText">	  	The new text. </param>
-		/// <param name="beingEdited">	True if being edited. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_TextEntryChanged(const UIObject& object, const std::string& newText, bool beingEdited);		
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener window change state. </summary>
-		///
-		/// <param name="window">  	[in,out] The window. </param>
-		/// <param name="newState">	New state. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_WindowChangeState(UIWindow& window, EWindowState newState);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener window dragged sized. </summary>
-		///
-		/// <param name="window">	   	[in,out] The window. </param>
-		/// <param name="beingDragged">	True if being dragged. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_WindowDraggedSized(UIWindow& window, bool beingDragged);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener mouse clicked on object. </summary>
-		///
-		/// <param name="window">	 	[in,out] The window. </param>
-		/// <param name="objectName">	Name of the object. </param>
-		/// <param name="which">	 	The which. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_MouseClickedOnObject(UIWindow& window, const std::string& objectName, EMouseButton which);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener render. </summary>
-		///
-		/// <param name="window">			[in,out] The window. </param>
-		/// <param name="renderSurface">	[in,out] The render surface. </param>
-		/// <param name="callerName">   	Name of the caller. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_Render(UIWindow& window, std::shared_ptr<Surface> &renderSurface, const std::string& callerName);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener dial changed. </summary>
-		///
-		/// <param name="object">	The object. </param>
-		/// <param name="ratio"> 	The ratio. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_DialChanged(const UIObject& object, float ratio);
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Tell listener about an unhandled action. </summary>
-		///
-		/// <param name="window">	 	[in,out] The window. </param>
-		/// <param name="action">	 	The action. </param>
-		/// <param name="lastAction">	The last action. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TellListener_UnhandledAction(UIWindow& window, EInputMappingAction action,EInputMappingAction lastAction);		
+		
 	};
 }

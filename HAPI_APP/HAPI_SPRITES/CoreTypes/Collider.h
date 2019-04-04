@@ -23,6 +23,15 @@ namespace HAPISPACE {
 		ePixelPerfectPass
 	};
 
+	inline bool CollisionResultNoCollision(ECollisionResult result)
+	{
+		if (result == ECollisionResult::eBoundingFail ||
+			result == ECollisionResult::eOneOfFail ||
+			result == ECollisionResult::ePixelPerfectFail)
+			return true;
+		return false;
+	}
+
 	/// <summary>	Information about the relevant test that resulted in ECollisionResult. </summary>
 	enum class ECollisionShapeType
 	{		
@@ -32,6 +41,7 @@ namespace HAPISPACE {
 		eCircleRect, // as above but this circle with other rect
 		ePixel
 	};
+	
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>
@@ -72,8 +82,8 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// If checking via ColliderComponent this is filled in automatically for you Required to
-		/// calculate collision data when calculateCollisionData is true (but not when
+		/// If checking via ColliderComponent this is filled in automatically for you.
+		/// Required to calculate collision data when calculateCollisionData is true (but not when
 		/// enablePixelPerfectCollisions is true)
 		/// Should be formed from the last position and the new position of the entity.
 		/// </summary>
@@ -168,7 +178,7 @@ namespace HAPISPACE {
 			case ECollisionResult::eOneOfFail:
 				return "One Of Fail";
 			case ECollisionResult::eOneOfPass:
-				return "One Of Fail";
+				return "One Of Pass";
 			case ECollisionResult::ePixelPerfectFail:
 				return "Pixel Perfect Fail";
 			case ECollisionResult::ePixelPerfectPass:

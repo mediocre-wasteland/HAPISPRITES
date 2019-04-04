@@ -77,12 +77,8 @@ bool Entity::CanCollide(Entity & other)
 	{
 		return false;
 	}
-	else 
-	{
-		return true;
-	}
 	
-	
+	return true;
 }
 
 void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMap)
@@ -91,17 +87,16 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 
 	for (auto &Other : myMap)
 	{
-
 		//Check if both sprites are alive
 		if (!IsAlive() || !Other.second->IsAlive())
 		{
-			return;
+			continue;
 		}
 
 		//Check if both sides can collide (e.g. can collide if not on the same side)
 		if (!CanCollide(*Other.second))
 		{
-			return;
+			continue;
 		}
 
 		if (sprite->CheckCollision(*Other.second->GetSprite(), &collision))
@@ -109,7 +104,7 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 			isColliding = true;
 			Other.second->isColliding = true;
 
-			return;
+			continue;
 		}
 	}
 
@@ -172,7 +167,7 @@ void Entity::MovementCollision()
 		}
 
 		//ANIMATION
-		if (Velocity.x > 0)
+		if (Velocity.x > 0 && Velocity.y == 0)
 		{
 			if (sprite->GetFrameSetName() != "RunRight")
 			{
@@ -180,7 +175,7 @@ void Entity::MovementCollision()
 			}
 		}
 
-		if (Velocity.x < 0)
+		if (Velocity.x < 0 && Velocity.y == 0)
 		{
 			if (sprite->GetFrameSetName() != "RunLeft")
 			{
@@ -188,7 +183,7 @@ void Entity::MovementCollision()
 			}
 		}
 
-		if (Velocity.x == 0)
+		if (Velocity.x == 0 && Velocity.y == 0)
 		{
 			if (sprite->GetFrameSetName() != "Idle")
 			{
@@ -198,9 +193,9 @@ void Entity::MovementCollision()
 
 		if (Velocity.y != 0)
 		{
-			if (sprite->GetFrameSetName() != "Idle")
+			if (sprite->GetFrameSetName() != "JumpRight")
 			{
-				sprite->SetAutoAnimate(10, true, "Idle");
+				sprite->SetAutoAnimate(3, true, "JumpRight");
 			}
 		}
 
@@ -242,8 +237,7 @@ void Entity::MovementCollision()
 			}
 			else
 			{
-				float test = (mPosition - newPosition).LengthSquared();
-				if (test < 72.0f)
+				if ((mPosition - newPosition).LengthSquared() < 72.0f)
 				{
 					mPosition = newPosition;
 					done = true;
@@ -254,6 +248,18 @@ void Entity::MovementCollision()
 					mPosition += dir;
 				}
 			}
+		}
+
+		if (mPosition.x < 0)
+		{
+			mPosition.x = 0;
+			Velocity = 0;
+		}
+		
+		if (mPosition.x + sprite->FrameWidth() >= SCREEN_SURFACE->Width())
+		{
+			mPosition.x = (float)(SCREEN_SURFACE->Width() - sprite->FrameWidth() - 1);
+			Velocity = 0;
 		}
 
 		sprite->GetTransformComp().SetPosition(mPosition);

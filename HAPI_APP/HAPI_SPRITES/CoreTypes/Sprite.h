@@ -101,16 +101,17 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// Checks for collision with rectangular area and this sprite's solid pixels. From 0.85 works on
-		/// oriented rectangles not just AA
+		/// oriented rectangles not just AA.
 		/// </summary>
 		///
 		/// <param name="rectArea">			The rectangle area. </param>
+		/// <param name="lineDir">			The line dir. </param>
 		/// <param name="collisionInfo">	[in,out] (Optional) If non-null, information describing the
 		/// 								collision. </param>
 		///
 		/// <returns>	True if a collision occurred. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool CheckPixelCollision(const RectangleOrientedF& rectArea, CollisionInfo *collisionInfo = nullptr) const;
+		bool CheckPixelCollision(const RectangleOrientedF& rectArea, const LineF& movementLine, CollisionInfo *collisionInfo = nullptr) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
@@ -142,7 +143,7 @@ namespace HAPISPACE {
 		///
 		/// <returns>	True if a collision occurred. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		bool RotatedScaledCollisionCheck(const RectangleOrientedF& otherRect, CollisionInfo *collisionInfo = nullptr) const;
+		bool RotatedScaledCollisionCheck(const RectangleOrientedF& otherRect, const LineF& movementLine, CollisionInfo *collisionInfo = nullptr) const;
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. A sprite must be created with an attached spriteSheet. </summary>

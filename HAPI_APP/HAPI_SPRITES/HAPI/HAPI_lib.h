@@ -10,8 +10,8 @@ Last modified by Keith Ditchburn: August 2019
 
 Version 2.52 ON GOING
 =====================
-
-
+- added VSync option to initialisation flags to allow vertical sync to be set
+- added LimitFrameRate function
 
 Version 2.51 28/01/19
 =====================
@@ -252,6 +252,9 @@ namespace HAPISPACE {
 
 		// Version as a string
 		virtual std::string GetVersion() const = 0;
+
+		// Limit the frame rate
+		virtual void LimitFrameRate(int framesPerSecondLimit) const = 0;
 
 		// Deprecated: Use cout or cerr instead
 		[[deprecated]]

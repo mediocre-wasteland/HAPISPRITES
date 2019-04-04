@@ -40,21 +40,21 @@ namespace HAPISPACE {
 	///
 	/// <param name="x">	Value in degrees. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	#define DEGREES_TO_RADIANS(x) (x * M_PI/180.0f)
+	#define DEGREES_TO_RADIANS(x) ((x) * M_PI/180.0f)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Convert radians to degrees. </summary>
 	///
 	/// <param name="x">	Value in radians. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	#define RADIANS_TO_DEGREES(x) (x * 180.0f/M_PI)
+	#define RADIANS_TO_DEGREES(x) ((x) * 180.0f/M_PI)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// <summary>	Round float to nearest int. </summary>
 	///
 	/// <param name="f">	A float. </param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	#define ROUND_FLOAT_TO_INT(f) ((int)(f >= 0.0f ? (f + 0.5f) : (f - 0.5f)))
+	#define ROUND_FLOAT_TO_INT(f) ((int)((f) >= 0.0f ? ((f) + 0.5f) : ((f) - 0.5f)))
 
 	/// <summary>	Aliases to types from the underlying HAPI library. </summary>
 	using EMessageButtonType = HAPI_ButtonType;
@@ -92,7 +92,7 @@ namespace HAPISPACE {
 		eHSFullscreen = 1 << 0,
 		eHSSoftware = 1 << 1,		// SW rendering only - no HW supprot
 		eHSEnableUI = 1 << 2,		// Enables the UI system
-		eHSReserved2 = 1 << 3
+		eHSVSync = 1 << 3			// Turns on VSync (will also depend on driver settings)
 	};
 
 	/// <summary>	Each of the internal apps. </summary>
@@ -101,7 +101,7 @@ namespace HAPISPACE {
 		eSpriteEditor,
 		eSkinEditor,
 		eUiEditor
-	//	eMapEditor
+	//	eMapEditor // Not currently enabled
 	};
 	
 	/// <summary>	Used in many places to define relative directions. </summary>
@@ -175,7 +175,9 @@ namespace HAPISPACE {
 		virtual void OnMouseEvent(EMouseEvent mouseEvent, const MouseData& mouseData) = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Non virtual as may not want to implement - gets a lot of calls. </summary>
+		/// <summary>
+		/// Called on a mouse move. Non virtual as may not want to implement - gets a lot of calls.
+		/// </summary>
 		///
 		/// <param name="mouseData">	Information describing the mouse state. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -229,17 +231,17 @@ namespace HAPISPACE {
 	/// <summary>	Returned when calling SplitFilename. </summary>
 	struct FilenameParts
 	{
-		/// <summary>	Full pathname of the file. </summary>
+		/// <summary>	Full path of the file. </summary>
 		std::string path;
 		/// <summary>	The root. </summary>
 		std::string root;
-		/// <summary>	Pathname of the root directory. </summary>
+		/// <summary>	Path of the root directory. </summary>
 		std::string rootDirectory;
-		/// <summary>	Full pathname of the relative file. </summary>
+		/// <summary>	Relative path. </summary>
 		std::string relativePath;
 		/// <summary>	Just the filename. </summary>
 		std::string filename;
-		/// <summary>	The stem. </summary>
+		/// <summary>	The stem (without the extension). </summary>
 		std::string stem;
 		/// <summary>	The filename extension. </summary>
 		std::string extension;
@@ -248,25 +250,45 @@ namespace HAPISPACE {
 	/// <summary>	A surface can be one of these types. </summary>
 	enum class ESurfaceType
 	{		
-		eNormal,			// when using draw calls it is done in SW, but when blitted to a hardware surface uses HW		
-		eHWRenderSurface,	// draw calls done in HW. Specifically for doing special effects		
-		eHWScreen			// draw calls done in HW and is a direct representation of the screen, only one of these
+		/// <summary> when using draw calls it is done in SW, but when blitted to a hardware surface uses HW	</summary>
+		eNormal,			
+		/// <summary> draw calls done in HW. Specifically for doing special effects		</summary>
+		eHWRenderSurface,
+		/// <summary>draw calls done in HW and is a direct representation of the screen, only one of these	</summary>
+		eHWScreen
 	};
 
 	/// <summary>	Blending modes for draw operations (more will be added) </summary>
 	enum class EBlendMode
 	{
-		eReplace,			// result = source
-		eAlphaBlend,		// result = alpha * source + (1 - alpha) * dest, this is normal alpha blending
-		eAlphaDestBlend,	// As above but source alpha is first modulated by destination alpha, useful for masks etc.
-		eDifference,		// This is source colour - destination colour e.g. source as white inverts dest
-		eUseLambda			// Use provided lambda
+		/// <summary>	result = source. </summary>
+		eReplace,
+
+		/// <summary>
+		/// result = alpha * source + (1 - alpha) * dest, this is normal alpha blending.
+		/// </summary>
+		eAlphaBlend,
+
+		/// <summary>
+		/// As above but source alpha is first modulated by destination alpha, useful for masks etc.
+		/// </summary>
+		eAlphaDestBlend,
+
+		/// <summary>
+		/// This is source colour - destination colour e.g. source as white inverts dest.
+		/// </summary>
+		eDifference,
+
+		/// <summary>	Use provided lambda. </summary>
+		eUseLambda
 	};
 
 	/// <summary>	Filters. </summary>
 	enum class EFilter
 	{
+		/// <summary>	Simply takes nearest texel. </summary>
 		eNearest,
+		/// <summary>	Carried out bilinear filtering around the non-integer texel coordinate. </summary>
 		eBilinear
 		// eBicubic = TODO
 	};
@@ -274,9 +296,15 @@ namespace HAPISPACE {
 	/// <summary>	Dial / listbox layout flags. </summary>
 	enum class ELayout
 	{
-		eOff,		// Not shown
-		eInside,	// Shown on inside of dial border. Rotates with dial.
-		eOutside	// Shown out outisde of dial border. Fixed.
+
+		/// <summary>	Not shown. </summary>
+		eOff,
+
+		/// <summary>	Shown on inside of dial border. Rotates with dial. </summary>
+		eInside,
+
+		/// <summary>	Shown out outisde of dial border. Fixed. </summary>
+		eOutside
 	};
 
 	/// <summary>	Dial / listbox points and labels definition. </summary>
@@ -288,16 +316,12 @@ namespace HAPISPACE {
 		/// <summary>	If markersForPoints true, determines how many points per marker. </summary>
 		int numPointsPerMarker{ 45 };
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Can be derived from the above. </summary>
-		///
-		/// <returns>	The number of markers. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	The number of markers derived from the above. </summary>
 		int GetNumMarkers() const { return numPoints / numPointsPerMarker; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Labels can be placed on markers, the point value is which point to label The key is the index of
+		/// Labels can be placed on markers, the point value is which point to label. The key is the index of
 		/// the marker and must be &lt; GetNumMarkers()
 		/// Does not need to be one per marker could have just start and end etc.
 		/// </summary>
@@ -317,7 +341,7 @@ namespace HAPISPACE {
 		ELayout pointerLayout{ ELayout::eInside };
 		/// <summary>	Determines if marks should be placed on each numPointsPerMarker points. </summary>
 		ELayout markersLayout{ ELayout::eInside };
-		/// <summary>	Determines if labels should be placed. </summary>
+		/// <summary>	Determines where labels should be placed. </summary>
 		ELayout labelsLayout{ ELayout::eOutside };		
 		/// <summary>	Rotation start angle. 0 is bottom. In Radians. </summary>
 		float startAngle{ 0 };
@@ -350,7 +374,7 @@ namespace HAPISPACE {
 		bool asWindowScrollbar{ false };
 	};
 
-	/// <summary>	Fill shaders. </summary>
+	/// <summary>	Fill shader types. </summary>
 	enum class FillShaderTypes
 	{
 		eColour,
@@ -376,7 +400,7 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// Must be able to retrieve a colour from any position within bounds. Position is guaranteed to
+		/// Retrieve a colour from any position within bounds. Position is guaranteed to
 		/// be within bounds. Returned colour is blended already with destination.
 		/// </summary>
 		///
@@ -393,7 +417,7 @@ namespace HAPISPACE {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
 		/// A colour that is modulated with the calculated colour before being returned from every
-		/// subsequent GetColour call (or a GetFilledSurface call)
+		/// subsequent GetColour call (or a GetFilledSurface call).
 		/// Note: only the last pushed colour is used.
 		/// </summary>
 		///
@@ -409,7 +433,7 @@ namespace HAPISPACE {
 		///
 		/// <param name="col">	The colour. </param>
 		///
-		/// <returns>	A Colour255. </returns>
+		/// <returns>	The resultant colour. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Colour255 Modulate(Colour255 col) const;
 
@@ -427,7 +451,7 @@ namespace HAPISPACE {
 		std::shared_ptr<Surface> GetFilledSurface(int width, int height) const;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Does not save modulation colour. </summary>
+		/// <summary>	Saves the shader. Note: does not save modulation colour. </summary>
 		///
 		/// <param name="parent">	[in,out] If non-null, the parent. </param>
 		///
@@ -443,13 +467,13 @@ namespace HAPISPACE {
 		virtual std::shared_ptr<FillShader> Clone() const = 0;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets fill shader type. </summary>
+		/// <summary>	Gets the fill shader type. </summary>
 		///
 		/// <returns>	The fill shader type. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual FillShaderTypes GetFillShaderType() const noexcept = 0;
 
-		/// <summary>	For editor use when changed values directly. </summary>
+		/// <summary>	For editor use when it has changed values directly. </summary>
 		void ClearCache();
 	};
 
@@ -796,7 +820,7 @@ namespace HAPISPACE {
 		bool m_useBilinear;
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. If area invalid whole surface used</summary>
+		/// <summary>	Constructor. If area invalid the whole surface is used</summary>
 		///
 		/// <param name="surfaceFilename">	Filename of the surface file. </param>
 		/// <param name="mode">			  	(Optional) The mode. </param>
@@ -807,6 +831,13 @@ namespace HAPISPACE {
 			EImageFillMode mode=EImageFillMode::eAsIs,bool useBilinear=true, RectangleI area = RectangleI());
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Allows Read access to the underlying surface. </summary>
+		///
+		/// <returns>	The surface. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		const Surface& GetSurface() const { return *m_surface; }
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>	Constructor. </summary>
 		///
 		/// <param name="xml">		   	[in,out] The XML. </param>
@@ -815,14 +846,14 @@ namespace HAPISPACE {
 		ImageFill(CHapiXML &xml, CHapiXMLNode *gradientNode);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the mode. </summary>
+		/// <summary>	Gets the fill mode. </summary>
 		///
 		/// <returns>	The mode. </returns>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EImageFillMode GetMode() const { return m_mode; }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Change mode. </summary>
+		/// <summary>	Change fill mode. </summary>
 		///
 		/// <param name="newMode">	The new mode. </param>
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -846,8 +877,10 @@ namespace HAPISPACE {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// <summary>
-		/// If bounds bigger than surface then what happens depends on mode: eAsIs - returns ZERO colour
-		/// eScale - scales surface to bounds eTile - tiles across bounds.
+		/// If bounds bigger than surface then what happens depends on mode: 
+		/// eAsIs - returns ZERO colour
+		/// eScale - scales surface to bounds 
+		/// eTile - tiles across bounds.
 		/// </summary>
 		///
 		/// <param name="position">  	The position. </param>

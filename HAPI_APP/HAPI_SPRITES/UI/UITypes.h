@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // file:	UITypes.h
 //
-// summary:	Types used throughout the UI and required headers
+// summary:	Types used throughout the UI and required library headers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
@@ -68,7 +68,7 @@ namespace HAPI_UI_SPACE
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Query if 'action' is direction. </summary>
+	/// <summary>	Query if 'action' is a direction action. </summary>
 	///
 	/// <param name="action">	The action. </param>
 	///
@@ -114,11 +114,23 @@ namespace HAPI_UI_SPACE
 	/// <summary>	Values that represent gaps. </summary>
 	enum class EGap
 	{
-		eUnmapped,	// Uses 0
-		eMargin,	// Uses margin size from skin
-		eTight,		// Uses half of skin object gap value
-		eNormal,	// Uses skin object gap value e.g. either horizontalObjectGap or verticalObjectGap	
-		eLoose		// Uses 2 * skin object gap value
+
+		/// <summary>	Uses 0. </summary>
+		eUnmapped,
+
+		/// <summary>	Uses margin size from skin. </summary>
+		eMargin,
+
+		/// <summary>	Uses half of skin object gap value. </summary>
+		eTight,
+
+		/// <summary>
+		/// Uses skin object gap value e.g. either horizontalObjectGap or verticalObjectGap.
+		/// </summary>
+		eNormal,
+
+		/// <summary>	Uses 2 * skin object gap value. </summary>
+		eLoose
 	};
 
 	/// <summary>	Values that represent an axis. </summary>
@@ -132,13 +144,18 @@ namespace HAPI_UI_SPACE
 	/// <summary>	Values that represent alignments. </summary>
 	enum class EAlignment
 	{
-		// Aligns minimum of object to other object
-		eAlignMinToMin,	// E.g. if to the East means align top to the top, if South means align left to left		
+
+		/// <summary>
+		/// Aligns minimum of object to other object
+		/// E.g. if to the East means align top to the top, if South means align left to left.
+		/// </summary>
+		eAlignMinToMin,
 		eAlignMinToMax,
-		// Middles to middles
+		/// <summary> Middles to middles </summary>
 		eAlignMidToMid,
-		// Aligns maximum of object to other object
-		eAlignMaxToMin,	// E.g. if to the East means align bottom to the top, if South means align right to left
+		/// <summary> Aligns maximum of object to other object 
+		///  E.g. if to the East means align bottom to the top, if South means align right to left</summary>
+		eAlignMaxToMin,	
 		eAlignMaxToMax
 	};
 
@@ -147,9 +164,18 @@ namespace HAPI_UI_SPACE
 	{
 		eClosed,
 		eOpen,
-		eDisabled, // visible but cannot interact with - has a grayed out appearance
-		eMinimised, // just short bar visible
-		eEditorDisabled // for use by editor only. Window is visible but not greyed out and object pressed listener messages still sent
+
+		/// <summary>	visible but cannot interact with - has a grayed out appearance. </summary>
+		eDisabled,
+
+		/// <summary>	just short bar visible. </summary>
+		eMinimised,
+
+		/// <summary>
+		/// for use by editor only. Window is visible but not greyed out and object pressed listener
+		/// messages still sent.
+		/// </summary>
+		eEditorDisabled
 	};
 
 	/*
@@ -172,7 +198,7 @@ namespace HAPI_UI_SPACE
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	Object type to string. </summary>
+	/// <summary>	Object type to string helper. </summary>
 	///
 	/// <param name="type">	The type. </param>
 	///
@@ -240,7 +266,7 @@ namespace HAPI_UI_SPACE
 			eBorder = 1 << 0,			 // Border
 			eTitleText = 1 << 1,		 // If set creates a title bar
 			eClose = 1 << 2,			 // If set creates a close box
-			eMinimise = 1 << 3,
+			eMinimise = 1 << 3,			 // Adds a minimise button
 			eMenuBar = 1 << 4,			 // Adds room for a menu
 			eUserDraw = 1 << 5,			 // If set listeners render gets called and no background colour drawn
 			eSystem = 1 << 6,			 // This is owner draw and no adornments, close, size etc.
@@ -358,8 +384,6 @@ namespace HAPI_UI_SPACE
 			return "Shape";
 		case ESkinStyle::eScroller:
 			return "Scroller";
-		//case ESkinStyle::eWindowDialog:
-		//	return "Dialog Window";
 		default:
 			break;
 		}
