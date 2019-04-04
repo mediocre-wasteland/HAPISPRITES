@@ -171,6 +171,7 @@ void Entity::MovementCollision()
 		{
 			if (sprite->GetFrameSetName() != "RunRight")
 			{
+				mDirection = eDirection::eRight;
 				sprite->SetAutoAnimate(10, true, "RunRight");
 			}
 		}
@@ -179,7 +180,26 @@ void Entity::MovementCollision()
 		{
 			if (sprite->GetFrameSetName() != "RunLeft")
 			{
+				mDirection = eDirection::eLeft;
 				sprite->SetAutoAnimate(10, true, "RunLeft");
+			}
+		}
+
+		if (Velocity.y < 0 && Velocity.x > 0)
+		{
+			if (sprite->GetFrameSetName() != "JumpRight")
+			{
+				mDirection = eDirection::eRight;
+				sprite->SetAutoAnimate(3, true, "JumpRight");
+			}
+		}
+
+		if (Velocity.y < 0 && Velocity.x < 0)
+		{
+			if (sprite->GetFrameSetName() != "JumpLeft")
+			{
+				mDirection = eDirection::eLeft;
+				sprite->SetAutoAnimate(3, true, "JumpLeft");
 			}
 		}
 
@@ -188,14 +208,6 @@ void Entity::MovementCollision()
 			if (sprite->GetFrameSetName() != "Idle")
 			{
 				sprite->SetAutoAnimate(10, true, "Idle");
-			}
-		}
-
-		if (Velocity.y != 0)
-		{
-			if (sprite->GetFrameSetName() != "JumpRight")
-			{
-				sprite->SetAutoAnimate(3, true, "JumpRight");
 			}
 		}
 
