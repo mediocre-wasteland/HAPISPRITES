@@ -55,13 +55,16 @@ void PlayerEntity::ShootLG()
 void PlayerEntity::Update()
 {
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
-	MovementCollision();
+
+	PlayerMovementCollision();
+
 	//SHOOT
 	if (mKeyboardInput.scanCode['F'] && mLGAmmo > 0 && updatesSinceLGlastFired >= LGCooldownUpdates)// Couldn't come up with a key so press f to shoot respect
 	{
 		ShootLG();
 		updatesSinceLGlastFired = 0;
 	}
+
 	if (updatesSinceLGlastFired < LGCooldownUpdates)
 	{
 		updatesSinceLGlastFired++;
@@ -74,11 +77,19 @@ void PlayerEntity::Render()
 	{
 		sprite->Render(SCREEN_SURFACE);
 	}
-	HAPI_Sprites.RenderText({ 10, 40 }, Colour255::BLACK, "Money : " + std::to_string(mMoneyAmount));
 
-	HAPI_Sprites.RenderText(10, 60, Colour255::BLACK, "Ammo : " + std::to_string(mLGAmmo));
+	HAPI_Sprites.RenderText(SCREEN_SURFACE->Width() / 2, 40 , Colour255::BLACK, "Money : " + std::to_string(mMoneyAmount));
+	HAPI_Sprites.RenderText(SCREEN_SURFACE->Width() / 2, 60, Colour255::BLACK, "Ammo : " + std::to_string(mLGAmmo));
+	HAPI_Sprites.RenderText(SCREEN_SURFACE->Width() / 2, 80, Colour255::BLACK, "Key : " + std::to_string(mHasKey));
 
-	HAPI_Sprites.RenderText(10, 80, Colour255::BLACK, "Key : " + std::to_string(mHasKey));
+	//TEST TEXT
+	HAPI_Sprites.RenderText({ 0,20 }, Colour255::BLACK, "Acc: " + acceleration.ToString());
+	HAPI_Sprites.RenderText({ 0,40 }, Colour255::BLACK, "Vel: " + Velocity.ToString());
+	HAPI_Sprites.RenderText({ 0,60 }, Colour255::BLACK, "Pos: " + mPosition.ToString());
+	HAPI_Sprites.RenderText({ 0,80 }, Colour255::BLACK, "On Ground: " + std::to_string(mIsOnGround));
+	HAPI_Sprites.RenderText({ 0,100 }, Colour255::BLACK, "Local pos: " + mLastCollidedCollisionInfo.thisLocalPos.ToString());
+	HAPI_Sprites.RenderText({ 0,120 }, Colour255::BLACK, "Is Travelling Up: " + std::to_string(isTravellingUp));
+
 
 	SCREEN_SURFACE->DrawFilledCircle({ mLastCollidedCollisionInfo.screenPos, 4 }, ColourFill(Colour255::RED));
 
@@ -91,14 +102,14 @@ void PlayerEntity::Render()
 		int y{ 20 };
 		int gap{ 15 };
 
-		HAPI_Sprites.RenderText({ x, y }, Colour255::WHITE, "Last result: " + CollisionInfo::CollisionResultToString(mLastCollidedCollisionInfo.result) +
+		HAPI_Sprites.RenderText({ x, y }, Colour255::BLACK, "Last result: " + CollisionInfo::CollisionResultToString(mLastCollidedCollisionInfo.result) +
 			" Type: " + CollisionInfo::CollisionShapeTypeToString(mLastCollidedCollisionInfo.type));
 		y += gap;
 
-		HAPI_Sprites.RenderText({ x, y }, Colour255::WHITE, "Between colliders: " + mLastCollidedCollisionInfo.thisColliderName + " and " + mLastCollidedCollisionInfo.otherColliderName);
+		HAPI_Sprites.RenderText({ x, y }, Colour255::BLACK, "Between colliders: " + mLastCollidedCollisionInfo.thisColliderName + " and " + mLastCollidedCollisionInfo.otherColliderName);
 		y += gap;
 
-		HAPI_Sprites.RenderText({ x, y }, Colour255::WHITE, "This local pos: " + mLastCollidedCollisionInfo.thisLocalPos.ToString());
+		HAPI_Sprites.RenderText({ x, y }, Colour255::BLACK, "This local pos: " + mLastCollidedCollisionInfo.thisLocalPos.ToString());
 		y += gap;
 	}
 }

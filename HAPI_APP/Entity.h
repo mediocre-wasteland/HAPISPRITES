@@ -37,7 +37,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render();
 	bool LoadSprite();
-	void CheckCollision(std::unordered_map < std::string, Entity* > &otherMap);
+	void CheckCollision(std::unordered_map < std::string, Entity* >& otherMap);
 
 	virtual eDirection GetDirection() const = 0;
 	virtual eSide GetSide() const = 0;
@@ -54,18 +54,24 @@ public:
 
 	CollisionInfo collision;
 
-	void MovementCollision();
+	void PlayerMovementCollision();
 
 	std::unordered_map < std::string, Entity* > myMap;
+
+	bool isTravellingUp{ false };
+	bool done{ false };
+	VectorF beforeCollisionPosition{ mOldPosition };
+	VectorF dir{ newPosition - mOldPosition };
+	VectorF newPosition{ mPosition + Velocity };
 
 protected:
 
 	VectorF mPosition{ 80.f,450.f };
 	VectorF mOldPosition{ 0.f ,0.f };
 
-	const DWORD MoveTime{ 20 };
-	DWORD timeSinceLastMove{ HAPI_Sprites.GetTime() - 16 };
-	float deltaTimeS;
+	const DWORD TimeBetweenUpdates{ 20 };
+	DWORD timeSinceLastUpdate{ HAPI_Sprites.GetTime() - 16 };
+	float deltaTimeS{ 0 };
 	bool mIsOnGround{ false };
 	VectorF Gravity{ 0, 9.81f };
 	VectorF Velocity{ 0, 0 };

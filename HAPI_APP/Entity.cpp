@@ -83,9 +83,7 @@ bool Entity::CanCollide(Entity & other)
 
 void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMap)
 {
-	myMap = otherMap;
-
-	for (auto &Other : myMap)
+	for (auto &Other : otherMap)
 	{
 		//Check if both sprites are alive
 		if (!IsAlive() || !Other.second->IsAlive())
@@ -99,7 +97,7 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 			continue;
 		}
 
-		if (sprite->CheckCollision(*Other.second->GetSprite(), &collision))
+		if (sprite->CheckCollision(*Other.second->GetSprite(), &collision) && collision.result == ECollisionResult::ePixelPerfectPass)
 		{
 			isColliding = true;
 			Other.second->isColliding = true;
@@ -111,34 +109,47 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 	return;
 }
 
-void Entity::MovementCollision()
+void Entity::PlayerMovementCollision()
 {
+	//GET THE PLAYER POSITION FOR CAMERA MOVEMENT
 	mPosition = sprite->GetTransformComp().GetPosition();
 
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
 	//PHYSICS LOOP
-	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastMove };
-	if (deltaTimeMS >= MoveTime)
+	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastUpdate };
+	if (deltaTimeMS >= TimeBetweenUpdates)
 	{
 		deltaTimeS = 0.001f * deltaTimeMS;
-		timeSinceLastMove = HAPI_Sprites.GetTime();
-
+		timeSinceLastUpdate = HAPI_Sprites.GetTime();
 
 		if (!mIsOnGround)
 		{
 			Velocity.x = Velocity.x;
+
+			//ALLOW MOVE LEFT / RIGHT WHEN IN AIR
+			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
+			{
+				Velocity.x = 4;
+			}
+			else if (mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])
+			{
+				Velocity.x = -4;
+			}
+			else
+			{
+				Velocity.x = 0;
+			}
 		}
 		else
 		{
-			//JUMP IF ON GROUND
+			//ALLOW PLAYER TO JUMP IF ON GROUND
 			if (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])
 			{
 				Velocity.y -= 10;
-				mIsOnGround = false;
 			}
 
-			//MOVE LEFT / RIGHT
+			//ALLOW MOVE LEFT / RIGHT WHEN ON GROUND
 			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
 			{
 				Velocity.x = 4;
@@ -211,6 +222,7 @@ void Entity::MovementCollision()
 			}
 		}
 
+		//COLLISION CHECKS
 		VectorF dir{ newPosition - mOldPosition };
 		dir.Normalize();
 
@@ -223,6 +235,16 @@ void Entity::MovementCollision()
 			mPosition += dir;
 		}
 
+		//CHECK IF PLAYER IS MOVING UP
+		if (Velocity.y >= 0)
+		{
+			isTravellingUp = false;
+		}
+		else if (Velocity.y < 0 && mIsOnGround == false)
+		{
+			isTravellingUp = true;
+		}
+
 		while (!done && !dir.IsZero())
 		{
 			mIsOnGround = false;
@@ -233,15 +255,18 @@ void Entity::MovementCollision()
 
 			if (this->isColliding)
 			{
-				Velocity = 0;
-				mPosition = beforeCollisionPosition + collision.normal;
-
-				mIsOnGround = true;
-
-				if (collision.normal.y > 0)
+				if (isTravellingUp == true)
 				{
-					mIsOnGround = false;
+					//MOVES THE PLAYER DOWN
+					collision.normal.y = 1;
 				}
+				else if (isTravellingUp == false)
+				{
+					Velocity = 0;
+					mIsOnGround = true;
+				}
+
+				mPosition = beforeCollisionPosition + collision.normal;
 
 				mLastCollidedCollisionInfo = collision;
 
@@ -259,9 +284,15 @@ void Entity::MovementCollision()
 					beforeCollisionPosition = mPosition;
 					mPosition += dir;
 				}
+
+				if (Velocity.y > 0)
+				{
+					isTravellingUp = false;
+				}
 			}
 		}
 
+		//CHECK IF PLAYER IS OFF SCREEN
 		if (mPosition.x < 0)
 		{
 			mPosition.x = 0;
@@ -277,7 +308,8 @@ void Entity::MovementCollision()
 		sprite->GetTransformComp().SetPosition(mPosition);
 
 		mOldPosition = mPosition;
-	}
 
-	isColliding = false;
+		//isTravellingUp = false;
+		isColliding = false;
+	}
 }

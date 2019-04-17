@@ -135,12 +135,13 @@ void World::Update()
 			((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorPushBack((BulletEntity*)mEntityMap.at(name));
 			((BulletEntity*)mEntityMap.at(name))->Update(mEnemies);
 		}
+
 		mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
+
 		for (auto &p : mEntityMap)
 		{
 			p.second->Update();
 		}
-
 
 		for (auto &p : mGameMap.GetCollectables())
 		{
@@ -152,6 +153,7 @@ void World::Update()
 		if (currentLevel != mGameMap.GetLevel())
 		{
 			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
+			mEntityMap["Player"]->isTravellingUp = false;
 			currentLevel = mGameMap.GetLevel();
 		}
 
@@ -181,27 +183,6 @@ void World::CheckCollision()
 		p.second->CheckCollision(mEntityMap);
 		p.second->CheckCollision(mGameMap.GetObstacles());
 	}
-
-	//for (auto &p : mEntityMap)
-	//{
-	//	for (auto &s : mEntityMap)
-	//	{
-	//		p.second->CheckCollision(*s.second);
-	//	}
-	//}
-
-	//for (auto &p : mEntityMap)
-	//{
-	//	for (auto &s : mGameMap.GetObstacles())
-	//	{
-	//		p.second->CheckCollision(*s.second);
-	//	}
-	//}
-	//
-	//for (auto &p : mGameMap.GetCollectables())
-	//{
-	//	mEntityMap.at("Player")->CheckCollision(*p.second);
-	//}
 }
 
 void World::UpdateCamera()
