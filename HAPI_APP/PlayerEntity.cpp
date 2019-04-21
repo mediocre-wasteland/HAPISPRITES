@@ -61,6 +61,7 @@ void PlayerEntity::Update()
 	//SHOOT
 	if (mKeyboardInput.scanCode['F'] && mLGAmmo > 0 && updatesSinceLGlastFired >= LGCooldownUpdates)// Couldn't come up with a key so press f to shoot respect
 	{
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//LoveGun.wav");
 		ShootLG();
 		updatesSinceLGlastFired = 0;
 	}
@@ -68,6 +69,10 @@ void PlayerEntity::Update()
 	if (updatesSinceLGlastFired < LGCooldownUpdates)
 	{
 		updatesSinceLGlastFired++;
+		if (mKeyboardInput.scanCode['F'])
+		{
+			HAPI_Sprites.PlaySound((std::string)"Data//Sounds//ErrorSound.wav");
+		}
 	}
 }
 

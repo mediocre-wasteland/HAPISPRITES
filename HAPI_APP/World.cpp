@@ -14,6 +14,18 @@ World::~World()
 }
 
 //Public
+bool World::LoadSounds()
+{
+	//loads sounds 
+	//may not actually need this as sounds seem to load on play
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//LoveGunEffect.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load LOVEGUNEFFECT.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	return true;
+}
+
 bool World::Initialise()
 {
 
@@ -34,6 +46,15 @@ bool World::Initialise()
 		HAPI_Sprites.UserMessage("Failed to Load Sprites", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
+	if (!LoadSounds())
+	{
+		HAPI_Sprites.UserMessage("Failed to Load Sounds", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	options.loop = true;
+	options.volume = 0.5;
+	HAPI_Sprites.PlayStreamedMedia((std::string)"Data\\Sounds\\Waves.wav", options, instanceID, 0.0f);
 
 	if (!LoadWorld())
 	{

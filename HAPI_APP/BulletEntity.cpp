@@ -5,6 +5,7 @@
 BulletEntity::BulletEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = false;
+	mSide = eSide::eBullet;
 	//sprite->GetTransformComp().SetPosition(VectorF(-10.f, -10.f));
 }
 
@@ -39,8 +40,9 @@ void BulletEntity::Update(std::vector<EnemyEntity*> enemies)
 		//return;
 	}
 
-	//if (isColliding)
-	//{
+	if (isColliding)
+	{
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//LoveGunEffect.wav");
 	//	for (int i = 0; i < enemies.size(); i++)
 	//	{
 	//		if (enemies[i]->isCollidingWith(*this, eSide::eBullet))
@@ -49,5 +51,7 @@ void BulletEntity::Update(std::vector<EnemyEntity*> enemies)
 	//			mAlive = false;
 	//		}
 	//	}
-	//}
+		mAlive = false;
+		isColliding = false;
+	}
 }

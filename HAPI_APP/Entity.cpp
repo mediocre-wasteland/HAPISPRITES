@@ -73,7 +73,11 @@ bool Entity::CanCollide(Entity & other)
 		return false;
 	}
 
-	if ((xEntity == eSide::eBullet && yEntity != eSide::eEnemy) || (xEntity != eSide::eEnemy && yEntity == eSide::eBullet))
+	if ((xEntity == eSide::eBullet && yEntity == eSide::eCollectable) || (xEntity == eSide::eCollectable && yEntity == eSide::eBullet))
+	{
+		return false;
+	}
+	if ((xEntity == eSide::eBullet && yEntity == eSide::ePlayer) || (xEntity == eSide::ePlayer && yEntity == eSide::eBullet))
 	{
 		return false;
 	}
@@ -147,6 +151,10 @@ void Entity::PlayerMovementCollision()
 			if (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])
 			{
 				Velocity.y -= 10;
+				if (Velocity.y < -9 && !isColliding)
+				{
+					HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Jump.wav");
+				}
 			}
 
 			//ALLOW MOVE LEFT / RIGHT WHEN ON GROUND

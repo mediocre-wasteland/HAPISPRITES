@@ -17,6 +17,7 @@ void AmmoCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)// checks whether the collectable is colliding
 	{
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//KeyPickup.wav");
 		std::cout << "Ammo Collision" << std::endl;
 		player->AddLGAmmo(mAmount);
 		mAlive = false;
