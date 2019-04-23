@@ -13,6 +13,7 @@ public:
 	Camera(int height, int width);
 	~Camera();
 
+	void ResetCamera(Map& mapIn, std::unordered_map <std::string, Entity*>& entityMapIn);
 	void MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn);
 
 private:

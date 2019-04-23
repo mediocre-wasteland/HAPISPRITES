@@ -218,32 +218,32 @@ void Map::MoveMap(eDirection moveDirection)
 		}
 		break;
 	case eDirection::eUp:
-		/*for (auto &p : mObstacleMap)
+		for (auto &p : mObstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y - 2 });
 		}
 		for (auto &p : mBackgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y - 2 });
 		}
 		for (auto &p : mCollectableMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
-		}*/
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y - 2 });
+		}
 		break;
 	case eDirection::eDown:
-		/*for (auto &p : mObstacleMap)
+		for (auto &p : mObstacleMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y + 2 });
 		}
 		for (auto &p : mBackgroundMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y + 2 });
 		}
 		for (auto &p : mCollectableMap)
 		{
-			p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
-		}*/
+			p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x, p.second->GetSprite()->GetTransformComp().GetPosition().y + 2 });
+		}
 		break;
 	default:
 		break;

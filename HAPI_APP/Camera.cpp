@@ -8,14 +8,13 @@ Camera::~Camera()
 {
 }
 
+void Camera::ResetCamera(Map& mapIn, std::unordered_map <std::string, Entity*>& entityMapIn)
+{
+	mPosition = { 0,0 };
+}
+
 void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn)
 {
-	if (currentLevel != mapIn.GetLevel())
-	{
-		currentLevel = mapIn.GetLevel();
-		mPosition = { 0,0 };
-	}
-
 	if (mapIn.GetOrientation() == Horizontal)
 	{
 		switch (moveDirection)
@@ -60,7 +59,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 				mapIn.MoveMap(eDirection::eUp);
 				for (auto &p : entityMapIn)
 				{
-					//p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y - 2 });
+					p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x,  p.second->GetSprite()->GetTransformComp().GetPosition().y - 2});
 				}
 				mPosition.y -= 2;
 			}
@@ -71,7 +70,7 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 				mapIn.MoveMap(eDirection::eDown);
 				for (auto &p : entityMapIn)
 				{
-					//p.second->SetPosition({ p.second->GetPosition().x, p.second->GetPosition().y + 2 });
+					p.second->GetSprite()->GetTransformComp().SetPosition({ p.second->GetSprite()->GetTransformComp().GetPosition().x,  p.second->GetSprite()->GetTransformComp().GetPosition().y + 2 });
 				}
 				mPosition.y += 2;
 			}

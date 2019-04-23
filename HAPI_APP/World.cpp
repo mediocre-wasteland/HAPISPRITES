@@ -155,6 +155,7 @@ void World::Update()
 			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
 			mEntityMap["Player"]->isTravellingUp = false;
 			currentLevel = mGameMap.GetLevel();
+			mGameCamera.ResetCamera(mGameMap, mEntityMap);
 		}
 
 		timeSinceLastWorldTick = HAPI_Sprites.GetTime();
