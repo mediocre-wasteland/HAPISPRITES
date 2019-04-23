@@ -17,6 +17,7 @@ void LightHouseGoal::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)
 	{
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Clapping.wav");
 		std::cout << "Lighthouse Collision" << std::endl;
 		gameMap.NextLevel();
 	}

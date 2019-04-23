@@ -66,7 +66,7 @@ public:
 
 protected:
 
-	VectorF mPosition{ 80.f,450.f };
+	VectorF mPosition{ 80.f,350.f };
 	VectorF mOldPosition{ 0.f ,0.f };
 
 	const DWORD TimeBetweenUpdates{ 20 };

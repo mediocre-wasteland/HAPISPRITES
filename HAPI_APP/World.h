@@ -38,6 +38,11 @@ private:
 	bool LoadSprites();
 	bool LoadEntities();
 	bool LoadWorld();
+	bool LoadSounds();
+
+	//for sound options
+	HAPI_TSoundOptions options;
+	int instanceID{ 0 };
 
 	void Update();
 	void Render();
