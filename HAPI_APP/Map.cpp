@@ -117,7 +117,7 @@ void Map::CreateLevel()
 					AddObstacle("Cloud", x, y);
 					break;
 				case 'D':
-					AddObstacle("Door", x, y);
+					AddCollectable("Door", x, y, Door);
 					break;
 				case 'K':
 					AddCollectable("KeyPlaceholder", x, y, Key);
@@ -281,6 +281,9 @@ void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
 		break;
 	case Lighthouse:
 		mCollectableMap[key] = new LightHouseGoal((std::string)"Data\\Sprites\\" + fileName + ".xml");
+		break;
+	case Door:
+		mCollectableMap[key] = new DoorEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
 		break;
 	}
 

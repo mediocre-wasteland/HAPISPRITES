@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <TextureAtlas imagePath="Door_surface.png">
-	<SubTexture name="Frame0" x="0" y="0" width="32" height="64">
+	<SubTexture name="Frame0" x="0" y="0" width="32" height="64" SetName="Open" SetOrder="0">
 		<Collider>
 			<Rectangle name="BoundingRect" type="0" left="0" right="32" top="0" bottom="64" />
 			<Circle name="BoundingCircle" type="0" radius="35.777088" y="32.000000" x="16.000000" />
+		</Collider>
+	</SubTexture>
+	<SubTexture name="Frame1" x="51" y="0" width="5" height="64" SetName="Closed" SetOrder="0">
+		<Collider>
+			<Rectangle name="BoundingRect" type="0" left="0" right="5" top="0" bottom="64" />
+			<Circle name="BoundingCircle" type="0" radius="32.097507" y="32.000000" x="2.000000" />
 		</Collider>
 	</SubTexture>
 </TextureAtlas>

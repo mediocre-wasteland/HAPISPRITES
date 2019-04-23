@@ -2,16 +2,15 @@
 
 #include <HAPISprites_Lib.h>
 #include "Entity.h"
+#include "PlayerEntity.h"
+#include "Map.h"
 
-class DoorEntity : public Entity
+class DoorEntity : public Collectables
 {
 public:
 	DoorEntity(std::string &fileName);
 	~DoorEntity();
 
-	void Update() override;
-
-	eSide GetSide() const override final { return mSide; }
-	eDirection GetDirection() const override final { return mDirection; }
+	void Update(PlayerEntity* player, Map& gameMap);
 };
 

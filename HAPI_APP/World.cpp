@@ -171,6 +171,11 @@ void World::Update()
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
+		if (mKeyboardInput.scanCode['M'])
+		{
+			mGameMap.NextLevel();
+		}
+
 		if (currentLevel != mGameMap.GetLevel())
 		{
 			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
@@ -215,11 +220,11 @@ void World::UpdateCamera()
 	{
 		mGameCamera.MoveCamera(eDirection::eRight, mGameMap, mEntityMap);	
 	}
-	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 832)
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y > 704)
 	{
 		mGameCamera.MoveCamera(eDirection::eUp, mGameMap, mEntityMap);
 	}
-	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 0)
+	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().y < 128)
 	{
 		mGameCamera.MoveCamera(eDirection::eDown, mGameMap, mEntityMap);
 	}

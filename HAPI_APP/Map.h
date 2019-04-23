@@ -12,13 +12,15 @@
 #include "AmmoCollectable.h"
 #include "MoneyCollectable.h"
 #include "LightHouseGoal.h"
+#include "DoorEntity.h"
 
 enum eColType
 {
 	Key,
 	Ammo,
 	Money,
-	Lighthouse
+	Lighthouse,
+	Door
 };
 
 enum eOrientation
