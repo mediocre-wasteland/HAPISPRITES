@@ -253,6 +253,23 @@ void Entity::PlayerMovementCollision()
 			isTravellingUp = true;
 		}
 
+		bool isTravellingRight{ false };
+		bool isTravellingLeft{ false };
+
+		if (Velocity.x > 0)
+		{
+			isTravellingRight = true;
+		}
+		else if (Velocity.x < 0)
+		{
+			isTravellingLeft = true;
+		}
+		else
+		{
+			isTravellingRight = false;
+			isTravellingLeft = false;
+		}
+
 		while (!done && !dir.IsZero())
 		{
 			mIsOnGround = false;
@@ -263,15 +280,28 @@ void Entity::PlayerMovementCollision()
 
 			if (this->isColliding)
 			{
-				if (isTravellingUp == true)
+				Velocity = 0;
+
+				if (isTravellingUp == true || mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() / 4)
 				{
-					//MOVES THE PLAYER DOWN
-					collision.normal.y = 1;
+					//Moves player down, must match the max jump velocity
+					collision.normal.y = 10;
 				}
 				else if (isTravellingUp == false)
 				{
-					Velocity = 0;
 					mIsOnGround = true;
+				}
+
+				if (isTravellingLeft && !mIsOnGround)
+				{
+					collision.normal.y = 5;
+					collision.normal.x = 5;
+				}
+
+				if (isTravellingRight && !mIsOnGround)
+				{
+					collision.normal.y = 5;
+					collision.normal.x = -5;
 				}
 
 				mPosition = beforeCollisionPosition + collision.normal;
@@ -291,11 +321,6 @@ void Entity::PlayerMovementCollision()
 				{
 					beforeCollisionPosition = mPosition;
 					mPosition += dir;
-				}
-
-				if (Velocity.y > 0)
-				{
-					isTravellingUp = false;
 				}
 			}
 		}
