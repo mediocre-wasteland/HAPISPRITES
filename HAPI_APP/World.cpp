@@ -1,5 +1,6 @@
 #include "World.h"
 
+
 World::World()
 {
 }
@@ -183,6 +184,11 @@ void World::Update()
 		if (mKeyboardInput.scanCode['M'])
 		{
 			mGameMap.NextLevel();
+		}
+		if (mKeyboardInput.scanCode[HK_ESCAPE])
+		{
+			PauseMenu pausemenu;
+			pausemenu.Initialise();
 		}
 
 		if (currentLevel != mGameMap.GetLevel())

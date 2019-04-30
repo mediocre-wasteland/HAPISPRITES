@@ -44,6 +44,9 @@
     <ClCompile Include="DoorEntity.cpp">
       <Filter>Entity\Collectables</Filter>
     </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>UserInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -87,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="DoorEntity.h">
       <Filter>Entity\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>UserInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

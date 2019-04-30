@@ -12,6 +12,7 @@
 #include "MoneyCollectable.h"
 #include "AmmoCollectable.h"
 #include "MainMenuUi.h"
+#include "PauseMenu.h"
 
 using namespace HAPISPACE;
 

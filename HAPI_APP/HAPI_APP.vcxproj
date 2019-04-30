@@ -183,6 +183,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MoneyCollectable.cpp" />
     <ClCompile Include="ObstacleEntity.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MoneyCollectable.h" />
     <ClInclude Include="ObstacleEntity.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

@@ -8,7 +8,6 @@ MainMenuUi::~MainMenuUi()
 {
 
 }
-
 bool MainMenuUi::Initialise(Map* gameMap)
 {
 	mapMainMenu = gameMap;
@@ -98,5 +97,60 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 		UI.CloseWindow(creditsMenuName);
 		UI.OpenWindow(mainMenuName);
 		this->UI_AddWindowToListenTo(mainMenuName);
+	}
+}
+
+void MainMenuUi::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
+{
+	if (keyEvent == EKeyEvent::ePress)
+	{
+		switch (keyCode)
+		{
+		case '1':
+			if (isMainMenu == true) // Main Menu & True by Default
+			{
+				UI.GetWindow(mainMenuName, true)->SimulateButtonPress("PlayButton", true);
+				isMainMenu = false;
+				isOptionsMenu = false;
+				isCreditsMenu = false;
+			}
+			if (isOptionsMenu == true) // Options Menu
+			{
+				UI.GetWindow(optionsMenuName, true)->SimulateButtonPress("ReturnButtonOptionsMenu", true);
+				isMainMenu = true; // Set to use Main Menu Controls to True
+				isOptionsMenu = false; // Set to not use Options Menu Controls
+			}
+			if (isCreditsMenu == true)
+			{
+				UI.GetWindow(creditsMenuName, true)->SimulateButtonPress("ReturnCreditsMenu");
+				isMainMenu = true;
+				isCreditsMenu = false;
+
+			}
+			break;
+		case '2':
+			if (isMainMenu == true) // Main Menu
+			{
+				UI.GetWindow(mainMenuName, true)->SimulateButtonPress("OptionsButton", true);
+				isMainMenu = false;
+				isOptionsMenu = true;
+
+			}
+			break;
+		case '3':
+			if (isMainMenu == true) // Main Menu
+			{
+				UI.GetWindow(mainMenuName, true)->SimulateButtonPress("CreditsButton", true);
+				isMainMenu = false;
+				isCreditsMenu = true;
+			}
+			break;
+		case '4':
+			if (isMainMenu == true) // Main Menu
+			{
+				UI.GetWindow(mainMenuName, true)->SimulateButtonPress("ExitButton", true);
+			}
+			break;
+		}
 	}
 }
