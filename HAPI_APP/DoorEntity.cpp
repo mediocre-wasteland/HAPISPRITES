@@ -13,7 +13,7 @@ DoorEntity::~DoorEntity()
 {
 }
 
-void DoorEntity::Update(PlayerEntity * player, Map & gameMap)
+bool DoorEntity::Update(PlayerEntity * player, Map & gameMap)
 {
 	if (player->mHasKey)
 	{
@@ -25,5 +25,7 @@ void DoorEntity::Update(PlayerEntity * player, Map & gameMap)
 		mSide = eSide::eObstacle;
 		sprite->SetAutoAnimate(2, false, "Closed");
 	}
+
+	return true;
 }
 

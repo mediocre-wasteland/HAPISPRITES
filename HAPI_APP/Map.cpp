@@ -321,7 +321,13 @@ void Map::KillLevel()
 		delete p.second;
 	}
 
+	for (auto &p : mCollectableMap)
+	{
+		delete p.second;
+	}
+
 	mBackgroundMap.clear();
 	mObstacleMap.clear();
 	mCollectableMap.clear();
+
 }

@@ -11,6 +11,6 @@ public:
 	DoorEntity(std::string &fileName);
 	~DoorEntity();
 
-	void Update(PlayerEntity* player, Map& gameMap);
+	bool Update(PlayerEntity* player, Map& gameMap);
 };
 

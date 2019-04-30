@@ -9,7 +9,7 @@ class MoneyCollectable : public Collectables
 public:
 	MoneyCollectable(std::string &fileName);
 	~MoneyCollectable();
-	void Update(PlayerEntity* player, Map& gameMap) override;// main update used to check if the collectable is collected
+	bool Update(PlayerEntity* player, Map& gameMap) override;// main update used to check if the collectable is collected
 
 private:
 	int mValue{ 250 }; // the amount of money this will grant if collided with

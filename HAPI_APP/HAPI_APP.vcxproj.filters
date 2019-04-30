@@ -42,7 +42,7 @@
       <Filter>Entity\Collectables</Filter>
     </ClCompile>
     <ClCompile Include="DoorEntity.cpp">
-      <Filter>Entity</Filter>
+      <Filter>Entity\Collectables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,7 +86,7 @@
       <Filter>Entity\Collectables</Filter>
     </ClInclude>
     <ClInclude Include="DoorEntity.h">
-      <Filter>Entity</Filter>
+      <Filter>Entity\Collectables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

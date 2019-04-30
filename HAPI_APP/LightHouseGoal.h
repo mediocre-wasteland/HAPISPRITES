@@ -10,6 +10,6 @@ public:
 	LightHouseGoal(std::string &fileName);
 	~LightHouseGoal();
 
-	void Update(PlayerEntity* player, Map& gameMap) override;
+	bool Update(PlayerEntity* player, Map& gameMap) override;
 };
 

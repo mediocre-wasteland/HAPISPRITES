@@ -49,8 +49,8 @@ public:
 	void NextLevel() { mCurrentLevel++;  CreateLevel(); }
 	void MoveMap(eDirection moveDirection);
 
-	std::unordered_map <std::string, Entity*> GetObstacles() { return mObstacleMap; }
-	std::unordered_map <std::string, Entity*> GetCollectables() { return mCollectableMap; }
+	std::unordered_map <std::string, Entity*>& GetObstacles() { return mObstacleMap; }
+	std::unordered_map <std::string, Entity*>& GetCollectables() { return mCollectableMap; }
 
 
 private:

@@ -10,7 +10,7 @@ public:
 	KeyCollectable(std::string &fileName);
 	~KeyCollectable();
 
-	void Update(PlayerEntity* player, Map& gameMap) override;
+	bool Update(PlayerEntity* player, Map& gameMap) override;
 
 private:
 

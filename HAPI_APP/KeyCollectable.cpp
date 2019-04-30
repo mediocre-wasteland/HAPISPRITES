@@ -11,7 +11,7 @@ KeyCollectable::~KeyCollectable()
 
 }
 
-void KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
+bool KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
 	if (isColliding == true)
 	{
@@ -22,4 +22,5 @@ void KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
 	}
 
 	isColliding = false;
+	return true;
 }

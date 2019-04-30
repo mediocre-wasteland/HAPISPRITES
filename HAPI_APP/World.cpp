@@ -166,7 +166,12 @@ void World::Update()
 
 		for (auto &p : mGameMap.GetCollectables())
 		{
-			((Collectables*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"), mGameMap);
+			bool Done = ((Collectables*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"), mGameMap);
+
+			if (!Done)
+			{
+				break;
+			}
 		}
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
