@@ -352,3 +352,8 @@ void Entity::PlayerMovementCollision()
 		isColliding = false;
 	}
 }
+
+void Entity::GetPlayerPosFromWorld(HAPISPACE::VectorF playerPosition)
+{
+	this->playerPosition = playerPosition;
+}

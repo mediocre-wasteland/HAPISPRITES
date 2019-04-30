@@ -64,6 +64,9 @@ public:
 	VectorF dir{ newPosition - mOldPosition };
 	VectorF newPosition{ mPosition + Velocity };
 
+	// TEMPORARY CODE: Needs To Be Public So World Can Use It
+	void GetPlayerPosFromWorld(HAPISPACE::VectorF playerPosition);
+
 protected:
 
 	VectorF mPosition{ 64.f, 576.f };
@@ -89,6 +92,9 @@ protected:
 	CollisionInfo mLastCollidedCollisionInfo;
 	eSide mSide{ eSide::eNeutral };
 	eDirection mDirection{ eDirection::eRight };
+
+	// TEMPORARY CODE: Protected So EnemyEntity And Other Children Can Use It
+	HAPISPACE::VectorF playerPosition;
 
 private:
 

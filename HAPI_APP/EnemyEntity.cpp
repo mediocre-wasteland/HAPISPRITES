@@ -1,10 +1,11 @@
 #include "EnemyEntity.h"
 
-EnemyEntity::EnemyEntity(std::string &fileName) : Entity(fileName)
+EnemyEntity::EnemyEntity(std::string &filename) : Entity(filename)
 {
 	mAlive = true;
 	mHasSecondJump = true;
 	mSide = eSide::eEnemy;
+	mEnemyPosition = { 300.0f, 550.0f };
 }
 
 EnemyEntity::~EnemyEntity()
@@ -14,53 +15,64 @@ EnemyEntity::~EnemyEntity()
 
 void EnemyEntity::Update()
 {
-	HAPISPACE::VectorF mEnemyPosition{ sprite->GetTransformComp().GetPosition() };
 	// Movement Checks
-	AIMovement(mEnemyPosition);
+	AIMovement();
 	// Setting Position At The End Of Each Update
-	//sprite->GetTransformComp().SetPosition(GetPosition());
+	sprite->GetTransformComp().SetPosition(mEnemyPosition);
 }
 
-void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
+void EnemyEntity::AIMovement()
 {
-	// Randomly Generates A Direction For The AI To Go In
-	if (std::rand() % 100 == 0)
+	// Instructions For AI To Follow If It's Just Patrolling And On The Screen
+	if (!bChasePlayer() && !bEnemyOffScreen)
 	{
-		ChangeDirection((eDirection)(rand() % 3));
-	}
+		//std::cout << "In AIMovement() - bPatrolLevel() - Patrolling Level" << std::endl;
 
-	// Instructions For AI To Follow If It's Just Patrolling
-	if (bPatrolLevel())
-	{
+		// Randomly Generates A Direction For The AI To Go In
+		if (std::rand() % 100 == 0)
+		{
+			ChangeDirection((eDirection)(rand() % 2));
+			// Including Jumping
+			//ChangeDirection((eDirection)(rand() % 3));
+		}
+
+		// Checks Which Direction Is Chosen
 		switch (mDirection)
 		{
-		case eDirection::eUp:
-		{
-			if (mIsOnGround)
+			// Case For Jumping
+			/*case eDirection::eUp:
 			{
-				mTimeFallen = 0;
-				mIsJumping = true;
-				mHasSecondJump = true;
+				std::cout << "In AIMovement() - bPatrolLevel() - Jumping" << std::endl;
+
+				if (mIsOnGround)
+				{
+					mTimeFallen = 0;
+					mIsJumping = true;
+					mHasSecondJump = true;
+				}
+				if (mHasSecondJump && mTimeFallen > mFallingCooldown)
+				{
+					mIsJumping = true;
+					mHasSecondJump = false;
+				}
 			}
-			if (mHasSecondJump && mTimeFallen > mFallingCooldown)
-			{
-				mIsJumping = true;
-				mHasSecondJump = false;
-			}
-		}
-		break;
+			break;*/
 		case eDirection::eRight:
 		{
+			//std::cout << "In AIMovement() - bPatrolLevel() - Going Right" << std::endl;
+
 			mEnemyPosition.x += mHSpeed;
 			mIsJumping = false;
-			//SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
+			sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
 		}
 		break;
 		case eDirection::eLeft:
 		{
+			//std::cout << "In AIMovement() - bPatrolLevel() - Going Left" << std::endl;
+
 			mEnemyPosition.x -= mHSpeed;
 			mIsJumping = false;
-			//SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
+			sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
 		}
 		break;
 		default:
@@ -68,28 +80,42 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 		}
 	}
 
-	// TODO: Functions If Chasing Player
-	if (bChasePlayer())
+	/// Checking Which Side Player Is On And Moving Towards Him
+	// Going To The Left
+	if (bChasePlayer() && bPlayerOnLeft && !bEnemyOffScreen)
 	{
-
+		mEnemyPosition.x -= mHSpeed;
+		sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
+	}
+	// Going To The Right
+	if (bChasePlayer() && bPlayerOnRight && !bEnemyOffScreen)
+	{
+		mEnemyPosition.x += mHSpeed;
+		sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y });
 	}
 
+	/// Checking For Going Off Screen
 	// Checks To Make Sure It Doesnt Go Off The Sides Of The Screen
-	/*if (mEnemyPosition.x <= 0)
+	if (mEnemyPosition.x < 0)
+	{
+		bEnemyOffScreen = true;
+	}
+	else if (mEnemyPosition.x > screenWidth)
+	{
+		bEnemyOffScreen = true;
+	}
+	else
+	{
+		bEnemyOffScreen = false;
+	}
+
+	if (mEnemyPosition.x == 0)
 	{
 		ChangeDirection(eDirection::eRight);
 	}
-	if (mEnemyPosition.x >= 1025)
+	if (mEnemyPosition.x == screenWidth)
 	{
 		ChangeDirection(eDirection::eLeft);
-	}*/
-
-
-	// Prevents Going Off The Top Of The Screen
-	if (mEnemyPosition.y <= 0)
-	{
-		mIsJumping = false;
-		mTimeFallen++;
 	}
 
 	/// Checking For Floor
@@ -100,12 +126,12 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 
 	/// Jumping
 	// Causes Initial Jump And Makes Sure It Doesnt Go Above The Specified Limit To Prevent Infinite Jumping
-	// TODO: Get The AI To Jump In The Direction It's Going Rather Than Just Straight Up
 	if (mIsJumping && mTimeJumped <= mMaxJumpLength)
 	{
+		// TODO: Get The Enemy To Jump In An Arc Motion Rather Than Just Straight Up
 		mIsOnGround = false;
-		// Applies Jump Force To The AI
-		//SetPosition({ GetPosition().x , GetPosition().y - ((mMaxJumpLength - mTimeJumped) / (0.5f*mMaxJumpLength))*mHSpeed });
+		// Applies Jump Force To The Enemy
+		sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y - ((mMaxJumpLength - mTimeJumped) / (0.5f*mMaxJumpLength)) * mHSpeed });
 		mTimeJumped++;
 	}
 	else
@@ -114,13 +140,13 @@ void EnemyEntity::AIMovement(HAPISPACE::VectorF mEnemyPosition)
 		mIsJumping = false;
 		mTimeJumped = 0;
 	}
-	
+
 	/// Gravity
 	// Checks To See If AI Is Both Off The Ground And Not Jumping/In The Air
 	if (!mIsOnGround && !mIsJumping)
 	{
 		// Applies Gravity
-		//SetPosition({ GetPosition().x , GetPosition().y + mGravity });
+		sprite->GetTransformComp().SetPosition({ mEnemyPosition.x, mEnemyPosition.y + mGravity });
 		mTimeFallen++;
 	}
 }
@@ -131,25 +157,32 @@ void EnemyEntity::ChangeDirection(eDirection newDirection)
 	mDirection = newDirection;
 }
 
-bool EnemyEntity::bPatrolLevel()
-{
-	if(!bChasePlayer())
-	{
-		return true;
-	}
-	
-	return false;
-}
-
-// TODO: Need A Way Of Getting Player Position
 bool EnemyEntity::bChasePlayer()
 {
-	//if(/*SpotsPlayer*/)
-	/*{
-		return true;
-	}*/
+	// If Player Is Within The Enemies Scan Range, Begin To Chase Player
 
-	return false;
+	//	NOTE: I've Had To Add 125 To The Equation Because The Enemy Was Spotting The Player When Inside Of Him And Was Saying That He Was To The Right Of Him And Then Once The Player Was
+	//	Actually To The Right Of The Enemy, It Would Say That It Couldnt Find The Player So Adding In The Extra 125 Means That When The Player Is Inside The Enemy, He HASN'T Been Spotted
+	//	But When He's Within The Range, Either To The Left Or The Right, He IS Spotted By The Enemy As Originally Planned
+	if (playerPosition.x > mEnemyPosition.x + 125 && playerPosition.x < mEnemyPosition.x + 125 + mScanRange)
+	{
+		bPlayerOnLeft = false;
+		bPlayerOnRight = true;
+		//std::cout << "In bChasePlayer() - Spotted Player To The Right Of Me" << std::endl;
+		return true;
+	}
+	if (playerPosition.x < mEnemyPosition.x && playerPosition.x > mEnemyPosition.x - mScanRange)
+	{
+		bPlayerOnRight = false;
+		bPlayerOnLeft = true;
+		//std::cout << "In bChasePlayer() - Spotted Player To The Left Of Me" << std::endl;
+		return true;
+	}
+	else
+	{
+		std::cout << "In bChasePlayer() - No Sign Of Player - Will Patrol" << std::endl;
+		return false;
+	}
 }
 
 void EnemyEntity::TakeDamage()

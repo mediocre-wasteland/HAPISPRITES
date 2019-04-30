@@ -146,6 +146,10 @@ void World::Update()
 	{
 		CheckCollision();
 		UpdateCamera();
+
+		// TEMPORARY CODE: Supplying PlayerPos To The Entity
+		mEntityMap.at("Enemy")->GetPlayerPosFromWorld(mEntityMap.at("Player")->GetOldPosition());
+
 		mEnemies.clear();
 		mEnemies.push_back((EnemyEntity*)mEntityMap.at("Enemy"));
 		((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorClear();
