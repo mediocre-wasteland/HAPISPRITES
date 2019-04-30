@@ -176,6 +176,12 @@ void Entity::PlayerMovementCollision()
 
 		acceleration += force / mass;
 
+		if (test == false)
+		{
+			deltaTimeS = 2;
+			test = true;
+		}
+
 		if (!mIsOnGround)
 		{
 			Velocity += (Gravity + acceleration) * deltaTimeS;
