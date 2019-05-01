@@ -26,7 +26,7 @@ bool MainMenuUi::Run()
 	UI.Load("Data\\UserInterface\\CreditsMenu.xml", creditsMenuName, false);
 	UI.Load("Data\\UserInterface\\OptionsMenu.xml", optionsMenuName, false);
 
-	UI.OpenWindow(mainMenuName); 	// Open the main menu
+	UI.OpenWindow(mainMenuName,false,true,mainMenuName,EDirection::eNorth,true,EGap::eLoose,{45,0}); 	// Open the main menu
 
 	this->UI_AddWindowToListenTo(mainMenuName); //Register Button Clicks
 
@@ -57,7 +57,7 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "CreditsButton")
 	{
 		UI.CloseWindow(mainMenuName);
-		UI.OpenWindow(creditsMenuName);
+		UI.OpenWindow(creditsMenuName,false, true, creditsMenuName, EDirection::eNorth, true, EGap::eLoose, { 45,0 });
 		this->UI_AddWindowToListenTo(creditsMenuName);
 	}
 
@@ -69,7 +69,7 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "OptionsButton")
 	{
 		UI.CloseWindow(mainMenuName);
-		UI.OpenWindow(optionsMenuName);
+		UI.OpenWindow(optionsMenuName, false, true, optionsMenuName, EDirection::eNorth, true, EGap::eLoose, { 45,0 });
 		this->UI_AddWindowToListenTo(optionsMenuName);
 	}
 	if (buttonName == "PlayButton")
@@ -85,7 +85,7 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "ReturnButtonOptionsMenu")
 	{
 		UI.CloseWindow(optionsMenuName);
-		UI.OpenWindow(mainMenuName);
+		UI.OpenWindow(mainMenuName, false, true, mainMenuName, EDirection::eNorth, true, EGap::eLoose, { 45,0 });
 		this->UI_AddWindowToListenTo(mainMenuName);
 	}
 	/*
@@ -95,7 +95,7 @@ void MainMenuUi::UI_ButtonPressed(UIWindow& window, const std::string& buttonNam
 	if (buttonName == "ReturnCreditsMenu")
 	{
 		UI.CloseWindow(creditsMenuName);
-		UI.OpenWindow(mainMenuName);
+		UI.OpenWindow(mainMenuName, false, true, mainMenuName, EDirection::eNorth, true, EGap::eLoose, { 45,0 });
 		this->UI_AddWindowToListenTo(mainMenuName);
 	}
 }

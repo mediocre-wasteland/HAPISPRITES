@@ -12,7 +12,7 @@ bool PauseMenu::Initialise()
 {
 	UI.Load("Data\\UserInterface\\PauseMenu.xml", pauseMenuName, false);
 
-	UI.OpenWindow(pauseMenuName);
+	UI.OpenWindow(pauseMenuName, false, true, pauseMenuName, EDirection::eNorth, true, EGap::eLoose, { 45,0 });
 
 	paused = true;
 
