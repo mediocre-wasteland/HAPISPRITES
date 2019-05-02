@@ -68,11 +68,6 @@ bool Entity::CanCollide(Entity & other)
 		return false;
 	}
 
-	if (xEntity == eSide::eEnemy || yEntity == eSide::eEnemy)
-	{
-		return false;
-	}
-
 	if ((xEntity == eSide::eBullet && yEntity == eSide::eCollectable) || (xEntity == eSide::eCollectable && yEntity == eSide::eBullet))
 	{
 		return false;
@@ -81,7 +76,10 @@ bool Entity::CanCollide(Entity & other)
 	{
 		return false;
 	}
-	
+	if ((xEntity == eSide::eCradle && yEntity == eSide::ePlayer) || (xEntity == eSide::ePlayer && yEntity == eSide::eCradle))
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -112,7 +110,42 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 
 	return;
 }
+void Entity::PlayerWalkMakeNoise()
+{
+	switch (RunNoise)
+	{
+	case 0:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run.wav");
+		break;
+	case 1:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run1.wav");
+		break;
+	case 2:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run2.wav");
+		break;
+	case 3:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run3.wav");
+		break;
+	case 4:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run4.wav");
+		break;
+	case 5:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run5.wav");
+		break;
+	case 6:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run6.wav");
+		break;
+	case 7:
+		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Running//run7.wav");
+		break;
+	case 8:
+		RunNoise = 0;
+		break;
+	default:
+		break;
+	}
 
+}
 void Entity::PlayerMovementCollision()
 {
 	//GET THE PLAYER POSITION FOR CAMERA MOVEMENT
@@ -160,10 +193,14 @@ void Entity::PlayerMovementCollision()
 			//ALLOW MOVE LEFT / RIGHT WHEN ON GROUND
 			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
 			{
+				PlayerWalkMakeNoise();
+				RunNoise++;
 				Velocity.x = 4;
 			}
 			else if (mKeyboardInput.scanCode['A'] || mKeyboardInput.scanCode[HK_LEFT])
 			{
+				PlayerWalkMakeNoise();
+				RunNoise++;
 				Velocity.x = -4;
 			}
 			else

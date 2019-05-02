@@ -12,6 +12,6 @@ public:
 	bool Update(PlayerEntity* player, Map& gameMap) override;// main update used to check if the collectable is collected
 
 private:
-	int mValue{ 250 }; // the amount of money this will grant if collided with
+	int mValue{ 1 }; // the amount of money this will grant if collided with
 };
 

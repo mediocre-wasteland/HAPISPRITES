@@ -51,6 +51,11 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
+	if (mCurrentLevel > 5)
+	{
+		HAPI_Sprites.UserMessage("Well Done You Won! You Collected ", "Winner");
+		exit;
+	}
 	KillLevel();
 
 	char line;
@@ -132,7 +137,7 @@ void Map::CreateLevel()
 					AddCollectable("Lighthouse", x, y + 64, Lighthouse); // Goal
 					break;
 				case 'M':
-					AddCollectable("MoneyPlaceholder", x, y, Money);
+					AddCollectable("Cradle", x, y, Money);
 					break;
 				case 'I':
 					spawnPos = {x,y};

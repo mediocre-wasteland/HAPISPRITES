@@ -42,7 +42,7 @@ void BulletEntity::Update(std::vector<EnemyEntity*> enemies)
 
 	if (isColliding)
 	{
-		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//LoveGunEffect.wav");
+		//HAPI_Sprites.PlaySound((std::string)"Data//Sounds//LoveGunEffect.wav");
 	//	for (int i = 0; i < enemies.size(); i++)
 	//	{
 	//		if (enemies[i]->isCollidingWith(*this, eSide::eBullet))

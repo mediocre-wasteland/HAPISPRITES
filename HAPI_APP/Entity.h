@@ -54,6 +54,7 @@ public:
 
 	CollisionInfo collision;
 
+	void PlayerWalkMakeNoise();
 	void PlayerMovementCollision();
 
 	std::unordered_map < std::string, Entity* > myMap;
@@ -95,7 +96,7 @@ protected:
 
 	// TEMPORARY CODE: Protected So EnemyEntity And Other Children Can Use It
 	HAPISPACE::VectorF playerPosition;
-
+	int RunNoise{ 0 };
 private:
 
 

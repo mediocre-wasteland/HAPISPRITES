@@ -26,6 +26,69 @@ bool World::LoadSounds()
 		HAPI_Sprites.UserMessage("Could not load LOVEGUNEFFECT.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Baby.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load Baby.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//LoveGun.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load LoveGun.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//KeyPickup.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load KeyPickup.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Jump.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load Jump.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Clapping.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load Clapping.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run1.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run1.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run2.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run2.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run3.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run3.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run4.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run4.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run5.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run5.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run6.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run6.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run7.wav"))
+	{
+		HAPI_Sprites.UserMessage("Could not load run7.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
+		return false;
+	}
 	return true;
 }
 
@@ -49,7 +112,8 @@ bool World::Initialise()
 		HAPI_Sprites.UserMessage("Failed to Load Sprites", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
-
+	
+	
 	if (!LoadSounds())
 	{
 		HAPI_Sprites.UserMessage("Failed to Load Sounds", "ERROR", HAPI_ButtonType::eButtonTypeOk);
@@ -101,11 +165,11 @@ bool World::LoadSprites()
 		return false;
 	}
 
-	if (!mEntityMap.at("Enemy")->LoadSprite())
+	/*if (!mEntityMap.at("Enemy")->LoadSprite())
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 		return false;
-	}
+	}*/
 
 	for (int i{ 0 }; i < 10; i++)
 	{
@@ -126,7 +190,7 @@ bool World::LoadSprites()
 bool World::LoadEntities()
 {
 	mEntityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
-	mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
+	//mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -155,10 +219,10 @@ void World::Update()
 		UpdateCamera();
 
 		// TEMPORARY CODE: Supplying PlayerPos To The Entity
-		mEntityMap.at("Enemy")->GetPlayerPosFromWorld(mEntityMap.at("Player")->GetOldPosition());
+		//mEntityMap.at("Enemy")->GetPlayerPosFromWorld(mEntityMap.at("Player")->GetOldPosition());
 
-		mEnemies.clear();
-		mEnemies.push_back((EnemyEntity*)mEntityMap.at("Enemy"));
+		//mEnemies.clear();
+		//mEnemies.push_back((EnemyEntity*)mEntityMap.at("Enemy"));
 		((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorClear();
 
 		for (int i = 0; i < 10; i++)
@@ -168,7 +232,7 @@ void World::Update()
 			((BulletEntity*)mEntityMap.at(name))->Update(mEnemies);
 		}
 
-		mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
+	//mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
 
 		for (auto &p : mEntityMap)
 		{
