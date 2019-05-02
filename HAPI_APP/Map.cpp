@@ -102,11 +102,14 @@ void Map::CreateLevel()
 					continue;
 				}
 
-				float x = 64 * j;
-				float y = 64 * i;
+				int x = 64 * j;
+				int y = 64 * i;
 
 				switch (line)
 				{
+				case 'P':
+					AddBackground("Palm", x, y);
+					break;
 				case 'W':
 					AddBackground("Water", x, y);
 					break;
@@ -250,7 +253,7 @@ void Map::MoveMap(eDirection moveDirection)
 	}
 }
 
-void Map::AddBackground(std::string fileName, float x, float y)
+void Map::AddBackground(std::string fileName, int x, int y)
 {
 	std::string key = "BG" + std::to_string(y) + std::to_string(x);
 
@@ -261,10 +264,10 @@ void Map::AddBackground(std::string fileName, float x, float y)
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
 
-	mBackgroundMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
+	mBackgroundMap[key]->GetSprite()->GetTransformComp().SetPosition({ (float)x,(float)y });
 }
 
-void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
+void Map::AddCollectable(std::string fileName, int x, int y, eColType type)
 {
 	std::string key = "CL" + std::to_string(y) + std::to_string(x);
 
@@ -292,10 +295,10 @@ void Map::AddCollectable(std::string fileName, float x, float y, eColType type)
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName , "ERROR");
 	}
 
-	mCollectableMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
+	mCollectableMap[key]->GetSprite()->GetTransformComp().SetPosition({ (float)x,(float)y });
 }
 
-void Map::AddObstacle(std::string fileName, float x, float y)
+void Map::AddObstacle(std::string fileName, int x, int y)
 {
 	std::string key = "OB" + std::to_string(y) + std::to_string(x);
 
@@ -306,7 +309,7 @@ void Map::AddObstacle(std::string fileName, float x, float y)
 		HAPI_Sprites.UserMessage("Could not load spritesheet : " + fileName, "ERROR");
 	}
 
-	mObstacleMap[key]->GetSprite()->GetTransformComp().SetPosition({ x,y });
+	mObstacleMap[key]->GetSprite()->GetTransformComp().SetPosition({ (float)x,(float)y });
 }
 
 void Map::KillLevel()

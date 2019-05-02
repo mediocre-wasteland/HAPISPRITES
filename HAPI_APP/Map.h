@@ -57,15 +57,15 @@ private:
 	int mCurrentLevel = 0;
 	int mLevelHeight;
 	int mLevelWidth;
-	HAPISPACE::VectorF spawnPos { 0,0 };
+	HAPISPACE::VectorI spawnPos { 0,0 };
 
 	std::unordered_map <std::string, Entity*> mBackgroundMap;
 	std::unordered_map <std::string, Entity*> mCollectableMap;
 	std::unordered_map <std::string, Entity*> mObstacleMap;
 
-	void AddBackground(std::string fileName, float x, float y);
-	void AddCollectable(std::string fileName, float x, float y, eColType type);
-	void AddObstacle(std::string fileName, float x, float y);
+	void AddBackground(std::string fileName, int x, int y);
+	void AddCollectable(std::string fileName, int x, int y, eColType type);
+	void AddObstacle(std::string fileName, int x, int y);
 
 	void KillLevel();
 

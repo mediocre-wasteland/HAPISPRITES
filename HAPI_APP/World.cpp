@@ -12,6 +12,8 @@ World::~World()
 	{
 		delete p.second;
 	}
+
+	delete backgroundImage;
 }
 
 //Public
@@ -108,13 +110,15 @@ bool World::LoadSprites()
 	for (int i{ 0 }; i < 10; i++)
 	{
 		std::string name = "Bullet" + std::to_string(i);
+
 		if (!mEntityMap.at((name))->LoadSprite())
 		{
-
 			HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
 			return false;
 		}
 	}
+
+	backgroundImage->LoadSprite();
 
 	return true;
 }
@@ -129,6 +133,8 @@ bool World::LoadEntities()
 		std::string name = "Bullet" + std::to_string(i);
 		mEntityMap[name] = new BulletEntity((std::string)"Data\\BulletPlaceholder.xml");
 	}
+
+	backgroundImage = new BackGroundEntity((std::string) "Data\\Sprites\\BG.xml");
 
 	return true;
 }
@@ -181,10 +187,6 @@ void World::Update()
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-		if (mKeyboardInput.scanCode['M'])
-		{
-			mGameMap.NextLevel();
-		}
 		if (mKeyboardInput.scanCode[HK_ESCAPE])
 		{
 			PauseMenu pausemenu;
@@ -195,6 +197,7 @@ void World::Update()
 		{
 			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
 			mEntityMap["Player"]->isTravellingUp = false;
+			((PlayerEntity*)mEntityMap["Player"])->mHasKey = false;
 			currentLevel = mGameMap.GetLevel();
 			mGameCamera.ResetCamera(mGameMap, mEntityMap);
 		}
@@ -209,12 +212,15 @@ void World::Render()
 {
 	SCREEN_SURFACE->Clear(HAPISPACE::Colour255(12, 223, 235));
 
+	backgroundImage->Render();
+
 	mGameMap.Render();
 
 	for (auto &p : mEntityMap)
 	{
 		p.second->Render();
 	}
+
 }
 
 void World::CheckCollision()

@@ -29,6 +29,7 @@ private:
 
 	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 832);
 	std::unordered_map <std::string, Entity*> mEntityMap;
+	Entity* backgroundImage;
 	Map mGameMap;
 	Camera mGameCamera {832, 1280};
 	int currentLevel{ 0 };
