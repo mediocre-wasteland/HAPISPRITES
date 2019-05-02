@@ -51,7 +51,8 @@ public:
 
 	std::unordered_map <std::string, Entity*>& GetObstacles() { return mObstacleMap; }
 	std::unordered_map <std::string, Entity*>& GetCollectables() { return mCollectableMap; }
-
+	
+	void KillLevel();
 
 private:
 	int mCurrentLevel = 0;
@@ -67,7 +68,7 @@ private:
 	void AddCollectable(std::string fileName, int x, int y, eColType type);
 	void AddObstacle(std::string fileName, int x, int y);
 
-	void KillLevel();
+	
 
 };
 

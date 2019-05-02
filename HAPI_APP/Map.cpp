@@ -51,11 +51,6 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
-	if (mCurrentLevel > 5)
-	{
-		HAPI_Sprites.UserMessage("Well Done You Won! You Collected ", "Winner");
-		exit;
-	}
 	KillLevel();
 
 	char line;
