@@ -180,7 +180,7 @@ bool EnemyEntity::bChasePlayer()
 	}
 	else
 	{
-		std::cout << "In bChasePlayer() - No Sign Of Player - Will Patrol" << std::endl;
+		//std::cout << "In bChasePlayer() - No Sign Of Player - Will Patrol" << std::endl;
 		return false;
 	}
 }
@@ -188,5 +188,4 @@ bool EnemyEntity::bChasePlayer()
 void EnemyEntity::TakeDamage()
 {
 	mIsHit = true;
-	std::cout << "Enemy Hit" << std::endl;
 }

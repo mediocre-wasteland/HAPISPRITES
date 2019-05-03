@@ -18,7 +18,6 @@ bool MoneyCollectable::Update(PlayerEntity* player, Map& gameMap) // updates eve
 	if (isColliding == true) // checks whether the collectable is colliding
 	{
 		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Baby.wav");
-		std::cout << "Baby Collision" << std::endl;
 		player->AddMoney(mValue);// increases the mMoneyAmount variable in PlayerEntity by the mValue amount of this class  
 		mAlive = false;
 	}

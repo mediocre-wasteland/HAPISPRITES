@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <UiLayout Version="0.1" CreationScreenSizeW="1280" CreationScreenSizeH="832">
-	<UIWindow Name="MainMenu_2_2" SkinName="SYS_Default_Skin">
+	<UIWindow Name="MainMenu_2_2_2" SkinName="SYS_Default_Skin">
 		<WinScreenRect left="20" right="320" top="20" bottom="420" />
 		<Button name="CreditsButton" type="0" text="Credits">
 			<Common ActionState="1" Visible="1">
@@ -64,7 +64,7 @@
 					</WindowStyle>
 				</Styles>
 			</Common>
-			<Features flags="130" titleText="Main Menu" />
+			<Features flags="130" titleText="Lighthouse Rescue" />
 		</Adornments>
 		<Button name="OptionsButton" type="0" text="Options">
 			<Common ActionState="1" Visible="1">
