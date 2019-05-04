@@ -174,7 +174,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collectables.cpp" />
     <ClCompile Include="DoorEntity.cpp" />
-    <ClCompile Include="EnemyEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="KeyCollectable.cpp" />
     <ClCompile Include="LightHouseGoal.cpp" />
@@ -194,7 +193,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collectables.h" />
     <ClInclude Include="DoorEntity.h" />
-    <ClInclude Include="EnemyEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="KeyCollectable.h" />
     <ClInclude Include="LightHouseGoal.h" />
