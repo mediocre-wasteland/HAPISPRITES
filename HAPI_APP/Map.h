@@ -37,38 +37,34 @@ public:
 
 	bool Initialise();
 
-	void CreateLevel();
-	void Render();
-
 	int GetHeight() { return mLevelHeight; };
 	int GetWidth() { return mLevelWidth; };
 	int GetLevel() { return mCurrentLevel; }
+
+	void CreateLevel();
+	void NextLevel() { mCurrentLevel++;  CreateLevel(); }
+	void Render();
+	void MoveMap(eDirection moveDirection);
+	void KillLevel();
+
 	HAPISPACE::VectorF GetSpawnPos() { return spawnPos; }
 	eOrientation GetOrientation();
-
-	void NextLevel() { mCurrentLevel++;  CreateLevel(); }
-	void MoveMap(eDirection moveDirection);
 
 	std::unordered_map <std::string, Entity*>& GetObstacles() { return mObstacleMap; }
 	std::unordered_map <std::string, Entity*>& GetCollectables() { return mCollectableMap; }
 	
-	void KillLevel();
-
 private:
 	int mCurrentLevel = 0;
 	int mLevelHeight;
 	int mLevelWidth;
-	HAPISPACE::VectorI spawnPos { 0,0 };
-
-	std::unordered_map <std::string, Entity*> mBackgroundMap;
-	std::unordered_map <std::string, Entity*> mCollectableMap;
-	std::unordered_map <std::string, Entity*> mObstacleMap;
 
 	void AddBackground(std::string fileName, int x, int y);
 	void AddCollectable(std::string fileName, int x, int y, eColType type);
 	void AddObstacle(std::string fileName, int x, int y);
 
-	
+	HAPISPACE::VectorI spawnPos{ 0,0 };
 
+	std::unordered_map <std::string, Entity*> mBackgroundMap;
+	std::unordered_map <std::string, Entity*> mCollectableMap;
+	std::unordered_map <std::string, Entity*> mObstacleMap;
 };
-

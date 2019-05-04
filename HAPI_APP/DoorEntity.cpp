@@ -1,7 +1,5 @@
 #include "DoorEntity.h"
 
-
-
 DoorEntity::DoorEntity(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
@@ -15,6 +13,7 @@ DoorEntity::~DoorEntity()
 
 bool DoorEntity::Update(PlayerEntity * player, Map & gameMap)
 {
+	//Check if the player has a key and set the door to open if they do
 	if (player->mHasKey)
 	{
 		mSide = eSide::eNeutral;
@@ -28,4 +27,3 @@ bool DoorEntity::Update(PlayerEntity * player, Map & gameMap)
 
 	return true;
 }
-

@@ -14,6 +14,4 @@ public:
 
 private:
 	int mAmount{ 12 }; // the amount of ammo this collectable will grant if collided with
-
 };
-

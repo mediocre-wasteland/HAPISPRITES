@@ -7,7 +7,6 @@ BackGroundEntity::BackGroundEntity(std::string &fileName) : Entity(fileName)
 	mPosition = { 0,0 };
 }
 
-
 BackGroundEntity::~BackGroundEntity()
 {
 }

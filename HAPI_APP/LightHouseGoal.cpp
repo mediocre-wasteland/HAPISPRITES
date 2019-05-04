@@ -1,13 +1,10 @@
 #include "LightHouseGoal.h"
 
-
-
 LightHouseGoal::LightHouseGoal(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCollectable;
 }
-
 
 LightHouseGoal::~LightHouseGoal()
 {
@@ -15,8 +12,10 @@ LightHouseGoal::~LightHouseGoal()
 
 bool LightHouseGoal::Update(PlayerEntity* player, Map& gameMap)
 {
+	//Check if the player has completed the level
 	if (isColliding == true)
 	{
+		//Check if player has finished the game and display a message
 		if (gameMap.GetLevel() == 5)
 		{
 			int finalScore = player->GetMoneyAmount(); 
@@ -25,6 +24,7 @@ bool LightHouseGoal::Update(PlayerEntity* player, Map& gameMap)
 			exit(0);
 		}
 
+		//Move to the next level
 		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Clapping.wav");
 		gameMap.NextLevel();
 		player->mHasKey = false;

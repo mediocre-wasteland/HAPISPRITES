@@ -16,85 +16,98 @@ World::~World()
 	delete backgroundImage;
 }
 
-//Public
 bool World::LoadSounds()
 {
-	//loads sounds 
-	//may not actually need this as sounds seem to load on play
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//LoveGunEffect.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load LOVEGUNEFFECT.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Baby.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load Baby.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//LoveGun.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load LoveGun.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//KeyPickup.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load KeyPickup.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Jump.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load Jump.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Clapping.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load Clapping.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
-	}if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run.wav"))
+	}
+	
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run1.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run1.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run2.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run2.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run3.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run3.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run4.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run4.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run5.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run5.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
-	}if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run6.wav"))
+	}
+	
+	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run6.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run6.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	if (!HAPI_Sprites.LoadSound((std::string)"Data//Sounds//Running//run7.wav"))
 	{
 		HAPI_Sprites.UserMessage("Could not load run7.wav", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	return true;
 }
 
 bool World::Initialise()
 {
-
+	//Initialise HAPI with set window size
 	if (!HAPI_Sprites.Initialise(screenDimensions.x, screenDimensions.y, "Mediocre Wasteland Game Jam", eHSEnableUI))
 	{
 		HAPI_Sprites.UserMessage("Failed to Initialise", "ERROR", HAPI_ButtonType::eButtonTypeOk);
@@ -113,14 +126,15 @@ bool World::Initialise()
 		return false;
 	}
 	
-	
 	if (!LoadSounds())
 	{
 		HAPI_Sprites.UserMessage("Failed to Load Sounds", "ERROR", HAPI_ButtonType::eButtonTypeOk);
 		return false;
 	}
+
 	options.loop = true;
 	options.volume = 0.5;
+
 	HAPI_Sprites.PlayStreamedMedia((std::string)"Data\\Sounds\\Waves.wav", options, instanceID, 0.0f);
 
 	if (!LoadWorld())
@@ -134,6 +148,7 @@ bool World::Initialise()
 	MainMenuUi mainmenu;
 	mainmenu.Initialise(&mGameMap);
 
+	//Stay on main menu until play or exit is pressed.
 	if (mainmenu.GetPlay())
 	{
 		if (!Play())
@@ -147,6 +162,7 @@ bool World::Initialise()
 
 bool World::Play()
 {
+	//Enter game update loop
 	while (HAPI_Sprites.Update())
 	{
 		Update();
@@ -155,8 +171,6 @@ bool World::Play()
 	return false;
 }
 
-
-//Private
 bool World::LoadSprites()
 {
 	if (!mEntityMap.at("Player")->LoadSprite())
@@ -165,12 +179,7 @@ bool World::LoadSprites()
 		return false;
 	}
 
-	/*if (!mEntityMap.at("Enemy")->LoadSprite())
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "ERROR");
-		return false;
-	}*/
-
+	//Load multiple bullets
 	for (int i{ 0 }; i < 10; i++)
 	{
 		std::string name = "Bullet" + std::to_string(i);
@@ -187,10 +196,10 @@ bool World::LoadSprites()
 	return true;
 }
 
+//Load all information needed for entities
 bool World::LoadEntities()
 {
 	mEntityMap["Player"] = new PlayerEntity((std::string)"Data\\Sprites\\Player.xml");
-	//mEntityMap["Enemy"] = new EnemyEntity((std::string) "Data\\Troll2.xml");
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -213,32 +222,28 @@ bool World::LoadWorld()
 
 void World::Update()
 {	
+	//World tick timer to reduce amount of updates/checks
 	if (HAPI_Sprites.GetTime() - timeSinceLastWorldTick >= worldTickTime)
 	{
 		CheckCollision();
 		UpdateCamera();
 
-		// TEMPORARY CODE: Supplying PlayerPos To The Entity
-		//mEntityMap.at("Enemy")->GetPlayerPosFromWorld(mEntityMap.at("Player")->GetOldPosition());
-
-		//mEnemies.clear();
-		//mEnemies.push_back((EnemyEntity*)mEntityMap.at("Enemy"));
+		//Clear and repopulate the bulelt vector
 		((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorClear();
 
 		for (int i = 0; i < 10; i++)
 		{
 			std::string name = "Bullet" + std::to_string(i);
 			((PlayerEntity*)mEntityMap.at("Player"))->BulletVectorPushBack((BulletEntity*)mEntityMap.at(name));
-			((BulletEntity*)mEntityMap.at(name))->Update(mEnemies);
 		}
 
-	//mEntityMap.at("Enemy")->SetScaling(0.5f, 0.5f);
-
+		//Update the entity status
 		for (auto &p : mEntityMap)
 		{
 			p.second->Update();
 		}
 
+		//Update the collectable status
 		for (auto &p : mGameMap.GetCollectables())
 		{
 			bool Done = ((Collectables*)p.second)->Update((PlayerEntity*)mEntityMap.at("Player"), mGameMap);
@@ -251,12 +256,14 @@ void World::Update()
 
 		const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
+		//Enter into pause menu when Esc is pressed
 		if (mKeyboardInput.scanCode[HK_ESCAPE])
 		{
 			PauseMenu pausemenu;
 			pausemenu.Initialise();
 		}
 
+		//Set to new level when goal is reached
 		if (currentLevel != mGameMap.GetLevel())
 		{
 			mEntityMap["Player"]->GetSprite()->GetTransformComp().SetPosition(mGameMap.GetSpawnPos());
@@ -272,10 +279,13 @@ void World::Update()
 	Render();
 }
 
+
 void World::Render()
 {
+	//Clear to colour
 	SCREEN_SURFACE->Clear(HAPISPACE::Colour255(12, 223, 235));
 
+	//Render all items to the screen
 	backgroundImage->Render();
 
 	mGameMap.Render();
@@ -284,11 +294,11 @@ void World::Render()
 	{
 		p.second->Render();
 	}
-
 }
 
 void World::CheckCollision()
 {
+	//Check for collisions between all entities, collectables and obstacles.
 	for (auto &p : mEntityMap)
 	{
 		p.second->CheckCollision(mGameMap.GetCollectables());
@@ -299,6 +309,7 @@ void World::CheckCollision()
 
 void World::UpdateCamera()
 {
+	//Change camera position depending on player movement
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
 	if (mEntityMap["Player"]->GetSprite()->GetTransformComp().GetPosition().x < 512 )

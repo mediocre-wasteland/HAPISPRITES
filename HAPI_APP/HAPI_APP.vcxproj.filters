@@ -8,9 +8,6 @@
     <ClCompile Include="PlayerEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyEntity.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="BackGroundEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -20,32 +17,38 @@
     <ClCompile Include="World.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Collectables.cpp">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClCompile>
     <ClCompile Include="MoneyCollectable.cpp">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClCompile>
     <ClCompile Include="KeyCollectable.cpp">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClCompile>
     <ClCompile Include="AmmoCollectable.cpp">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="MainMenuUi.cpp">
       <Filter>UserInterface</Filter>
     </ClCompile>
-    <ClCompile Include="BulletEntity.cpp" />
     <ClCompile Include="LightHouseGoal.cpp">
-      <Filter>Entity\Collectables</Filter>
-    </ClCompile>
-    <ClCompile Include="DoorEntity.cpp">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClCompile>
     <ClCompile Include="PauseMenu.cpp">
       <Filter>UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="DoorEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,9 +56,6 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="PlayerEntity.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundEntity.h">
@@ -67,32 +67,38 @@
     <ClInclude Include="World.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h" />
     <ClInclude Include="Collectables.h">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClInclude>
     <ClInclude Include="MoneyCollectable.h">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClInclude>
     <ClInclude Include="KeyCollectable.h">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClInclude>
     <ClInclude Include="AmmoCollectable.h">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="MainMenuUi.h">
       <Filter>UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="BulletEntity.h" />
     <ClInclude Include="LightHouseGoal.h">
-      <Filter>Entity\Collectables</Filter>
-    </ClInclude>
-    <ClInclude Include="DoorEntity.h">
-      <Filter>Entity\Collectables</Filter>
+      <Filter>Collectables</Filter>
     </ClInclude>
     <ClInclude Include="PauseMenu.h">
       <Filter>UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DoorEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +108,11 @@
     <Filter Include="World">
       <UniqueIdentifier>{8528497a-8fdd-4492-bd9a-9069cfbdef33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entity\Collectables">
-      <UniqueIdentifier>{9be1a52a-ef8f-418c-8ca8-234b56085550}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserInterface">
       <UniqueIdentifier>{73f26837-8f5f-46c7-8d3b-2ac2637dee19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collectables">
+      <UniqueIdentifier>{9be1a52a-ef8f-418c-8ca8-234b56085550}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -11,8 +11,4 @@ public:
 	~KeyCollectable();
 
 	bool Update(PlayerEntity* player, Map& gameMap) override;
-
-private:
-
 };
-

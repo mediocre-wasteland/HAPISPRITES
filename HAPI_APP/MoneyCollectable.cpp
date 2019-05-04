@@ -1,28 +1,27 @@
 #include "MoneyCollectable.h"
 
-
-
 MoneyCollectable::MoneyCollectable(std::string &fileName) : Collectables(fileName)
 {
 	mAlive = true;
 	mSide = eSide::eCradle;
 }
 
-
 MoneyCollectable::~MoneyCollectable()
 {
 }
 
-bool MoneyCollectable::Update(PlayerEntity* player, Map& gameMap) // updates every gameloop needs the pointer to the player to affect it
+//NOTE: MONEY IS NOW SHOWN AS BABIES IN GAME
+bool MoneyCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
-	if (isColliding == true) // checks whether the collectable is colliding
+	//Check if the bullet has collided with a baby and increase the score
+	if (isColliding == true)
 	{
 		HAPI_Sprites.PlaySound((std::string)"Data//Sounds//Baby.wav");
-		player->AddMoney(mValue);// increases the mMoneyAmount variable in PlayerEntity by the mValue amount of this class  
+		player->AddMoney(mValue);
 		mAlive = false;
 	}
 
-	isColliding = false; // resets the collision status of the object at the end of update
+	isColliding = false;
 
 	return true;
 }

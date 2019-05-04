@@ -4,11 +4,9 @@ Entity::Entity(std::string &fileName) : mSpriteName(fileName)
 {
 }
 
-
 Entity::~Entity()
 {
 }
-
 
 void Entity::SetScaling(float floatx, float floaty)
 {
@@ -22,6 +20,7 @@ void Entity::SetRotation(float rotationF)
 
 void Entity::Render()
 {
+	//Render sprite entity if alive
 	if (mAlive)
 	{
 		sprite->Render(SCREEN_SURFACE);
@@ -32,13 +31,13 @@ bool Entity::LoadSprite()
 {
 	sprite = HAPI_Sprites.LoadSprite(mSpriteName);
 	constexpr int kMinAlphaForCollision{ 50};
+
 	sprite->GetSpritesheet()->SetMinimumAlphaForCollision(kMinAlphaForCollision);
 	sprite->GetSpritesheet()->AutoFitColliders();
 	sprite->GetSpritesheet()->GenerateNormals();
 	sprite->GetColliderComp().CalculateCollisionData(true);
 	sprite->GetColliderComp().EnablePixelPerfectCollisions(true);
 	sprite->GetTransformComp().SetPosition(mPosition);
-
 
 	if (!sprite)
 	{
@@ -50,36 +49,40 @@ bool Entity::LoadSprite()
 
 bool Entity::CanCollide(Entity & other)
 {
+	//Check which entities can collide
 	eSide xEntity = GetSide();
 	eSide yEntity = other.GetSide();
 
+	//Make sure only the player can collide with collectables
 	if ((xEntity != eSide::ePlayer && yEntity == eSide::eCollectable) || (xEntity == eSide::eCollectable && yEntity != eSide::ePlayer))
 	{
 		return false;
 	}
 
+	//Check if the entities are the same and prevent collision
 	if (xEntity == yEntity)
 	{
 		return false;
 	}
 
+	//Check if one of the sides is neutral and prevent collison
 	if ((xEntity == eSide::eNeutral) || (yEntity == eSide::eNeutral))
 	{
 		return false;
 	}
 
-	if ((xEntity == eSide::eBullet && yEntity == eSide::eCollectable) || (xEntity == eSide::eCollectable && yEntity == eSide::eBullet))
-	{
-		return false;
-	}
+	//Prevent the player from colliding with the bullet
 	if ((xEntity == eSide::eBullet && yEntity == eSide::ePlayer) || (xEntity == eSide::ePlayer && yEntity == eSide::eBullet))
 	{
 		return false;
 	}
+
+	//Prevent the player from colliding with the cradle
 	if ((xEntity == eSide::eCradle && yEntity == eSide::ePlayer) || (xEntity == eSide::ePlayer && yEntity == eSide::eCradle))
 	{
 		return false;
 	}
+
 	return true;
 }
 
@@ -99,6 +102,7 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 			continue;
 		}
 
+		//Check for a collision between sprites
 		if (sprite->CheckCollision(*Other.second->GetSprite(), &collision) && collision.result == ECollisionResult::ePixelPerfectPass)
 		{
 			isColliding = true;
@@ -110,6 +114,7 @@ void Entity::CheckCollision(std::unordered_map < std::string, Entity* > &otherMa
 
 	return;
 }
+
 void Entity::PlayerWalkMakeNoise()
 {
 	switch (RunNoise)
@@ -144,16 +149,16 @@ void Entity::PlayerWalkMakeNoise()
 	default:
 		break;
 	}
-
 }
+
 void Entity::PlayerMovementCollision()
 {
-	//GET THE PLAYER POSITION FOR CAMERA MOVEMENT
+	//Get the player position for camera movement
 	mPosition = sprite->GetTransformComp().GetPosition();
 
 	const HAPISPACE::KeyboardData &mKeyboardInput = HAPI_Sprites.GetKeyboardData();
 
-	//PHYSICS LOOP
+	//Physics loop
 	DWORD deltaTimeMS{ HAPI_Sprites.GetTime() - timeSinceLastUpdate };
 	if (deltaTimeMS >= TimeBetweenUpdates)
 	{
@@ -164,7 +169,7 @@ void Entity::PlayerMovementCollision()
 		{
 			Velocity.x = Velocity.x;
 
-			//ALLOW MOVE LEFT / RIGHT WHEN IN AIR
+			//Allow the player to move left/right when in the air
 			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
 			{
 				Velocity.x = 4;
@@ -180,7 +185,7 @@ void Entity::PlayerMovementCollision()
 		}
 		else
 		{
-			//ALLOW PLAYER TO JUMP IF ON GROUND
+			//Allow the player to jump when on the ground
 			if (mKeyboardInput.scanCode['W'] || mKeyboardInput.scanCode[HK_SPACE] || mKeyboardInput.scanCode[HK_UP])
 			{
 				Velocity.y -= 10;
@@ -190,7 +195,7 @@ void Entity::PlayerMovementCollision()
 				}
 			}
 
-			//ALLOW MOVE LEFT / RIGHT WHEN ON GROUND
+			//Allow the player to move left/right when on the ground
 			if (mKeyboardInput.scanCode['D'] || mKeyboardInput.scanCode[HK_RIGHT])
 			{
 				PlayerWalkMakeNoise();
@@ -213,12 +218,14 @@ void Entity::PlayerMovementCollision()
 
 		acceleration += force / mass;
 
+		//Test condition to prevent y velocity being huge on the first run through the loop.
 		if (test == false)
 		{
 			deltaTimeS = 2;
 			test = true;
 		}
 
+		//Apply gravity if the player is not on the ground
 		if (!mIsOnGround)
 		{
 			Velocity += (Gravity + acceleration) * deltaTimeS;
@@ -228,7 +235,7 @@ void Entity::PlayerMovementCollision()
 			Velocity += acceleration * deltaTimeS;
 		}
 
-		//ANIMATION
+		//Animation
 		if (Velocity.x > 0 && Velocity.y == 0)
 		{
 			if (sprite->GetFrameSetName() != "RunRight")
@@ -273,7 +280,7 @@ void Entity::PlayerMovementCollision()
 			}
 		}
 
-		//COLLISION CHECKS
+		//Collision Checks
 		VectorF dir{ newPosition - mOldPosition };
 		dir.Normalize();
 
@@ -286,7 +293,7 @@ void Entity::PlayerMovementCollision()
 			mPosition += dir;
 		}
 
-		//CHECK IF PLAYER IS MOVING UP
+		//Check if the player is moving up
 		if (Velocity.y >= 0)
 		{
 			isTravellingUp = false;
@@ -296,6 +303,7 @@ void Entity::PlayerMovementCollision()
 			isTravellingUp = true;
 		}
 
+		//Check if the player is moving left or right
 		bool isTravellingRight{ false };
 		bool isTravellingLeft{ false };
 
@@ -321,13 +329,15 @@ void Entity::PlayerMovementCollision()
 
 			this->CheckCollision(myMap);
 
+			//Check if the player is colliding
 			if (this->isColliding)
 			{
 				Velocity = 0;
 
+				//Move the player down if moving up and head collides
 				if (isTravellingUp == true || mLastCollidedCollisionInfo.thisLocalPos.y < sprite->FrameHeight() / 4)
 				{
-					//Moves player down, must match the max jump velocity
+					//Must match the max jump velocity
 					collision.normal.y = 10;
 				}
 				else if (isTravellingUp == false)
@@ -335,6 +345,7 @@ void Entity::PlayerMovementCollision()
 					mIsOnGround = true;
 				}
 
+				//Prevent player moving into blocks
 				if (isTravellingLeft && !mIsOnGround)
 				{
 					collision.normal.y = 5;
@@ -368,7 +379,7 @@ void Entity::PlayerMovementCollision()
 			}
 		}
 
-		//CHECK IF PLAYER IS OFF SCREEN
+		//Check if the player is off the screen
 		if (mPosition.x < 0)
 		{
 			mPosition.x = 0;
@@ -385,7 +396,6 @@ void Entity::PlayerMovementCollision()
 
 		mOldPosition = mPosition;
 
-		//isTravellingUp = false;
 		isColliding = false;
 	}
 }

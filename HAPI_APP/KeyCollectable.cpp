@@ -13,6 +13,7 @@ KeyCollectable::~KeyCollectable()
 
 bool KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
 {
+	//Check if the player has collided with the key and remove the key
 	if (isColliding == true)
 	{
 		player->mHasKey = true;
@@ -20,5 +21,6 @@ bool KeyCollectable::Update(PlayerEntity* player, Map& gameMap)
 	}
 
 	isColliding = false;
+
 	return true;
 }

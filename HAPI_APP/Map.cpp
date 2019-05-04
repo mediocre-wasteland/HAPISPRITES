@@ -1,35 +1,37 @@
 #include "Map.h"
 
-
-
 Map::Map()
 {
 }
 
-
 Map::~Map()
 {
+	//Delete maps on close to avoid leaks
 	for (auto &p : mBackgroundMap)
 	{
 		delete p.second;
 	}
+
 	mBackgroundMap.clear();
 
 	for (auto &p : mObstacleMap)
 	{
 		delete p.second;
 	}
+
 	mObstacleMap.clear();
 
 	for (auto &p : mCollectableMap)
 	{
 		delete p.second;
 	}
+
 	mCollectableMap.clear();
 }
 
 bool Map::Initialise()
 {
+	//Iterate through the maps to get the correct one
 	for (int i = 1; i < 6; i++)
 	{
 		std::string fileName = "Data\\Levels\\Level" + std::to_string(i) + ".txt";
@@ -51,6 +53,7 @@ bool Map::Initialise()
 
 void Map::CreateLevel()
 {
+	//Get rid of old level
 	KillLevel();
 
 	char line;
@@ -97,6 +100,7 @@ void Map::CreateLevel()
 			{
 				myFile >> std::skipws >> line;
 
+				//Move down to the next line to prevent entire map being on one line
 				if (line == 'N')
 				{
 					continue;
@@ -105,6 +109,7 @@ void Map::CreateLevel()
 				int x = 64 * j;
 				int y = 64 * i;
 
+				//Add the correct assets depending on letter from text file
 				switch (line)
 				{
 				case 'P':
@@ -128,8 +133,8 @@ void Map::CreateLevel()
 				case 'A':
 					AddCollectable("LoveGunAmmoPlaceholder", x, y, Ammo);
 					break;
-				case 'G':
-					AddCollectable("Lighthouse", x, y + 64, Lighthouse); // Goal
+				case 'G': //End of level goal
+					AddCollectable("Lighthouse", x, y + 64, Lighthouse); 
 					break;
 				case 'M':
 					AddCollectable("Cradle", x, y, Money);
@@ -189,7 +194,7 @@ eOrientation Map::GetOrientation()
 
 void Map::MoveMap(eDirection moveDirection)
 {
-
+	//Move the map in the correct direction depending on player movement
 	switch (moveDirection)
 	{
 	case eDirection::eLeft:
@@ -255,6 +260,7 @@ void Map::MoveMap(eDirection moveDirection)
 
 void Map::AddBackground(std::string fileName, int x, int y)
 {
+	//Set an image to be used in the background of the level
 	std::string key = "BG" + std::to_string(y) + std::to_string(x);
 
 	mBackgroundMap[key] = new BackGroundEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
@@ -269,6 +275,7 @@ void Map::AddBackground(std::string fileName, int x, int y)
 
 void Map::AddCollectable(std::string fileName, int x, int y, eColType type)
 {
+	//Position the collectables on the map
 	std::string key = "CL" + std::to_string(y) + std::to_string(x);
 
 	switch (type)
@@ -300,6 +307,7 @@ void Map::AddCollectable(std::string fileName, int x, int y, eColType type)
 
 void Map::AddObstacle(std::string fileName, int x, int y)
 {
+	//Position the obstacles on the map
 	std::string key = "OB" + std::to_string(y) + std::to_string(x);
 
 	mObstacleMap[key] = new ObstacleEntity((std::string)"Data\\Sprites\\" + fileName + ".xml");
@@ -314,6 +322,7 @@ void Map::AddObstacle(std::string fileName, int x, int y)
 
 void Map::KillLevel()
 {
+	//Delete level
 	for (auto &p : mBackgroundMap)
 	{
 		delete p.second;
@@ -332,5 +341,4 @@ void Map::KillLevel()
 	mBackgroundMap.clear();
 	mObstacleMap.clear();
 	mCollectableMap.clear();
-
 }

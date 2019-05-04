@@ -1,27 +1,25 @@
 #include "BulletEntity.h"
 
-
-
 BulletEntity::BulletEntity(std::string &fileName) : Entity(fileName)
 {
 	mAlive = false;
 	mSide = eSide::eBullet;
-	//sprite->GetTransformComp().SetPosition(VectorF(-10.f, -10.f));
 }
-
 
 BulletEntity::~BulletEntity()
 {
 }
 
-void BulletEntity::Update(std::vector<EnemyEntity*> enemies)
+void BulletEntity::Update()
 {
 	if (!mAlive)
 	{
 		sprite->GetTransformComp().SetPosition(VectorF(-10.f, -10.f));
 		return;
 	}
-	switch (mDirection) // this switch statement checks whether the bullet should go left or right and makes continually go that way
+
+	//Check if bullet should move left or right and move int that direction
+	switch (mDirection)
 	{
 	case(eDirection::eRight):
 		sprite->GetTransformComp().SetPosition({ sprite->GetTransformComp().GetPosition().x + mSpeed,sprite->GetTransformComp().GetPosition().y });
@@ -34,23 +32,9 @@ void BulletEntity::Update(std::vector<EnemyEntity*> enemies)
 		break;
 	}
 
-	if (sprite->GetTransformComp().GetPosition().x < 0 || sprite->GetTransformComp().GetPosition().x > mScreenSize.x || sprite->GetTransformComp().GetPosition().y < 0 || sprite->GetTransformComp().GetPosition().y > mScreenSize.y) // this deletes the bullet if it goes offscreen TODO CONSIDER HAVING THE BULLET RELEASED FROM MEMORY RATHER THAN NOT ALIVE
-	{
-		//mAlive = false;
-		//return;
-	}
-
+	//Set bullet to dead if it has collided
 	if (isColliding)
 	{
-		//HAPI_Sprites.PlaySound((std::string)"Data//Sounds//LoveGunEffect.wav");
-	//	for (int i = 0; i < enemies.size(); i++)
-	//	{
-	//		if (enemies[i]->isCollidingWith(*this, eSide::eBullet))
-	//		{
-	//			enemies[i]->TakeDamage();
-	//			mAlive = false;
-	//		}
-	//	}
 		mAlive = false;
 		isColliding = false;
 	}

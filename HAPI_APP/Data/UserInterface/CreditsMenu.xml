@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <UiLayout Version="0.1" CreationScreenSizeW="1280" CreationScreenSizeH="832">
-	<UIWindow Name="CreditsMenu_4" SkinName="SYS_Default_Skin">
-		<WinScreenRect left="20" right="320" top="20" bottom="420" />
+	<UIWindow Name="CreditsMenu_4_2_3" SkinName="SYS_Default_Skin">
+		<WinScreenRect left="20" right="420" top="20" bottom="420" />
 		<Adornments>
 			<Common ActionState="1" Visible="1">
 				<Position X="0" Y="0" />
-				<Bounds left="0" right="300" top="0" bottom="400" />
+				<Bounds left="0" right="400" top="0" bottom="400" />
 				<Tag Tag1="" />
 				<Styles>
 					<TextStyle StyleName="Normal Window">
@@ -26,7 +26,7 @@
 		</Adornments>
 		<Button name="ReturnCreditsMenu" type="0" text="Return">
 			<Common ActionState="1" Visible="1">
-				<Position X="99" Y="271" />
+				<Position X="145" Y="327" />
 				<Bounds left="0" right="106" top="0" bottom="26" />
 				<Tag Tag1="" />
 				<Styles>
@@ -45,8 +45,155 @@
 				</Styles>
 			</Common>
 		</Button>
+		<Text name="Text1" type="0" text="Jonathan Archer - Programmer &amp; Scrum Master">
+			<Common ActionState="1" Visible="1">
+				<Position X="31" Y="63" />
+				<Bounds left="0" right="334" top="0" bottom="22" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text2" type="0" text="Jake Simpson - Programmer &amp; Leader">
+			<Common ActionState="1" Visible="1">
+				<Position X="63" Y="95" />
+				<Bounds left="0" right="270" top="0" bottom="23" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text3" type="0" text="Adam Birch - Programmer">
+			<Common ActionState="1" Visible="1">
+				<Position X="107" Y="128" />
+				<Bounds left="0" right="183" top="0" bottom="23" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text4" type="0" text="Ryan Beadle - Programmer">
+			<Common ActionState="1" Visible="1">
+				<Position X="102" Y="161" />
+				<Bounds left="0" right="193" top="0" bottom="23" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text5" type="0" text="Jack Purvis - Programmer">
+			<Common ActionState="1" Visible="1">
+				<Position X="107" Y="194" />
+				<Bounds left="0" right="183" top="0" bottom="23" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text6" type="0" text="Jonathan Phelps - ?">
+			<Common ActionState="1" Visible="1">
+				<Position X="128" Y="227" />
+				<Bounds left="0" right="140" top="0" bottom="22" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
+		<Text name="Text7" type="0" text="Aidan Brooks - Programmer">
+			<Common ActionState="1" Visible="1">
+				<Position X="100" Y="260" />
+				<Bounds left="0" right="196" top="0" bottom="23" />
+				<Tag Tag1="" />
+				<Styles>
+					<TextStyle StyleName="Normal Text">
+						<Normal textColour="Pen" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Disabled textColour="PenDisabled" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Focussed textColour="PenFocussed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+						<Alt textColour="PenPressed" textColour_Inherited="1" textOutlineColour_Inherited="1" textOutlineThickness_Inherited="1" textSizeIncrement_Inherited="1" styleFlags_Inherited="1" />
+					</TextStyle>
+					<WindowStyle StyleName="Normal Text">
+						<Normal borderShader="BorderPen" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Disabled borderShader="BorderPenDisabled" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Focussed borderShader="BorderPenFocussed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+						<Alt borderShader="BorderPenPressed" borderShader_Inherited="1" backgroundShader_Inherited="1" shadowShader="Shadow" shadowShader_Inherited="1" hasShadow="0" hasShadow_Inherited="1" borderWidth="0" borderWidth_Inherited="1" curvature="0.000000" curvature_Inherited="1" />
+					</WindowStyle>
+				</Styles>
+			</Common>
+		</Text>
 	</UIWindow>
 	<UserData>
-		<SpritesEditorData Last="ReturnCreditsMenu" nTex="1" nBut="2" nCan="1" nDia="1" nLis="1" nMen="1" nSli="1" nEnt="1" nSha="1" />
+		<SpritesEditorData Last="Text7" nTex="8" nBut="2" nCan="1" nDia="1" nLis="1" nMen="1" nSli="1" nEnt="1" nSha="1" />
 	</UserData>
 </UiLayout>

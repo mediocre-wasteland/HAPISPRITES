@@ -8,6 +8,7 @@ Camera::~Camera()
 {
 }
 
+//Return camera to the start when moving to a new level
 void Camera::ResetCamera(Map& mapIn, std::unordered_map <std::string, Entity*>& entityMapIn)
 {
 	mPosition = { 0,0 };
@@ -27,6 +28,7 @@ void Camera::ResetCamera(Map& mapIn, std::unordered_map <std::string, Entity*>& 
 	}
 }
 
+//Move the camera by a set amount and in the correct direction depending on whether the level is vertical or horizontal
 void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map <std::string, Entity*> &entityMapIn)
 {
 	if (mapIn.GetOrientation() == Horizontal)
@@ -68,7 +70,6 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 		switch (moveDirection)
 		{
 		case eDirection::eUp:
-			//if ((mPosition.y + mHeight) < mapIn.GetHeight() * 64)
 			{
 				mapIn.MoveMap(eDirection::eUp);
 				for (auto &p : entityMapIn)
@@ -79,7 +80,6 @@ void Camera::MoveCamera(eDirection moveDirection, Map &mapIn, std::unordered_map
 			}
 			break;
 		case eDirection::eDown:
-			//if (mPosition.y > 0)
 			{
 				mapIn.MoveMap(eDirection::eDown);
 				for (auto &p : entityMapIn)

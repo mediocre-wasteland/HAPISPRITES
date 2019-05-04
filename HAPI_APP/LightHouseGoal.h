@@ -12,4 +12,3 @@ public:
 
 	bool Update(PlayerEntity* player, Map& gameMap) override;
 };
-

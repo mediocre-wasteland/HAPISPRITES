@@ -62,6 +62,6 @@ bool PauseMenu::Run()
 
 		return true;
 	}
+
+	return false;
 }
-
-

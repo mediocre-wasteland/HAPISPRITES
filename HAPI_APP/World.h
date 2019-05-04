@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include "Entity.h"
 #include "PlayerEntity.h"
-#include "EnemyEntity.h"
 #include "Map.h"
 #include "Camera.h"
 #include "KeyCollectable.h"
@@ -28,30 +27,26 @@ public:
 private:
 
 	HAPISPACE::Vector<int> screenDimensions = HAPISPACE::Vector<int>(1280, 832);
-	std::unordered_map <std::string, Entity*> mEntityMap;
+
 	Entity* backgroundImage;
+	std::unordered_map <std::string, Entity*> mEntityMap;
 	Map mGameMap;
 	Camera mGameCamera {832, 1280};
-	int currentLevel{ 0 };
 
 	const DWORD worldTickTime{ 10 };
 	DWORD timeSinceLastWorldTick{ 0 };
+	HAPI_TSoundOptions options;
+
+	int currentLevel{ 0 };
+	int instanceID{ 0 };
 
 	bool LoadSprites();
 	bool LoadEntities();
 	bool LoadWorld();
 	bool LoadSounds();
 
-	//for sound options
-	HAPI_TSoundOptions options;
-	int instanceID{ 0 };
-
 	void Update();
 	void Render();
-
 	void CheckCollision();
 	void UpdateCamera();
-
-	std::vector<EnemyEntity*> mEnemies;
 };
-

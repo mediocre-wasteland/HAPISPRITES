@@ -3,14 +3,15 @@
 #include <HAPISprites_Lib.h>
 #include "PlayerEntity.h"
 
-class Map;
-
 using namespace HAPISPACE;
+
+class Map;
 
 class Collectables : public Entity
 {
 public:
 	Collectables(std::string &fileName);
+
 	virtual ~Collectables();
 
 	void Update() override final { }// not used
@@ -19,6 +20,4 @@ public:
 
 	eSide GetSide() const override final { return mSide; };
 	eDirection GetDirection() const override final { return mDirection; };
-
 };
-

@@ -1,12 +1,14 @@
 #pragma once
 #include "Entity.h"
-class BackGroundEntity :
-	public Entity
+
+class BackGroundEntity : public Entity
 {
 public:
 	BackGroundEntity(std::string &fileName);
 	~BackGroundEntity();
+
 	void Update()override final;
+
 	eSide GetSide() const override final { return mSide; }
 	eDirection GetDirection() const override final { return mDirection; }
 };

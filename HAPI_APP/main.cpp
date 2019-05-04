@@ -19,6 +19,7 @@
 
 void HAPI_Sprites_Main()
 {
+	//Create an instance of the game world
 	World gameWorld;
 
 	if (!gameWorld.Initialise())
